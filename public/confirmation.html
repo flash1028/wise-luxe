@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WISE LUXE | Order Received</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #080808;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVIGATION ================= */
+
+        nav {
+            height: 85px;
+            display: flex;
+            align-items: center;
+            padding: 0 6%;
+            border-bottom: 1px solid #292929;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: #d6b45a;
+            font-size: 24px;
+            letter-spacing: 4px;
+        }
+
+        /* ================= CONFIRMATION ================= */
+
+        .confirmation {
+            max-width: 650px;
+            margin: 80px auto;
+            padding: 0 25px;
+            text-align: center;
+        }
+
+        .check {
+            width: 75px;
+            height: 75px;
+            border: 2px solid #d6b45a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: #d6b45a;
+            font-size: 35px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: normal;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        .gold-line {
+            width: 80px;
+            height: 2px;
+            background: #d6b45a;
+            margin: 20px auto 30px;
+        }
+
+        .message {
+            color: #ccc;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        /* ================= ORDER BOX ================= */
+
+        .order-box {
+            background: #111;
+            border: 1px solid #292929;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .order-label {
+            color: #999;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .order-number {
+            color: #d6b45a;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* ================= NOTE ================= */
+
+        .note {
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 28px;
+            border: 1px solid #d6b45a;
+            color: #d6b45a;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #d6b45a;
+            color: #080808;
+        }
+
+        .button.gold {
+            background: #d6b45a;
+            color: #080808;
+        }
+
+        .button.gold:hover {
+            background: white;
+            border-color: white;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 650px) {
+
+            nav {
+                height: 70px;
+                padding: 0 5%;
+            }
+
+            .brand img {
+                width: 45px;
+                height: 45px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+
+            .confirmation {
+                margin: 60px auto;
+                padding: 0 20px;
+            }
+
+            h1 {
+                font-size: 30px;
+                letter-spacing: 3px;
+            }
+
+            .message {
+                font-size: 14px;
+            }
+
+            .order-box {
+                padding: 25px 15px;
+            }
+
+            .order-number {
+                font-size: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav>
+
+        <div class="brand">
+
+            <img
+                src="images/logo.png"
+                alt="WISE LUXE"
+            >
+
+            <div class="brand-name">
+                WISE LUXE
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="confirmation">
+
+
+        <div class="check">
+            ✓
+        </div>
+
+
+        <h1>
+            ORDER RECEIVED
+        </h1>
+
+
+        <div class="gold-line"></div>
+
+
+        <p class="message">
+
+            Thank you for choosing WISE LUXE.
+
+            Your order details have been prepared
+            and your order reference has been created.
+
+            Please make sure the WhatsApp message has
+            been sent so we can review and confirm
+            your order.
+
+        </p>
+
+
+        <!-- ================= ORDER REFERENCE ================= -->
+
+        <div class="order-box">
+
+            <div class="order-label">
+                YOUR ORDER REFERENCE
+            </div>
+
+            <div
+                class="order-number"
+                id="orderNumber"
+            >
+                WL-2026-000000
+            </div>
+
+        </div>
+
+
+        <p class="note">
+
+            Keep your order reference for your records.
+
+            You can check your order at any time from
+            your Order History page.
+
+            Your order will remain there while its status
+            is updated.
+
+        </p>
+
+
+        <!-- ================= BUTTONS ================= -->
+
+        <div class="buttons">
+
+
+            <!-- ORDER HISTORY -->
+
+            <a
+                href="order-history.html"
+                class="button gold"
+            >
+                ORDER HISTORY
+            </a>
+
+
+            <!-- CONTINUE SHOPPING -->
+
+            <a
+                href="index.html#collection"
+                class="button"
+            >
+                CONTINUE SHOPPING
+            </a>
+
+
+        </div>
+
+
+    </main>
+
+
+    <!-- ================= SCRIPT ================= -->
+
+    <script>
+
+
+        /* ================= GET LAST ORDER NUMBER ================= */
+
+        const orderNumber =
+            localStorage.getItem(
+                "wiseLuxeLastOrderNumber"
+            );
+
+
+        /* ================= DISPLAY ORDER NUMBER ================= */
+
+        if (orderNumber) {
+
+            document
+                .getElementById("orderNumber")
+                .textContent = orderNumber;
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

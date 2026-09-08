@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WISE LUXE | Order History</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Georgia, "Times New Roman", serif;
+        background: #080808;
+        color: white;
+    }
+
+    nav {
+        height: 85px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        border-bottom: 1px solid #292929;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand img {
+        width: 55px;
+        height: 55px;
+        object-fit: contain;
+    }
+
+    .brand-name {
+        color: #d6b45a;
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    .back {
+        color: #d6b45a;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    .history-page {
+        max-width: 1100px;
+        margin: auto;
+        padding: 70px 6%;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .title h1 {
+        font-size: 42px;
+        font-weight: normal;
+        letter-spacing: 5px;
+    }
+
+    .gold-line {
+        width: 80px;
+        height: 2px;
+        background: #d6b45a;
+        margin: 20px auto;
+    }
+
+    .sync-message {
+        text-align: center;
+        color: #777;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        margin-bottom: 25px;
+    }
+
+    .empty-history {
+        background: #111;
+        border: 1px solid #292929;
+        padding: 70px 20px;
+        text-align: center;
+    }
+
+    .empty-history h2 {
+        font-weight: normal;
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    .empty-history p {
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        margin-bottom: 30px;
+    }
+
+    .shop-button {
+        display: inline-block;
+        padding: 15px 30px;
+        border: 1px solid #d6b45a;
+        color: #d6b45a;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    .shop-button:hover {
+        background: #d6b45a;
+        color: #080808;
+    }
+
+    .order-card {
+        background: #111;
+        border: 1px solid #292929;
+        margin-bottom: 30px;
+        padding: 30px;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #292929;
+        margin-bottom: 10px;
+    }
+
+    .order-reference {
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        letter-spacing: 2px;
+    }
+
+    .order-status {
+        padding: 8px 12px;
+        border: 1px solid #d6b45a;
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        white-space: nowrap;
+    }
+
+    .order-status.delivered {
+        background: #d6b45a;
+        color: #080808;
+        border-color: #d6b45a;
+    }
+
+    .order-date {
+        color: #777;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+    }
+
+    .delivery-date {
+        color: #d6b45a;
+    }
+
+    .order-product {
+        display: grid;
+        grid-template-columns: 90px 1fr auto;
+        gap: 20px;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #292929;
+    }
+
+    .product-image {
+        width: 90px;
+        height: 110px;
+        overflow: hidden;
+        background: #222;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .product-name {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .product-code {
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+
+    .product-details {
+        color: #999;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .product-price {
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+        margin-top: 10px;
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .server-error {
+        background: #111;
+        border: 1px solid #633;
+        padding: 20px;
+        margin-bottom: 25px;
+        text-align: center;
+        color: #c99;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 700px) {
+
+        nav {
+            height: 70px;
+            padding: 0 5%;
+        }
+
+        .brand img {
+            width: 45px;
+            height: 45px;
+        }
+
+        .brand-name {
+            font-size: 18px;
+        }
+
+        .history-page {
+            padding: 50px 5%;
+        }
+
+        .title h1 {
+            font-size: 30px;
+        }
+
+        .order-card {
+            padding: 20px;
+        }
+
+        .order-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .order-product {
+            grid-template-columns: 70px 1fr;
+            gap: 15px;
+        }
+
+        .product-image {
+            width: 70px;
+            height: 90px;
+        }
+
+        .product-price {
+            grid-column: 2;
+            text-align: left;
+        }
+
+        .order-total {
+            font-size: 14px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<nav>
+
+
+<div class="brand">
+
+    <img
+        src="images/logo.png"
+        alt="WISE LUXE"
+    >
+
+    <div class="brand-name">
+        WISE LUXE
+    </div>
+
+</div>
+
+
+<a
+    href="index.html#collection"
+    class="back"
+>
+    ← SHOP
+</a>
+
+</nav>
+
+<main class="history-page">
+
+
+<div class="title">
+
+    <h1>
+        ORDER HISTORY
+    </h1>
+
+    <div class="gold-line"></div>
+
+</div>
+
+
+<div
+    id="syncMessage"
+    class="sync-message"
+>
+    Checking for the latest order status...
+</div>
+
+
+<div id="orderHistory"></div>
+
+
+</main>
+
+```html
+<script>
+
+/* =========================================================
+   GET CUSTOMER ORDERS FROM LOCAL STORAGE
+   This keeps track of the orders made on this device.
+========================================================= */
+
+function getLocalOrders() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "wiseLuxeOrders"
+            )
+        ) || [];
+
+    } catch (error) {
+
+        console.error(
+            "LOCAL ORDER ERROR:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE CUSTOMER ORDERS LOCALLY
+========================================================= */
+
+function saveLocalOrders(orders) {
+
+    try {
+
+        localStorage.setItem(
+            "wiseLuxeOrders",
+            JSON.stringify(orders)
+        );
+
+    } catch (error) {
+
+        console.error(
+            "COULD NOT SAVE LOCAL ORDERS:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GET ALL ORDERS FROM SUPABASE THROUGH SERVER
+========================================================= */
+
+async function getServerOrders() {
+
+    const response =
+        await fetch(
+            "/api/orders?t=" +
+            Date.now(),
+            {
+                method: "GET",
+                cache: "no-store"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Server returned HTTP " +
+            response.status
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if (
+        !data ||
+        data.success !== true
+    ) {
+
+        throw new Error(
+            data.message ||
+            "Could not load orders."
+        );
+
+    }
+
+
+    return Array.isArray(data.orders)
+        ? data.orders
+        : [];
+
+}
+
+
+/* =========================================================
+   SYNCHRONIZE ORDERS WITH SUPABASE
+========================================================= */
+
+async function synchronizeOrders() {
+
+    const localOrders =
+        getLocalOrders();
+
+
+    try {
+
+        const serverOrders =
+            await getServerOrders();
+
+
+        /*
+           Create a map using the order number.
+           This allows us to match the customer's
+           saved order with the database order.
+        */
+
+        const serverOrderMap =
+            new Map();
+
+
+        serverOrders.forEach(
+            function(serverOrder) {
+
+                if (
+                    serverOrder &&
+                    serverOrder.orderNumber
+                ) {
+
+                    serverOrderMap.set(
+                        serverOrder.orderNumber,
+                        serverOrder
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+           Update the customer's saved orders
+           with the latest information from Supabase.
+        */
+
+        const updatedOrders =
+            localOrders.map(
+                function(localOrder) {
+
+                    if (
+                        !localOrder ||
+                        !localOrder.orderNumber
+                    ) {
+
+                        return localOrder;
+
+                    }
+
+
+                    const serverOrder =
+                        serverOrderMap.get(
+                            localOrder.orderNumber
+                        );
+
+
+                    /*
+                       If this order exists in Supabase,
+                       replace the local information with
+                       the latest database information.
+                    */
+
+                    if (serverOrder) {
+
+                        return {
+
+                            ...localOrder,
+
+                            orderNumber:
+                                serverOrder.orderNumber ||
+                                localOrder.orderNumber,
+
+                            date:
+                                serverOrder.date ||
+                                localOrder.date,
+
+                            status:
+                                serverOrder.status ||
+                                localOrder.status ||
+                                "ORDER RECEIVED",
+
+                            deliveredDate:
+                                serverOrder.deliveredDate ||
+                                localOrder.deliveredDate ||
+                                "",
+
+                            customer:
+                                serverOrder.customer ||
+                                localOrder.customer,
+
+                            items:
+                                Array.isArray(
+                                    serverOrder.items
+                                )
+                                    ? serverOrder.items
+                                    : localOrder.items,
+
+                            total:
+                                Number(
+                                    serverOrder.total
+                                ) ||
+                                Number(
+                                    localOrder.total
+                                ) ||
+                                0
+
+                        };
+
+                    }
+
+
+                    return localOrder;
+
+                }
+            );
+
+
+        /*
+           Save the updated order information locally
+           so the page can still work if the server
+           temporarily becomes unavailable.
+        */
+
+        saveLocalOrders(
+            updatedOrders
+        );
+
+
+        return {
+
+            orders:
+                updatedOrders,
+
+            connected:
+                true
+
+        };
+
+
+    } catch (error) {
+
+        console.error(
+            "SUPABASE ORDER SYNC ERROR:",
+            error
+        );
+
+
+        /*
+           If the server cannot be reached,
+           continue showing the customer's
+           saved orders.
+        */
+
+        return {
+
+            orders:
+                localOrders,
+
+            connected:
+                false
+
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   DISPLAY ORDERS
+========================================================= */
+
+function displayOrders(
+    orders,
+    connected
+) {
+
+    const container =
+        document.getElementById(
+            "orderHistory"
+        );
+
+
+    const syncMessage =
+        document.getElementById(
+            "syncMessage"
+        );
+
+
+    container.innerHTML = "";
+
+
+    /* ================= CONNECTION MESSAGE ================= */
+
+    if (connected) {
+
+        syncMessage.textContent =
+            "✓ Order status is up to date.";
+
+        syncMessage.style.color =
+            "#d6b45a";
+
+    } else {
+
+        syncMessage.textContent =
+            "Server unavailable. Showing your saved order history.";
+
+        syncMessage.style.color =
+            "#888";
+
+    }
+
+
+    /* ================= EMPTY ================= */
+
+    if (
+        !orders ||
+        orders.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-history">
+
+                <h2>
+                    No orders yet
+                </h2>
+
+                <p>
+                    Your completed WISE LUXE orders
+                    will appear here.
+                </p>
+
+                <a
+                    href="index.html#collection"
+                    class="shop-button"
+                >
+                    EXPLORE COLLECTION
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* ================= DISPLAY ORDERS ================= */
+
+    orders.forEach(
+        function(order) {
+
+
+            const orderCard =
+                document.createElement(
+                    "div"
+                );
+
+
+            orderCard.className =
+                "order-card";
+
+
+            /* ================= PRODUCTS ================= */
+
+            let productsHTML =
+                "";
+
+
+            const items =
+                Array.isArray(order.items)
+                    ? order.items
+                    : [];
+
+
+            items.forEach(
+                function(item) {
+
+
+                    const price =
+                        Number(
+                            item.price || 0
+                        );
+
+
+                    const quantity =
+                        Number(
+                            item.quantity || 0
+                        );
+
+
+                    const subtotal =
+                        price *
+                        quantity;
+
+
+                    /*
+                       Make sure image paths work
+                       with the WISE LUXE images folder.
+                    */
+
+                    let image =
+                        item.image ||
+                        "";
+
+
+                    image =
+                        image.replace(
+                            "image/",
+                            "images/"
+                        );
+
+
+                    image =
+                        escapeHTML(
+                            image
+                        );
+
+
+                    const name =
+                        escapeHTML(
+                            item.name ||
+                            "Product"
+                        );
+
+
+                    const productCode =
+                        escapeHTML(
+                            item.productCode ||
+                            "WL-P000"
+                        );
+
+
+                    const size =
+                        escapeHTML(
+                            item.size ||
+                            "N/A"
+                        );
+
+
+                    productsHTML += `
+
+                        <div class="order-product">
+
+                            <div class="product-image">
+
+                                <img
+                                    src="${image}"
+                                    alt="${name}"
+                                    onerror="this.style.display='none'"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="product-name">
+
+                                    ${name}
+
+                                </div>
+
+
+                                <div class="product-code">
+
+                                    PRODUCT CODE:
+                                    ${productCode}
+
+                                </div>
+
+
+                                <div class="product-details">
+
+                                    Size:
+                                    ${size}
+
+                                    <br>
+
+                                    Quantity:
+                                    ${quantity}
+
+                                    <br>
+
+                                    Price:
+                                    ₦${price.toLocaleString()}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="product-price">
+
+                                ₦${subtotal.toLocaleString()}
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            /* ================= STATUS ================= */
+
+            const status =
+                String(
+                    order.status ||
+                    "ORDER RECEIVED"
+                ).toUpperCase();
+
+
+            const isDelivered =
+                status === "DELIVERED";
+
+
+            const statusClass =
+                isDelivered
+                    ? "order-status delivered"
+                    : "order-status";
+
+
+            const statusText =
+                isDelivered
+                    ? "DELIVERED"
+                    : escapeHTML(
+                        status
+                    );
+
+
+            /* ================= DELIVERY DATE ================= */
+
+            let deliveryDateHTML =
+                "";
+
+
+            if (
+                isDelivered &&
+                order.deliveredDate
+            ) {
+
+                deliveryDateHTML = `
+
+                    <br>
+
+                    <span class="delivery-date">
+
+                        DELIVERED:
+                        ${escapeHTML(
+                            order.deliveredDate
+                        )}
+
+                    </span>
+
+                `;
+
+            }
+
+
+            /* ================= ORDER CARD ================= */
+
+            orderCard.innerHTML = `
+
+                <div class="order-header">
+
+
+                    <div class="order-reference">
+
+                        ORDER REFERENCE:
+
+                        ${escapeHTML(
+                            order.orderNumber ||
+                            "N/A"
+                        )}
+
+                    </div>
+
+
+                    <div class="${statusClass}">
+
+                        ${statusText}
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="order-date">
+
+                    ORDER DATE:
+
+                    ${escapeHTML(
+                        order.date ||
+                        "N/A"
+                    )}
+
+                    ${deliveryDateHTML}
+
+                </div>
+
+
+                ${productsHTML}
+
+
+                <div class="order-total">
+
+                    <span>
+                        ORDER TOTAL
+                    </span>
+
+
+                    <span>
+
+                        ₦${Number(
+                            order.total || 0
+                        ).toLocaleString()}
+
+                    </span>
+
+                </div>
+
+
+            `;
+
+
+            container.appendChild(
+                orderCard
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   LOAD ORDER HISTORY
+========================================================= */
+
+async function loadOrderHistory() {
+
+    /*
+       Show saved orders immediately.
+       This makes the page load quickly.
+    */
+
+    const localOrders =
+        getLocalOrders();
+
+
+    displayOrders(
+        localOrders,
+        false
+    );
+
+
+    /*
+       Then contact the server and retrieve
+       the latest order information from Supabase.
+    */
+
+    const result =
+        await synchronizeOrders();
+
+
+    displayOrders(
+        result.orders,
+        result.connected
+    );
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadOrderHistory();
+
+
+/* =========================================================
+   AUTOMATIC STATUS CHECK
+   Checks Supabase every 10 seconds.
+========================================================= */
+
+setInterval(
+    async function() {
+
+        const result =
+            await synchronizeOrders();
+
+
+        displayOrders(
+            result.orders,
+            result.connected
+        );
+
+    },
+    10000
+);
+
+</script>
+
+
+</body>
+
+</html>

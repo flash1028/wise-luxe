@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WISE LUXE | Checkout</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Georgia, "Times New Roman", serif;
+        background: #080808;
+        color: white;
+    }
+
+    nav {
+        min-height: 85px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        border-bottom: 1px solid #292929;
+        background: #080808;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand img {
+        width: 55px;
+        height: 55px;
+        object-fit: contain;
+    }
+
+    .brand-name {
+        color: #d6b45a;
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    .back {
+        color: #d6b45a;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    .back:hover {
+        color: white;
+    }
+
+    .checkout-page {
+        max-width: 1100px;
+        margin: auto;
+        padding: 70px 6%;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .title h1 {
+        font-size: 42px;
+        font-weight: normal;
+        letter-spacing: 5px;
+    }
+
+    .gold-line {
+        width: 80px;
+        height: 2px;
+        background: #d6b45a;
+        margin: 20px auto;
+    }
+
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+    }
+
+    .checkout-box {
+        background: #111;
+        border: 1px solid #292929;
+        padding: 30px;
+    }
+
+    .checkout-box h2 {
+        font-size: 22px;
+        font-weight: normal;
+        letter-spacing: 2px;
+        margin-bottom: 25px;
+        color: #d6b45a;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        color: #ccc;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 14px;
+        background: #080808;
+        border: 1px solid #444;
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        outline: none;
+        border-radius: 0;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #d6b45a;
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .order-number-box {
+        background: #080808;
+        border: 1px solid #292929;
+        padding: 15px;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    .order-number-label {
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+    }
+
+    .order-number {
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .order-item {
+        display: flex;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #292929;
+    }
+
+    .order-item-image {
+        width: 75px;
+        height: 90px;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #222;
+    }
+
+    .order-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .order-item-info {
+        flex: 1;
+    }
+
+    .order-item-name {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .order-item-details {
+        color: #999;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .product-code {
+        color: #d6b45a;
+    }
+
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #292929;
+        color: #d6b45a;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .payment-title {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: #ccc;
+    }
+
+    .payment-options {
+        display: grid;
+        gap: 10px;
+    }
+
+    .payment-option {
+        width: 100%;
+        padding: 15px;
+        background: transparent;
+        color: white;
+        border: 1px solid #444;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        transition: 0.3s;
+    }
+
+    .payment-option:hover {
+        border-color: #d6b45a;
+        color: #d6b45a;
+    }
+
+    .payment-option.selected {
+        background: #d6b45a;
+        color: #080808;
+        border-color: #d6b45a;
+    }
+
+    .place-order {
+        width: 100%;
+        margin-top: 25px;
+        padding: 17px;
+        background: #d6b45a;
+        color: #080808;
+        border: none;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .place-order:hover {
+        background: white;
+    }
+
+    .sent-order {
+        width: 100%;
+        margin-top: 12px;
+        padding: 15px;
+        background: transparent;
+        color: #d6b45a;
+        border: 1px solid #d6b45a;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        letter-spacing: 1.5px;
+        display: none;
+    }
+
+    .sent-order:hover {
+        background: #d6b45a;
+        color: #080808;
+    }
+
+    .sent-order:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    .notice {
+        margin-top: 18px;
+        color: #777;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    .empty-cart {
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        padding: 20px 0;
+    }
+
+    @media (max-width: 800px) {
+
+        nav {
+            min-height: 70px;
+            padding: 0 5%;
+        }
+
+        .brand img {
+            width: 45px;
+            height: 45px;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .checkout-page {
+            padding: 50px 5%;
+        }
+
+        .title h1 {
+            font-size: 30px;
+        }
+
+        .checkout-grid {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .checkout-box {
+            padding: 20px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<nav>
+
+
+<div class="brand">
+
+    <img
+        src="images/logo.png"
+        alt="WISE LUXE"
+    >
+
+    <div class="brand-name">
+        WISE LUXE
+    </div>
+
+</div>
+
+
+<a
+    href="cart.html"
+    class="back"
+>
+    ← BACK TO CART
+</a>
+
+
+</nav>
+
+<main class="checkout-page">
+
+
+<div class="title">
+
+    <h1>
+        CHECKOUT
+    </h1>
+
+    <div class="gold-line"></div>
+
+</div>
+
+
+<div class="checkout-grid">
+
+
+    <!-- =================================================
+         CUSTOMER INFORMATION
+    ================================================== -->
+
+    <div class="checkout-box">
+
+        <h2>
+            YOUR INFORMATION
+        </h2>
+
+
+        <form id="checkoutForm">
+
+
+            <div class="form-group">
+
+                <label for="name">
+                    FULL NAME
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="phone">
+                    PHONE NUMBER
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    autocomplete="tel"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    EMAIL ADDRESS
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email address"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="address">
+                    DELIVERY ADDRESS
+                </label>
+
+                <textarea
+                    id="address"
+                    placeholder="Enter your delivery address"
+                    autocomplete="street-address"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="city">
+                    CITY
+                </label>
+
+                <input
+                    type="text"
+                    id="city"
+                    placeholder="Enter your city"
+                    autocomplete="address-level2"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="state">
+                    STATE
+                </label>
+
+                <input
+                    type="text"
+                    id="state"
+                    placeholder="Enter your state"
+                    autocomplete="address-level1"
+                    required
+                >
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+    <!-- =================================================
+         ORDER
+    ================================================== -->
+
+    <div class="checkout-box">
+
+        <h2>
+            YOUR ORDER
+        </h2>
+
+
+        <div
+            class="order-number-box"
+            id="orderNumberBox"
+        >
+
+            <div class="order-number-label">
+                ORDER NUMBER
+            </div>
+
+            <div
+                class="order-number"
+                id="orderNumberDisplay"
+            ></div>
+
+        </div>
+
+
+        <div id="orderItems"></div>
+
+
+        <div class="order-total">
+
+            <span>
+                TOTAL
+            </span>
+
+            <span id="checkoutTotal">
+                ₦0
+            </span>
+
+        </div>
+
+
+        <div class="payment-title">
+            HOW WOULD YOU LIKE TO ORDER?
+        </div>
+
+
+        <div class="payment-options">
+
+
+            <button
+                type="button"
+                class="payment-option"
+                id="whatsappOption"
+                onclick="selectPayment('whatsapp')"
+            >
+                💬 ORDER VIA WHATSAPP
+            </button>
+
+
+            <button
+                type="button"
+                class="payment-option"
+                onclick="onlinePaymentUnavailable()"
+            >
+                💳 PAY ONLINE — COMING SOON
+            </button>
+
+
+        </div>
+
+
+        <button
+            type="button"
+            class="place-order"
+            id="continueButton"
+            onclick="placeOrder()"
+        >
+            CONTINUE
+        </button>
+
+
+        <button
+            type="button"
+            class="sent-order"
+            id="sentOrderButton"
+            onclick="confirmOrderSent()"
+        >
+            ✓ I HAVE SENT MY ORDER
+        </button>
+
+
+        <div class="notice">
+
+            Your order details will be reviewed
+            before payment and delivery arrangements
+            are confirmed.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</main>
+
+<script>
+
+let selectedPayment = "";
+let currentOrder = null;
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+function getCart() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("wiseLuxeCart")
+        ) || [];
+
+    } catch (error) {
+
+        console.error(
+            "Could not read cart:",
+            error
+        );
+
+        return [];
+
+    }
+
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+function getProductPrice(item) {
+
+    if (
+        item.price !== undefined &&
+        item.price !== null &&
+        item.price !== ""
+    ) {
+
+        const savedPrice =
+            Number(item.price);
+
+        if (!isNaN(savedPrice)) {
+
+            return savedPrice;
+
+        }
+
+    }
+
+
+    const type =
+        String(item.type || "").toLowerCase();
+
+
+    if (type.includes("vintage")) {
+
+        return 30000;
+
+    }
+
+
+    if (type.includes("kaftan")) {
+
+        return 45000;
+
+    }
+
+
+    if (type.includes("polo")) {
+
+        return 22000;
+
+    }
+
+
+    if (type.includes("couples")) {
+
+        return 85000;
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =========================================================
+   PRODUCT CODE
+========================================================= */
+
+function getProductCode(item) {
+
+    if (item.productCode) {
+
+        return String(item.productCode);
+
+    }
+
+
+    const productNumber =
+        String(item.id || "")
+            .replace(/\D/g, "");
+
+
+    if (productNumber) {
+
+        return (
+            "WL-P" +
+            productNumber.padStart(3, "0")
+        );
+
+    }
+
+
+    return "WL-P000";
+
+}
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+    if (
+        value === undefined ||
+        value === null
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   DISPLAY ORDER
+========================================================= */
+
+function displayOrder() {
+
+    const cart =
+        getCart();
+
+
+    const orderItems =
+        document.getElementById(
+            "orderItems"
+        );
+
+
+    orderItems.innerHTML = "";
+
+
+    if (cart.length === 0) {
+
+        orderItems.innerHTML = `
+
+            <div class="empty-cart">
+
+                Your cart is empty.
+
+            </div>
+
+        `;
+
+
+        updateCheckoutTotal(0);
+
+        return;
+
+    }
+
+
+    let orderTotal = 0;
+
+
+    cart.forEach(function(item) {
+
+        const itemPrice =
+            getProductPrice(item);
+
+
+        const quantity =
+            Math.max(
+                1,
+                Number(item.quantity || 1)
+            );
+
+
+        const itemTotal =
+            itemPrice * quantity;
+
+
+        orderTotal +=
+            itemTotal;
+
+
+        const productCode =
+            getProductCode(item);
+
+
+        const element =
+            document.createElement("div");
+
+
+        element.className =
+            "order-item";
+
+
+        element.innerHTML = `
+
+            <div class="order-item-image">
+
+                <img
+                    src="${escapeHTML(item.image || "")}"
+                    alt="${escapeHTML(item.name || "Product")}"
+                >
+
+            </div>
+
+
+            <div class="order-item-info">
+
+                <div class="order-item-name">
+
+                    ${escapeHTML(
+                        item.name || "Product"
+                    )}
+
+                </div>
+
+
+                <div class="order-item-details">
+
+                    <span class="product-code">
+
+                        Product Code:
+                        ${escapeHTML(productCode)}
+
+                    </span>
+
+                    <br>
+
+                    Type:
+                    ${escapeHTML(item.type || "N/A")}
+
+                    <br>
+
+                    Size:
+                    ${escapeHTML(item.size || "N/A")}
+
+                    <br>
+
+                    Quantity:
+                    ${quantity}
+
+                    <br>
+
+                    Price:
+                    ₦${itemPrice.toLocaleString()}
+
+                    <br>
+
+                    Subtotal:
+                    ₦${itemTotal.toLocaleString()}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        orderItems.appendChild(
+            element
+        );
+
+    });
+
+
+    updateCheckoutTotal(
+        orderTotal
+    );
+
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+function updateCheckoutTotal(total) {
+
+    const totalElement =
+        document.getElementById(
+            "checkoutTotal"
+        );
+
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            "₦" +
+            Number(total).toLocaleString();
+
+    }
+
+}
+
+
+/* =========================================================
+   PAYMENT
+========================================================= */
+
+function selectPayment(method) {
+
+    selectedPayment =
+        method;
+
+
+    document
+        .getElementById("whatsappOption")
+        .classList.remove("selected");
+
+
+    if (method === "whatsapp") {
+
+        document
+            .getElementById("whatsappOption")
+            .classList.add("selected");
+
+    }
+
+}
+
+
+/* =========================================================
+   ONLINE PAYMENT
+========================================================= */
+
+function onlinePaymentUnavailable() {
+
+    alert(
+        "Online payment is currently unavailable. Please use ORDER VIA WHATSAPP to place your order."
+    );
+
+}
+
+
+/* =========================================================
+   CONTINUE
+========================================================= */
+
+function placeOrder() {
+
+    const form =
+        document.getElementById(
+            "checkoutForm"
+        );
+
+
+    if (!form.checkValidity()) {
+
+        form.reportValidity();
+
+        return;
+
+    }
+
+
+    const cart =
+        getCart();
+
+
+    if (cart.length === 0) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    if (selectedPayment === "") {
+
+        alert(
+            "Please select how you would like to order."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        selectedPayment ===
+        "whatsapp"
+    ) {
+
+        sendToWhatsApp();
+
+    }
+
+}
+
+
+/* =========================================================
+   SEND TO WHATSAPP
+========================================================= */
+
+function sendToWhatsApp() {
+
+    const name =
+        document.getElementById(
+            "name"
+        ).value.trim();
+
+
+    const phone =
+        document.getElementById(
+            "phone"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "email"
+        ).value.trim();
+
+
+    const address =
+        document.getElementById(
+            "address"
+        ).value.trim();
+
+
+    const city =
+        document.getElementById(
+            "city"
+        ).value.trim();
+
+
+    const state =
+        document.getElementById(
+            "state"
+        ).value.trim();
+
+
+    const cart =
+        getCart();
+
+
+    if (cart.length === 0) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    /* ================= TOTAL ================= */
+
+    let orderTotal = 0;
+
+
+    cart.forEach(function(item) {
+
+        orderTotal +=
+            getProductPrice(item) *
+            Math.max(
+                1,
+                Number(item.quantity || 1)
+            );
+
+    });
+
+
+    /* ================= ORDER NUMBER ================= */
+
+    const now =
+        new Date();
+
+
+    const year =
+        now.getFullYear();
+
+
+    const orderNumber =
+        "WL-" +
+        year +
+        "-" +
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
+
+
+    /* ================= ORDER ITEMS ================= */
+
+    const orderItems =
+        cart.map(function(item) {
+
+            const price =
+                getProductPrice(item);
+
+
+            const quantity =
+                Math.max(
+                    1,
+                    Number(item.quantity || 1)
+                );
+
+
+            return {
+
+                id:
+                    item.id || "",
+
+                name:
+                    item.name || "",
+
+                type:
+                    item.type || "",
+
+                size:
+                    item.size || "",
+
+                image:
+                    item.image || "",
+
+                quantity:
+                    quantity,
+
+                price:
+                    price,
+
+                productCode:
+                    getProductCode(item)
+
+            };
+
+        });
+
+
+    /* ================= COMPLETE ORDER ================= */
+
+    currentOrder = {
+
+        orderNumber:
+            orderNumber,
+
+        date:
+            new Date().toLocaleString(),
+
+        status:
+            "ORDER RECEIVED",
+
+        customer: {
+
+            name:
+                name,
+
+            phone:
+                phone,
+
+            email:
+                email,
+
+            address:
+                address,
+
+            city:
+                city,
+
+            state:
+                state
+
+        },
+
+        items:
+            orderItems,
+
+        total:
+            orderTotal
+
+    };
+
+
+    /* ================= LOCAL BACKUP ================= */
+
+    localStorage.setItem(
+        "wiseLuxeLastOrderNumber",
+        orderNumber
+    );
+
+
+    localStorage.setItem(
+        "wiseLuxePendingOrder",
+        JSON.stringify(
+            currentOrder
+        )
+    );
+
+
+    /* ================= DISPLAY ORDER NUMBER ================= */
+
+    document
+        .getElementById(
+            "orderNumberBox"
+        )
+        .style.display =
+            "block";
+
+
+    document
+        .getElementById(
+            "orderNumberDisplay"
+        )
+        .textContent =
+            orderNumber;
+
+
+    /* ================= WHATSAPP MESSAGE ================= */
+
+    let message =
+        "WISE LUXE NEW ORDER\n\n";
+
+
+    message +=
+        "ORDER NUMBER: " +
+        orderNumber +
+        "\n\n";
+
+
+    message +=
+        "CUSTOMER DETAILS\n";
+
+
+    message +=
+        "Name: " +
+        name +
+        "\n";
+
+
+    message +=
+        "Phone: " +
+        phone +
+        "\n";
+
+
+    message +=
+        "Email: " +
+        email +
+        "\n";
+
+
+    message +=
+        "Address: " +
+        address +
+        "\n";
+
+
+    message +=
+        "City: " +
+        city +
+        "\n";
+
+
+    message +=
+        "State: " +
+        state +
+        "\n\n";
+
+
+    message +=
+        "ORDER DETAILS\n\n";
+
+
+    cart.forEach(function(item, index) {
+
+        const price =
+            getProductPrice(item);
+
+
+        const quantity =
+            Math.max(
+                1,
+                Number(item.quantity || 1)
+            );
+
+
+        const subtotal =
+            price * quantity;
+
+
+        const productCode =
+            getProductCode(item);
+
+
+        message +=
+            (index + 1) +
+            ". " +
+            (item.name || "Product") +
+            "\n";
+
+
+        message +=
+            "Product Code: " +
+            productCode +
+            "\n";
+
+
+        message +=
+            "Type: " +
+            (item.type || "N/A") +
+            "\n";
+
+
+        message +=
+            "Size: " +
+            (item.size || "N/A") +
+            "\n";
+
+
+        message +=
+            "Quantity: " +
+            quantity +
+            "\n";
+
+
+        message +=
+            "Price: ₦" +
+            price.toLocaleString() +
+            "\n";
+
+
+        message +=
+            "Subtotal: ₦" +
+            subtotal.toLocaleString() +
+            "\n\n";
+
+    });
+
+
+    message +=
+        "TOTAL: ₦" +
+        orderTotal.toLocaleString() +
+        "\n\n";
+
+
+    message +=
+        "Please confirm my order and let me know the next steps. Thank you.";
+
+
+    /* ================= WHATSAPP ================= */
+
+    const whatsappNumber =
+        "2347070341822";
+
+
+    const whatsappURL =
+        "https://wa.me/" +
+        whatsappNumber +
+        "?text=" +
+        encodeURIComponent(
+            message
+        );
+
+
+    window.open(
+        whatsappURL,
+        "_blank"
+    );
+
+
+    /* ================= SHOW SENT BUTTON ================= */
+
+    document
+        .getElementById(
+            "sentOrderButton"
+        )
+        .style.display =
+            "block";
+
+
+    document
+        .getElementById(
+            "continueButton"
+        )
+        .style.display =
+            "none";
+
+
+    alert(
+        "WhatsApp has opened. Send the order message, then return here and click 'I HAVE SENT MY ORDER'."
+    );
+
+}
+
+
+/* =========================================================
+   CONFIRM ORDER SENT
+========================================================= */
+
+async function confirmOrderSent() {
+
+    if (!currentOrder) {
+
+        const savedOrder =
+            localStorage.getItem(
+                "wiseLuxePendingOrder"
+            );
+
+
+        if (savedOrder) {
+
+            try {
+
+                currentOrder =
+                    JSON.parse(
+                        savedOrder
+                    );
+
+            } catch (error) {
+
+                console.error(
+                    "Could not restore pending order:",
+                    error
+                );
+
+            }
+
+        }
+
+    }
+
+
+    if (!currentOrder) {
+
+        alert(
+            "Please send your order via WhatsApp first."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "sentOrderButton"
+        );
+
+
+    button.disabled = true;
+
+
+    button.textContent =
+        "SENDING ORDER...";
+
+
+    try {
+
+        /* =================================================
+           SEND ORDER TO OUR NODE.JS SERVER
+        ================================================= */
+
+        const response =
+            await fetch(
+                "/api/orders",
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            currentOrder
+                        )
+
+                }
+            );
+
+
+        let result;
+
+
+        try {
+
+            result =
+                await response.json();
+
+        } catch (error) {
+
+            throw new Error(
+                "The server returned an invalid response."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.message ||
+                "Could not save order."
+            );
+
+        }
+
+
+        if (!result.success) {
+
+            throw new Error(
+                result.message ||
+                "Could not save order."
+            );
+
+        }
+
+
+        /* =================================================
+           SAVE CUSTOMER ORDER HISTORY
+        ================================================= */
+
+        let localOrders = [];
+
+
+        try {
+
+            localOrders =
+                JSON.parse(
+                    localStorage.getItem(
+                        "wiseLuxeOrders"
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            localOrders = [];
+
+        }
+
+
+        const alreadyExists =
+            localOrders.some(
+                function(order) {
+
+                    return (
+                        order.orderNumber ===
+                        currentOrder.orderNumber
+                    );
+
+                }
+            );
+
+
+        if (!alreadyExists) {
+
+            localOrders.unshift(
+                currentOrder
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "wiseLuxeOrders",
+            JSON.stringify(
+                localOrders
+            )
+        );
+
+
+        localStorage.setItem(
+            "wiseLuxeLastOrder",
+            JSON.stringify(
+                currentOrder
+            )
+        );
+
+
+        localStorage.setItem(
+            "wiseLuxeOrderConfirmed",
+            "true"
+        );
+
+
+        /* =================================================
+           CLEAR CART
+        ================================================= */
+
+        localStorage.removeItem(
+            "wiseLuxeCart"
+        );
+
+
+        localStorage.removeItem(
+            "wiseLuxePendingOrder"
+        );
+
+
+        /* =================================================
+           GO TO CONFIRMATION PAGE
+        ================================================= */
+
+        window.location.href =
+            "confirmation.html";
+
+
+    } catch (error) {
+
+        console.error(
+            "ORDER SAVE ERROR:",
+            error
+        );
+
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "✓ I HAVE SENT MY ORDER";
+
+
+        alert(
+            "We could not save your order to the WISE LUXE order system.\n\nPlease make sure the WISE LUXE server is running, then try again."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD CHECKOUT
+========================================================= */
+
+displayOrder();
+
+</script>
+
+</body>
+
+</html>

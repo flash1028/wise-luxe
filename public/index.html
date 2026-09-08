@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>WISE LUXE | Luxury with Purpose</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Georgia, "Times New Roman", serif;
+        background: #080808;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    /* ================= NAVIGATION ================= */
+
+    nav {
+        min-height: 85px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        background: #080808;
+        border-bottom: 1px solid #292929;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .brand img {
+        width: 58px;
+        height: 58px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    .brand-name {
+        font-size: 25px;
+        letter-spacing: 4px;
+        color: #d6b45a;
+        white-space: nowrap;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 28px;
+    }
+
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        letter-spacing: 1.8px;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #d6b45a;
+    }
+
+    /* ================= CART + ORDERS ================= */
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .history-link {
+        color: #d6b45a;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        white-space: nowrap;
+        transition: 0.3s;
+    }
+
+    .history-link:hover {
+        color: white;
+    }
+
+    .cart {
+        color: #d6b45a;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+        min-height: 82vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 80px 20px;
+        background:
+            radial-gradient(circle at center, #252525 0%, #080808 65%);
+    }
+
+    .hero-content {
+        max-width: 900px;
+        width: 100%;
+    }
+
+    .hero-logo {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    .hero h1 {
+        font-size: clamp(45px, 7vw, 82px);
+        font-weight: normal;
+        letter-spacing: 9px;
+        color: #d6b45a;
+    }
+
+    .gold-line {
+        width: 100px;
+        height: 2px;
+        background: #d6b45a;
+        margin: 25px auto;
+    }
+
+    .tagline {
+        color: #d6b45a;
+        font-size: 17px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+    }
+
+    .hero-description {
+        max-width: 650px;
+        margin: 25px auto 35px;
+        color: #cccccc;
+        line-height: 1.8;
+        font-size: 17px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 16px 38px;
+        border: 1px solid #d6b45a;
+        color: #d6b45a;
+        text-decoration: none;
+        letter-spacing: 3px;
+        font-size: 12px;
+        transition: 0.3s;
+    }
+
+    .button:hover {
+        background: #d6b45a;
+        color: #080808;
+    }
+
+    /* ================= COLLECTION ================= */
+
+    .collection {
+        background: #f5f5f5;
+        color: #111;
+        padding: 90px 6%;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 55px;
+    }
+
+    .section-title h2 {
+        font-size: 42px;
+        font-weight: normal;
+        letter-spacing: 5px;
+    }
+
+    .section-title p {
+        margin-top: 12px;
+        color: #777;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        letter-spacing: 3px;
+    }
+
+    .products {
+        max-width: 1250px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 22px;
+    }
+
+    .product {
+        background: white;
+        transition: 0.35s;
+        overflow: hidden;
+        border: 1px solid #eeeeee;
+    }
+
+    .product:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 440px;
+        overflow: hidden;
+        background: #ddd;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.5s;
+    }
+
+    .product:hover .product-image img {
+        transform: scale(1.04);
+    }
+
+    .product-info {
+        padding: 20px 15px 25px;
+        text-align: center;
+    }
+
+    .product-info h3 {
+        font-size: 18px;
+        font-weight: normal;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .product-type {
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .price {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        color: #222;
+    }
+
+    .view-button {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 11px 20px;
+        border: 1px solid #222;
+        color: #222;
+        text-decoration: none;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        transition: 0.3s;
+    }
+
+    .view-button:hover {
+        background: #111;
+        color: white;
+    }
+
+    /* ================= BRAND STORY ================= */
+
+    .story {
+        padding: 100px 10%;
+        text-align: center;
+        background: #080808;
+    }
+
+    .story-logo {
+        width: 85px;
+        margin-bottom: 20px;
+    }
+
+    .story h2 {
+        color: #d6b45a;
+        font-size: 38px;
+        font-weight: normal;
+        letter-spacing: 5px;
+        margin-bottom: 25px;
+    }
+
+    .story p {
+        max-width: 760px;
+        margin: auto;
+        color: #cccccc;
+        line-height: 2;
+        font-size: 16px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        padding: 50px 6%;
+        text-align: center;
+        background: #050505;
+        border-top: 1px solid #292929;
+    }
+
+    footer h3 {
+        color: #d6b45a;
+        font-size: 26px;
+        letter-spacing: 5px;
+        margin-bottom: 10px;
+    }
+
+    footer p {
+        color: #d6b45a;
+        font-size: 11px;
+        letter-spacing: 4px;
+        margin-bottom: 20px;
+    }
+
+    .copyright {
+        color: #666;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+    }
+
+    /* ================= TABLET ================= */
+
+    @media (max-width: 1000px) {
+
+        nav {
+            padding: 0 4%;
+        }
+
+        .nav-links {
+            gap: 18px;
+        }
+
+        .nav-links a {
+            font-size: 11px;
+        }
+
+        .products {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .product-image {
+            height: 420px;
+        }
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 650px) {
+
+        nav {
+            min-height: 70px;
+            height: 70px;
+            padding: 0 4%;
+            gap: 8px;
+        }
+
+        .brand {
+            gap: 8px;
+        }
+
+        .brand img {
+            width: 43px;
+            height: 43px;
+        }
+
+        .brand-name {
+            font-size: 17px;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        /* MOBILE ACTIONS */
+
+        .nav-actions {
+            gap: 9px;
+        }
+
+        .history-link {
+            font-size: 8px;
+            letter-spacing: 0.8px;
+        }
+
+        .cart {
+            font-size: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: calc(100vh - 70px);
+            padding: 55px 20px 65px;
+        }
+
+        .hero-logo {
+            width: 115px;
+            height: 115px;
+            margin-bottom: 5px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            letter-spacing: 5px;
+        }
+
+        .gold-line {
+            width: 70px;
+            margin: 20px auto;
+        }
+
+        .tagline {
+            font-size: 12px;
+            letter-spacing: 3px;
+            line-height: 1.6;
+        }
+
+        .hero-description {
+            margin: 20px auto 30px;
+            font-size: 14px;
+            line-height: 1.8;
+            max-width: 360px;
+        }
+
+        .button {
+            padding: 15px 25px;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* COLLECTION */
+
+        .collection {
+            padding: 60px 15px;
+        }
+
+        .section-title {
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 28px;
+            letter-spacing: 3px;
+        }
+
+        .section-title p {
+            font-size: 9px;
+            letter-spacing: 2px;
+            line-height: 1.7;
+        }
+
+        .products {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .product {
+            width: 100%;
+        }
+
+        .product:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .product-image {
+            height: 300px;
+        }
+
+        .product-info {
+            padding: 15px 8px 18px;
+        }
+
+        .product-info h3 {
+            font-size: 14px;
+            line-height: 1.35;
+            min-height: 38px;
+        }
+
+        .product-type {
+            font-size: 8px;
+            letter-spacing: 1.2px;
+            line-height: 1.5;
+            min-height: 24px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 12px;
+        }
+
+        .view-button {
+            width: 100%;
+            padding: 10px 5px;
+            margin-top: 12px;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+        }
+
+        /* STORY */
+
+        .story {
+            padding: 70px 8%;
+        }
+
+        .story-logo {
+            width: 70px;
+            margin-bottom: 15px;
+        }
+
+        .story h2 {
+            font-size: 29px;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        .story p {
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 40px 5%;
+        }
+
+        footer h3 {
+            font-size: 22px;
+            letter-spacing: 4px;
+        }
+
+        footer p {
+            font-size: 9px;
+            letter-spacing: 3px;
+        }
+
+        .copyright {
+            font-size: 9px;
+        }
+    }
+
+    /* ================= VERY SMALL PHONES ================= */
+
+    @media (max-width: 380px) {
+
+        .brand-name {
+            font-size: 15px;
+        }
+
+        .nav-actions {
+            gap: 6px;
+        }
+
+        .history-link {
+            font-size: 7px;
+        }
+
+        .cart {
+            font-size: 9px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+        }
+
+        .hero-logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .products {
+            gap: 9px;
+        }
+
+        .product-image {
+            height: 260px;
+        }
+
+        .product-info h3 {
+            font-size: 13px;
+        }
+
+        .product-type {
+            font-size: 7px;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <div class="brand">
+
+        <img src="images/logo.png" alt="WISE LUXE">
+
+        <div class="brand-name">
+            WISE LUXE
+        </div>
+
+    </div>
+
+
+    <ul class="nav-links">
+
+        <li><a href="#">HOME</a></li>
+
+        <li><a href="#collection">COLLECTION</a></li>
+
+        <li><a href="#about">ABOUT</a></li>
+
+        <li><a href="#contact">CONTACT</a></li>
+
+        <li>
+            <a href="order-history.html">
+                ORDER HISTORY
+            </a>
+        </li>
+
+    </ul>
+
+
+    <div class="nav-actions">
+
+        <a
+            href="order-history.html"
+            class="history-link"
+        >
+            ORDERS
+        </a>
+
+        <a
+            href="cart.html"
+            class="cart"
+        >
+            🛒 CART (<span id="cartCount">0</span>)
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <img
+            src="images/logo.png"
+            alt="WISE LUXE Logo"
+            class="hero-logo"
+        >
+
+        <h1>WISE LUXE</h1>
+
+        <div class="gold-line"></div>
+
+        <div class="tagline">
+            Luxury with Purpose
+        </div>
+
+        <p class="hero-description">
+            Timeless pieces. Distinctive style.
+            Discover classic kaftans and vintage-inspired
+            outfits created for those who appreciate
+            elegance and individuality.
+        </p>
+
+        <a
+            href="#collection"
+            class="button"
+        >
+            EXPLORE COLLECTION
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= COLLECTION ================= -->
+
+<section
+    class="collection"
+    id="collection"
+>
+
+    <div class="section-title">
+
+        <h2>
+            THE COLLECTION
+        </h2>
+
+        <p>
+            TIMELESS PIECES • DISTINCTIVE STYLE
+        </p>
+
+    </div>
+
+
+    <div
+        class="products"
+        id="productsContainer"
+    ></div>
+
+</section>
+
+
+<!-- ================= BRAND STORY ================= -->
+
+<section
+    class="story"
+    id="about"
+>
+
+    <img
+        src="images/logo.png"
+        alt="WISE LUXE"
+        class="story-logo"
+    >
+
+    <h2>
+        WISE LUXE
+    </h2>
+
+    <p>
+
+        <strong>
+            Luxury with Purpose.
+        </strong>
+
+        <br><br>
+
+        We believe true luxury goes beyond appearance.
+        It is about confidence, individuality and timeless style.
+        WISE LUXE brings together classic fashion and
+        distinctive design to create pieces that make
+        a statement wherever you go.
+
+    </p>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer id="contact">
+
+    <h3>
+        WISE LUXE
+    </h3>
+
+    <p>
+        LUXURY WITH PURPOSE
+    </p>
+
+    <div class="copyright">
+        © 2026 WISE LUXE. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+<!-- ================= PRODUCT SYSTEM ================= -->
+
+<script>
+async function loadProducts() {
+    try {
+        const response = await fetch("/api/products");
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message || "Failed to load products.");
+        }
+
+        productsContainer.innerHTML = "";
+
+        result.products.forEach(function(product) {
+
+            const card = document.createElement("div");
+
+            card.className = "product";
+
+            card.innerHTML = `
+                <div class="product-image">
+                    <img
+                        src="${product.image.replace("image/", "images/")}"
+                        alt="${product.name}"
+                        loading="lazy"
+                    >
+                </div>
+
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+
+                    <div class="product-type">
+                        ${product.category || ""}
+                    </div>
+
+                    <div class="price">
+                        ₦${Number(product.price).toLocaleString()}
+                    </div>
+
+                    <a
+                        href="product.html?product=${product.id}"
+                        class="view-button"
+                    >
+                        VIEW DETAILS
+                    </a>
+                </div>
+            `;
+
+            productsContainer.appendChild(card);
+        });
+
+    } catch (error) {
+
+        console.error("Error loading products:", error);
+
+        productsContainer.innerHTML = `
+            <p style="text-align:center; color:#d6b45a;">
+                Unable to load the WISE LUXE collection.
+            </p>
+        `;
+    }
+}
+
+loadProducts();
+    /* ================= CART COUNT ================= */
+
+    function updateCartCount() {
+
+        const cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "wiseLuxeCart"
+                )
+            ) || [];
+
+
+        let total = 0;
+
+
+        cart.forEach(function(item) {
+
+            total +=
+                Number(item.quantity) || 0;
+
+        });
+
+
+        const cartCount =
+            document.getElementById(
+                "cartCount"
+            );
+
+
+        if (cartCount) {
+
+            cartCount.textContent =
+                total;
+
+        }
+
+    }
+
+
+    updateCartCount();
+
+</script>
+
+
+</body>
+</html>

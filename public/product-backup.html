@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WISE LUXE | Product</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #080808;
+            color: white;
+        }
+
+        nav {
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: #080808;
+            border-bottom: 1px solid #292929;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: #d6b45a;
+            font-size: 24px;
+            letter-spacing: 4px;
+        }
+
+        .back {
+            color: #d6b45a;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .product-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 6%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+        }
+
+        .product-photo {
+            width: 100%;
+            height: 650px;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .product-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-type {
+            color: #d6b45a;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .product-code {
+            color: #888;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: normal;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: #d6b45a;
+            margin-bottom: 30px;
+        }
+
+        .description {
+            color: #bdbdbd;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .label {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .sizes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .size {
+            width: 48px;
+            height: 42px;
+            background: transparent;
+            color: white;
+            border: 1px solid #555;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .size:hover {
+            border-color: #d6b45a;
+            color: #d6b45a;
+        }
+
+        .size.selected {
+            background: #d6b45a;
+            color: #080808;
+            border-color: #d6b45a;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .quantity button {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 1px solid #555;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity span {
+            width: 50px;
+            text-align: center;
+        }
+
+        .cart-button {
+            padding: 17px;
+            background: #d6b45a;
+            color: #080808;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .cart-button:hover {
+            background: white;
+        }
+
+        .notice {
+            margin-top: 18px;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 800px) {
+
+            .product-page {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding-top: 40px;
+            }
+
+            .product-photo {
+                height: 500px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="brand">
+
+            <img src="images/logo.png" alt="WISE LUXE">
+
+            <div class="brand-name">
+                WISE LUXE
+            </div>
+
+        </div>
+
+        <a href="index.html#collection" class="back">
+            ← BACK TO COLLECTION
+        </a>
+
+    </nav>
+
+
+    <main class="product-page">
+
+        <div class="product-photo">
+
+            <img id="productImage" src="" alt="WISE LUXE Product">
+
+        </div>
+
+
+        <div class="product-details">
+
+            <div class="product-type" id="productType"></div>
+
+            <div class="product-code" id="productCode"></div>
+
+            <h1 id="productName"></h1>
+
+            <div class="price" id="productPrice"></div>
+
+            <p class="description" id="productDescription"></p>
+
+
+            <div class="label">
+                SELECT SIZE
+            </div>
+
+            <div class="sizes">
+
+                <button class="size" onclick="selectSize(this)">S</button>
+                <button class="size" onclick="selectSize(this)">M</button>
+                <button class="size" onclick="selectSize(this)">L</button>
+                <button class="size" onclick="selectSize(this)">XL</button>
+                <button class="size" onclick="selectSize(this)">XXL</button>
+
+            </div>
+
+
+            <p id="selectedSize" style="
+                color: #d6b45a;
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                margin-top: -20px;
+                margin-bottom: 25px;
+            ">
+                Please select a size
+            </p>
+
+
+            <div class="label">
+                QUANTITY
+            </div>
+
+            <div class="quantity">
+
+                <button onclick="decreaseQuantity()">−</button>
+
+                <span id="quantity">1</span>
+
+                <button onclick="increaseQuantity()">+</button>
+
+            </div>
+
+
+            <button class="cart-button" onclick="addToCart()">
+                ADD TO CART
+            </button>
+
+
+            <div class="notice">
+                Prices shown are the current WISE LUXE collection prices.
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        let quantity = 1;
+        let selectedSize = "";
+
+
+        /* ================= PRODUCTS ================= */
+
+        const products = {
+
+            "1": {
+                name: "Classic Vintage Set",
+                code: "WL-P001",
+                type: "Matching Vintage Outfit",
+                price: 30000,
+                image: "images/product1.jpg",
+                description: "A timeless WISE LUXE vintage-inspired set designed with elegance and individuality in mind."
+            },
+
+            "2": {
+                name: "Classic Pink Kaftan",
+                code: "WL-P002",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product2.jpg",
+                description: "A timeless WISE LUXE piece designed with elegance and individuality in mind. Discover classic style with a distinctive luxury finish."
+            },
+
+            "3": {
+                name: "Modern Grey Kaftan",
+                code: "WL-P003",
+                type: "Kaftan Set",
+                price: 45000,
+                image: "images/product3.jpg",
+                description: "A refined WISE LUXE kaftan set combining modern style with a distinctive luxury finish."
+            },
+
+            "4": {
+                name: "Golden Vintage Set",
+                code: "WL-P004",
+                type: "Vintage Two-Piece",
+                price: 30000,
+                image: "images/product4.jpg",
+                description: "A distinctive WISE LUXE vintage two-piece designed for timeless style and effortless elegance."
+            },
+
+            "5": {
+                name: "White Kaftan",
+                code: "WL-P005",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product5.jpg",
+                description: "A refined WISE LUXE kaftan designed for timeless elegance."
+            },
+
+            "6": {
+                name: "Blue & Black Stripes Vintage",
+                code: "WL-P006",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product6.jpg",
+                description: "A distinctive vintage-inspired WISE LUXE piece."
+            },
+
+            "7": {
+                name: "Colorful Vintage",
+                code: "WL-P007",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product7.jpg",
+                description: "A stylish vintage-inspired WISE LUXE piece."
+            },
+
+            "8": {
+                name: "White & Red Stripes Vintage",
+                code: "WL-P008",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product8.jpg",
+                description: "A distinctive WISE LUXE vintage piece."
+            },
+
+            "9": {
+                name: "White & Black Stripes Vintage",
+                code: "WL-P009",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product9.jpg",
+                description: "A timeless vintage-inspired WISE LUXE piece."
+            },
+
+            "10": {
+                name: "Colorful Vintage",
+                code: "WL-P010",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product10.jpg",
+                description: "A colorful vintage-inspired WISE LUXE piece."
+            },
+
+            "11": {
+                name: "Greenish Colorful Vintage",
+                code: "WL-P011",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product11.jpg",
+                description: "A distinctive colorful vintage WISE LUXE piece."
+            },
+
+            "12": {
+                name: "Classic Couples Wear",
+                code: "WL-P012",
+                type: "Couples Wear",
+                price: 85000,
+                image: "images/product12.jpg",
+                description: "A coordinated WISE LUXE couples collection designed with elegance and style."
+            },
+
+            "13": {
+                name: "White Beach Vintage",
+                code: "WL-P013",
+                type: "Beach Vintage",
+                price: 30000,
+                image: "images/product13.jpg",
+                description: "A relaxed yet distinctive WISE LUXE vintage piece."
+            },
+
+            "14": {
+                name: "Pink & White Stripes Vintage",
+                code: "WL-P014",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product14.jpg",
+                description: "A stylish vintage-inspired WISE LUXE piece."
+            },
+
+            "15": {
+                name: "White Kaftan",
+                code: "WL-P015",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product15.jpg",
+                description: "A refined WISE LUXE kaftan designed for elegant occasions."
+            },
+
+            "16": {
+                name: "Brown Vintage",
+                code: "WL-P016",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product16.jpg",
+                description: "A timeless brown vintage-inspired WISE LUXE piece."
+            },
+
+            "17": {
+                name: "Dark Red Kaftan",
+                code: "WL-P017",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product17.jpg",
+                description: "A bold WISE LUXE kaftan designed with elegance."
+            },
+
+            "18": {
+                name: "Colorful Blue Vintage",
+                code: "WL-P018",
+                type: "Vintage Wear",
+                price: 30000,
+                image: "images/product18.jpg",
+                description: "A distinctive colorful vintage WISE LUXE piece."
+            },
+
+            "19": {
+                name: "Navy Blue Kaftan",
+                code: "WL-P019",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product19.jpg",
+                description: "A sophisticated navy blue WISE LUXE kaftan."
+            },
+
+            "20": {
+                name: "Dark Red Kaftan",
+                code: "WL-P020",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product20.jpg",
+                description: "A distinctive dark red WISE LUXE kaftan."
+            },
+
+            "21": {
+                name: "Red Kaftan",
+                code: "WL-P021",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product21.jpg",
+                description: "A bold and elegant WISE LUXE kaftan."
+            },
+
+            "22": {
+                name: "White Couples Wear",
+                code: "WL-P022",
+                type: "Couples Wear",
+                price: 85000,
+                image: "images/product22.jpg",
+                description: "A coordinated WISE LUXE couples piece designed for distinctive style."
+            },
+
+            "23": {
+                name: "Navy Blue Kaftan",
+                code: "WL-P023",
+                type: "Kaftan Wear",
+                price: 45000,
+                image: "images/product23.jpg",
+                description: "A sophisticated WISE LUXE navy blue kaftan."
+            },
+
+            "24": {
+                name: "Black WISE LUXE Polo",
+                code: "WL-P024",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product24.jpg",
+                description: "A refined WISE LUXE polo designed for effortless everyday style."
+            },
+
+            "25": {
+                name: "White WISE LUXE Polo",
+                code: "WL-P025",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product25.jpg",
+                description: "A clean and stylish WISE LUXE polo."
+            },
+
+            "26": {
+                name: "Black WISE LUXE Polo",
+                code: "WL-P026",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product26.jpg",
+                description: "A classic black WISE LUXE polo."
+            },
+
+            "27": {
+                name: "Black WISE LUXE Polo",
+                code: "WL-P027",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product27.jpg",
+                description: "A stylish black WISE LUXE polo."
+            },
+
+            "28": {
+                name: "White WISE LUXE Polo",
+                code: "WL-P028",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product28.jpg",
+                description: "A clean white WISE LUXE polo."
+            },
+
+            "29": {
+                name: "Black WISE LUXE Polo",
+                code: "WL-P029",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product29.jpg",
+                description: "A refined black WISE LUXE polo."
+            },
+
+            "30": {
+                name: "Black WISE LUXE Polo",
+                code: "WL-P030",
+                type: "WISE LUXE Polo",
+                price: 22000,
+                image: "images/product30.jpg",
+                description: "A classic WISE LUXE polo designed with a distinctive finish."
+            }
+
+        };
+
+
+        /* ================= GET PRODUCT ================= */
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const productNumber =
+            urlParams.get("product") || "2";
+
+        const currentProduct =
+            products[productNumber] || products["2"];
+
+
+        /* ================= DISPLAY PRODUCT ================= */
+
+        document.getElementById("productImage").src =
+            currentProduct.image;
+
+        document.getElementById("productImage").alt =
+            currentProduct.name;
+
+        document.getElementById("productType").textContent =
+            currentProduct.type;
+
+        document.getElementById("productCode").textContent =
+            "PRODUCT CODE: " + currentProduct.code;
+
+        document.getElementById("productName").textContent =
+            currentProduct.name;
+
+        document.getElementById("productPrice").textContent =
+            "₦" + currentProduct.price.toLocaleString();
+
+        document.getElementById("productDescription").textContent =
+            currentProduct.description;
+
+
+        /* ================= SIZE ================= */
+
+        function selectSize(button) {
+
+            document.querySelectorAll(".size").forEach(
+                function(sizeButton) {
+                    sizeButton.classList.remove("selected");
+                }
+            );
+
+            button.classList.add("selected");
+
+            selectedSize = button.textContent;
+
+            document.getElementById("selectedSize").textContent =
+                "Selected size: " + selectedSize;
+
+        }
+
+
+        /* ================= QUANTITY ================= */
+
+        function increaseQuantity() {
+
+            quantity++;
+
+            document.getElementById("quantity").textContent =
+                quantity;
+
+        }
+
+
+        function decreaseQuantity() {
+
+            if (quantity > 1) {
+                quantity--;
+            }
+
+            document.getElementById("quantity").textContent =
+                quantity;
+
+        }
+
+
+        /* ================= ADD TO CART ================= */
+
+        function addToCart() {
+
+            if (selectedSize === "") {
+
+                alert("Please select a size first.");
+
+                return;
+
+            }
+
+
+            const cartProduct = {
+
+                id: productNumber,
+
+                name: currentProduct.name,
+
+                code: currentProduct.code,
+
+                type: currentProduct.type,
+
+                price: currentProduct.price,
+
+                image: currentProduct.image,
+
+                size: selectedSize,
+
+                quantity: quantity
+
+            };
+
+
+            let cart =
+                JSON.parse(
+                    localStorage.getItem("wiseLuxeCart")
+                ) || [];
+
+
+            cart.push(cartProduct);
+
+
+            localStorage.setItem(
+                "wiseLuxeCart",
+                JSON.stringify(cart)
+            );
+
+
+            alert(
+                currentProduct.name +
+                " (" +
+                currentProduct.code +
+                ")" +
+                " has been added to your cart!"
+            );
+
+
+            window.location.href = "cart.html";
+
+        }
+
+    </script>
+
+</body>
+</html>
+

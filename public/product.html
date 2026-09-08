@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WISE LUXE | Product</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #080808;
+            color: white;
+        }
+
+        nav {
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: #080808;
+            border-bottom: 1px solid #292929;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: #d6b45a;
+            font-size: 24px;
+            letter-spacing: 4px;
+        }
+
+        .back {
+            color: #d6b45a;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .product-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 6%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+        }
+
+        .product-photo {
+            width: 100%;
+            height: 650px;
+            overflow: hidden;
+            background: #222;
+        }
+
+        .product-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-type {
+            color: #d6b45a;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .product-code {
+            color: #888;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: normal;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: #d6b45a;
+            margin-bottom: 30px;
+        }
+
+        .description {
+            color: #bdbdbd;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .label {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .sizes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .size {
+            width: 48px;
+            height: 42px;
+            background: transparent;
+            color: white;
+            border: 1px solid #555;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .size:hover {
+            border-color: #d6b45a;
+            color: #d6b45a;
+        }
+
+        .size.selected {
+            background: #d6b45a;
+            color: #080808;
+            border-color: #d6b45a;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .quantity button {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 1px solid #555;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity span {
+            width: 50px;
+            text-align: center;
+        }
+
+        .cart-button {
+            padding: 17px;
+            background: #d6b45a;
+            color: #080808;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .cart-button:hover {
+            background: white;
+        }
+
+        .notice {
+            margin-top: 18px;
+            color: #777;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 800px) {
+
+            .product-page {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding-top: 40px;
+            }
+
+            .product-photo {
+                height: 500px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <div class="brand">
+
+            <img src="images/logo.png" alt="WISE LUXE">
+
+            <div class="brand-name">
+                WISE LUXE
+            </div>
+
+        </div>
+
+
+        <a href="index.html#collection" class="back">
+            ← BACK TO COLLECTION
+        </a>
+
+    </nav>
+
+
+    <main class="product-page">
+
+
+        <div class="product-photo">
+
+            <img
+                id="productImage"
+                src=""
+                alt="WISE LUXE Product"
+            >
+
+        </div>
+
+
+        <div class="product-details">
+
+            <div
+                class="product-type"
+                id="productType">
+            </div>
+
+
+            <div
+                class="product-code"
+                id="productCode">
+            </div>
+
+
+            <h1 id="productName"></h1>
+
+
+            <div
+                class="price"
+                id="productPrice">
+            </div>
+
+
+            <p
+                class="description"
+                id="productDescription">
+            </p>
+
+
+            <div class="label">
+                SELECT SIZE
+            </div>
+
+
+            <div class="sizes">
+
+                <button
+                    class="size"
+                    onclick="selectSize(this)">
+                    S
+                </button>
+
+                <button
+                    class="size"
+                    onclick="selectSize(this)">
+                    M
+                </button>
+
+                <button
+                    class="size"
+                    onclick="selectSize(this)">
+                    L
+                </button>
+
+                <button
+                    class="size"
+                    onclick="selectSize(this)">
+                    XL
+                </button>
+
+                <button
+                    class="size"
+                    onclick="selectSize(this)">
+                    XXL
+                </button>
+
+            </div>
+
+
+            <p
+                id="selectedSize"
+                style="
+                    color: #d6b45a;
+                    font-family: Arial, sans-serif;
+                    font-size: 12px;
+                    margin-top: -20px;
+                    margin-bottom: 25px;
+                "
+            >
+                Please select a size
+            </p>
+
+
+            <div class="label">
+                QUANTITY
+            </div>
+
+
+            <div class="quantity">
+
+                <button onclick="decreaseQuantity()">
+                    −
+                </button>
+
+                <span id="quantity">
+                    1
+                </span>
+
+                <button onclick="increaseQuantity()">
+                    +
+                </button>
+
+            </div>
+
+
+            <button
+                class="cart-button"
+                onclick="addToCart()"
+            >
+                ADD TO CART
+            </button>
+
+
+            <div class="notice">
+                Prices shown are the current WISE LUXE collection prices.
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+
+        /* ================= BASIC STATE ================= */
+
+        let quantity = 1;
+
+        let selectedSize = "";
+
+        let currentProduct = null;
+
+
+        /* ================= GET PRODUCT ID ================= */
+
+        const urlParams =
+            new URLSearchParams(window.location.search);
+
+        const productNumber =
+            urlParams.get("product") || "2";
+
+
+        /* ================= IMAGE PATH ================= */
+
+        function getImagePath(imagePath) {
+
+            if (!imagePath) {
+                return "";
+            }
+
+            return imagePath.replace(
+                "image/",
+                "images/"
+            );
+        }
+
+
+        /* ================= LOAD PRODUCT ================= */
+
+        async function loadProduct() {
+
+            try {
+
+                const response =
+                    await fetch("/api/products");
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to connect to the product server."
+                    );
+
+                }
+
+
+                const result =
+                    await response.json();
+
+
+                if (!result.success) {
+
+                    throw new Error(
+                        result.message ||
+                        "Failed to load products."
+                    );
+
+                }
+
+
+                const product =
+                    result.products.find(
+                        function(item) {
+
+                            return String(item.id) ===
+                                String(productNumber);
+
+                        }
+                    );
+
+
+                if (!product) {
+
+                    throw new Error(
+                        "Product not found."
+                    );
+
+                }
+
+
+                currentProduct = {
+
+                    id: product.id,
+
+                    name: product.name,
+
+                    code:
+                        "WL-P" +
+                        String(product.id).padStart(3, "0"),
+
+                    type:
+                        product.category || "",
+
+                    price:
+                        Number(product.price),
+
+                    image:
+                        getImagePath(product.image),
+
+                    description:
+                        product.description || ""
+
+                };
+
+
+                displayProduct();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading product:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "productName"
+                ).textContent =
+                    "Unable to load product";
+
+
+                document.getElementById(
+                    "productDescription"
+                ).textContent =
+                    "Please refresh the page and try again.";
+
+            }
+
+        }
+
+
+        /* ================= DISPLAY PRODUCT ================= */
+
+        function displayProduct() {
+
+            if (!currentProduct) {
+                return;
+            }
+
+
+            const productImage =
+                document.getElementById(
+                    "productImage"
+                );
+
+
+            productImage.src =
+                currentProduct.image;
+
+
+            productImage.alt =
+                currentProduct.name;
+
+
+            document.getElementById(
+                "productType"
+            ).textContent =
+                currentProduct.type;
+
+
+            document.getElementById(
+                "productCode"
+            ).textContent =
+                "PRODUCT CODE: " +
+                currentProduct.code;
+
+
+            document.getElementById(
+                "productName"
+            ).textContent =
+                currentProduct.name;
+
+
+            document.getElementById(
+                "productPrice"
+            ).textContent =
+                "₦" +
+                currentProduct.price.toLocaleString();
+
+
+            document.getElementById(
+                "productDescription"
+            ).textContent =
+                currentProduct.description;
+
+        }
+
+
+        /* ================= SIZE ================= */
+
+        function selectSize(button) {
+
+            document.querySelectorAll(
+                ".size"
+            ).forEach(
+
+                function(sizeButton) {
+
+                    sizeButton.classList.remove(
+                        "selected"
+                    );
+
+                }
+
+            );
+
+
+            button.classList.add(
+                "selected"
+            );
+
+
+            selectedSize =
+                button.textContent.trim();
+
+
+            document.getElementById(
+                "selectedSize"
+            ).textContent =
+                "Selected size: " +
+                selectedSize;
+
+        }
+
+
+        /* ================= QUANTITY ================= */
+
+        function increaseQuantity() {
+
+            quantity++;
+
+
+            document.getElementById(
+                "quantity"
+            ).textContent =
+                quantity;
+
+        }
+
+
+        function decreaseQuantity() {
+
+            if (quantity > 1) {
+
+                quantity--;
+
+            }
+
+
+            document.getElementById(
+                "quantity"
+            ).textContent =
+                quantity;
+
+        }
+
+
+        /* ================= ADD TO CART ================= */
+
+        function addToCart() {
+
+            if (!currentProduct) {
+
+                alert(
+                    "Product is still loading. Please wait a moment."
+                );
+
+                return;
+
+            }
+
+
+            if (selectedSize === "") {
+
+                alert(
+                    "Please select a size first."
+                );
+
+                return;
+
+            }
+
+
+            const cartProduct = {
+
+                id:
+                    String(currentProduct.id),
+
+                name:
+                    currentProduct.name,
+
+                code:
+                    currentProduct.code,
+
+                type:
+                    currentProduct.type,
+
+                price:
+                    currentProduct.price,
+
+                image:
+                    currentProduct.image,
+
+                size:
+                    selectedSize,
+
+                quantity:
+                    quantity
+
+            };
+
+
+            let cart =
+                JSON.parse(
+                    localStorage.getItem(
+                        "wiseLuxeCart"
+                    )
+                ) || [];
+
+
+            cart.push(
+                cartProduct
+            );
+
+
+            localStorage.setItem(
+                "wiseLuxeCart",
+                JSON.stringify(cart)
+            );
+
+
+            alert(
+                currentProduct.name +
+                " (" +
+                currentProduct.code +
+                ")" +
+                " has been added to your cart!"
+            );
+
+
+            window.location.href =
+                "cart.html";
+
+        }
+
+
+        /* ================= START ================= */
+
+        loadProduct();
+
+
+    </script>
+
+
+</body>
+
+</html>

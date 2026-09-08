@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WISE LUXE | Your Cart</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #080808;
+            color: white;
+        }
+
+        nav {
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #292929;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: #d6b45a;
+            font-size: 24px;
+            letter-spacing: 4px;
+        }
+
+        .back {
+            color: #d6b45a;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .cart-page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 70px 6%;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .title h1 {
+            font-size: 42px;
+            font-weight: normal;
+            letter-spacing: 5px;
+        }
+
+        .gold-line {
+            width: 80px;
+            height: 2px;
+            background: #d6b45a;
+            margin: 20px auto;
+        }
+
+        .cart-container {
+            background: #111;
+            border: 1px solid #292929;
+            padding: 30px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 130px 1fr auto;
+            gap: 25px;
+            align-items: center;
+            padding: 25px 0;
+            border-bottom: 1px solid #292929;
+        }
+
+        .cart-item-image {
+            width: 130px;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-name {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .item-type {
+            color: #d6b45a;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .item-details {
+            color: #999;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .product-code {
+            color: #d6b45a;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .item-price {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #d6b45a;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        .item-actions {
+            text-align: right;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .quantity button {
+            width: 35px;
+            height: 35px;
+            background: transparent;
+            color: white;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .quantity span {
+            width: 40px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .remove {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+
+        .remove:hover {
+            color: #d6b45a;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 70px 20px;
+            display: none;
+        }
+
+        .empty-cart h2 {
+            font-weight: normal;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart p {
+            color: #888;
+            margin-bottom: 30px;
+            font-family: Arial, sans-serif;
+        }
+
+        .shop-button {
+            display: inline-block;
+            padding: 15px 30px;
+            border: 1px solid #d6b45a;
+            color: #d6b45a;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        .summary {
+            margin-top: 35px;
+            margin-left: auto;
+            max-width: 400px;
+            border-top: 1px solid #292929;
+            padding-top: 25px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .summary-total {
+            color: #d6b45a;
+            font-size: 18px;
+            padding-top: 15px;
+            border-top: 1px solid #292929;
+        }
+
+        .checkout {
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            padding: 17px;
+            background: #d6b45a;
+            color: #080808;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .checkout:hover {
+            background: white;
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                height: 70px;
+                padding: 0 5%;
+            }
+
+            .brand img {
+                width: 45px;
+                height: 45px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .cart-page {
+                padding: 50px 5%;
+            }
+
+            .title h1 {
+                font-size: 30px;
+            }
+
+            .cart-container {
+                padding: 20px;
+            }
+
+            .cart-item {
+                grid-template-columns: 90px 1fr;
+                gap: 15px;
+            }
+
+            .cart-item-image {
+                width: 90px;
+                height: 120px;
+            }
+
+            .item-actions {
+                grid-column: 2;
+                text-align: left;
+            }
+
+            .quantity {
+                justify-content: flex-start;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <div class="brand">
+
+            <img src="images/logo.png" alt="WISE LUXE">
+
+            <div class="brand-name">
+                WISE LUXE
+            </div>
+
+        </div>
+
+        <a href="index.html#collection" class="back">
+            ← CONTINUE SHOPPING
+        </a>
+
+    </nav>
+
+
+    <main class="cart-page">
+
+        <div class="title">
+
+            <h1>YOUR CART</h1>
+
+            <div class="gold-line"></div>
+
+        </div>
+
+
+        <div class="cart-container">
+
+            <div id="cartItems"></div>
+
+
+            <div class="empty-cart" id="emptyCart">
+
+                <h2>Your cart is empty</h2>
+
+                <p>
+                    Discover something special from the WISE LUXE collection.
+                </p>
+
+                <a href="index.html#collection" class="shop-button">
+                    EXPLORE COLLECTION
+                </a>
+
+            </div>
+
+
+            <div class="summary" id="summary">
+
+                <div class="summary-row">
+
+                    <span>Items</span>
+
+                    <span id="totalItems">0</span>
+
+                </div>
+
+
+                <div class="summary-row summary-total">
+
+                    <span>Total</span>
+
+                    <span id="cartTotal">₦0</span>
+
+                </div>
+
+
+                <a href="checkout.html" class="checkout">
+                    PROCEED TO CHECKOUT
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* ================= PRODUCT CODE ================= */
+
+        function getProductCode(item) {
+
+            const productId =
+                Number(item.id);
+
+            if (!productId || productId < 1 || productId > 30) {
+
+                return "WL-P000";
+
+            }
+
+            return "WL-P" +
+                String(productId).padStart(3, "0");
+
+        }
+
+
+        /* ================= PRICE SYSTEM ================= */
+
+        function getPrice(item) {
+
+            if (item.price) {
+                return Number(item.price);
+            }
+
+
+            const type =
+                (item.type || "").toLowerCase();
+
+
+            if (type.includes("vintage")) {
+                return 30000;
+            }
+
+            if (type.includes("kaftan")) {
+                return 45000;
+            }
+
+            if (type.includes("polo")) {
+                return 22000;
+            }
+
+            if (type.includes("couples")) {
+                return 85000;
+            }
+
+
+            return 0;
+
+        }
+
+
+        /* ================= CART ================= */
+
+        function getCart() {
+
+            return JSON.parse(
+                localStorage.getItem("wiseLuxeCart")
+            ) || [];
+
+        }
+
+
+        function saveCart(cart) {
+
+            localStorage.setItem(
+                "wiseLuxeCart",
+                JSON.stringify(cart)
+            );
+
+        }
+
+
+        /* ================= DISPLAY CART ================= */
+
+        function displayCart() {
+
+            const cart = getCart();
+
+            const cartItems =
+                document.getElementById("cartItems");
+
+            const emptyCart =
+                document.getElementById("emptyCart");
+
+            const summary =
+                document.getElementById("summary");
+
+            const totalItems =
+                document.getElementById("totalItems");
+
+            const cartTotal =
+                document.getElementById("cartTotal");
+
+
+            cartItems.innerHTML = "";
+
+
+            if (cart.length === 0) {
+
+                emptyCart.style.display = "block";
+                summary.style.display = "none";
+
+                return;
+
+            }
+
+
+            emptyCart.style.display = "none";
+            summary.style.display = "block";
+
+
+            let itemCount = 0;
+            let total = 0;
+
+
+            cart.forEach(function(item, index) {
+
+                const price = getPrice(item);
+
+                itemCount += Number(item.quantity);
+                total += price * Number(item.quantity);
+
+
+                const productCode =
+                    getProductCode(item);
+
+
+                const itemElement =
+                    document.createElement("div");
+
+
+                itemElement.className =
+                    "cart-item";
+
+
+                itemElement.innerHTML = `
+
+                    <div class="cart-item-image">
+
+                        <img
+                            src="${item.image}"
+                            alt="${item.name}"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="item-name">
+                            ${item.name}
+                        </div>
+
+                        <div class="item-type">
+                            ${item.type}
+                        </div>
+
+                        <div class="product-code">
+                            PRODUCT CODE: ${productCode}
+                        </div>
+
+                        <div class="item-details">
+
+                            Size: ${item.size}
+
+                            <br>
+
+                            Quantity: ${item.quantity}
+
+                        </div>
+
+                        <div class="item-price">
+
+                            ₦${price.toLocaleString()}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="item-actions">
+
+                        <div class="quantity">
+
+                            <button
+                                onclick="changeQuantity(${index}, -1)"
+                            >
+                                −
+                            </button>
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+                            <button
+                                onclick="changeQuantity(${index}, 1)"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+
+                        <button
+                            class="remove"
+                            onclick="removeItem(${index})"
+                        >
+                            REMOVE
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                cartItems.appendChild(itemElement);
+
+            });
+
+
+            totalItems.textContent =
+                itemCount;
+
+
+            cartTotal.textContent =
+                "₦" + total.toLocaleString();
+
+        }
+
+
+        /* ================= QUANTITY ================= */
+
+        function changeQuantity(index, amount) {
+
+            const cart = getCart();
+
+            cart[index].quantity =
+                Number(cart[index].quantity) + amount;
+
+
+            if (cart[index].quantity < 1) {
+
+                cart[index].quantity = 1;
+
+            }
+
+
+            saveCart(cart);
+
+            displayCart();
+
+        }
+
+
+        /* ================= REMOVE ================= */
+
+        function removeItem(index) {
+
+            const cart = getCart();
+
+            cart.splice(index, 1);
+
+            saveCart(cart);
+
+            displayCart();
+
+        }
+
+
+        /* ================= LOAD ================= */
+
+        displayCart();
+
+    </script>
+
+</body>
+</html>
+
