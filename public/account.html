@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,6 +168,7 @@
         <div id="loginSection">
 
             <label>Email Address</label>
+
             <input
                 type="email"
                 id="loginEmail"
@@ -174,6 +176,7 @@
             >
 
             <label>Password</label>
+
             <input
                 type="password"
                 id="loginPassword"
@@ -194,6 +197,7 @@
         <div id="signupSection" style="display:none;">
 
             <label>Full Name</label>
+
             <input
                 type="text"
                 id="signupName"
@@ -201,6 +205,7 @@
             >
 
             <label>Email Address</label>
+
             <input
                 type="email"
                 id="signupEmail"
@@ -208,6 +213,7 @@
             >
 
             <label>Password</label>
+
             <input
                 type="password"
                 id="signupPassword"
@@ -253,12 +259,14 @@
 
 
 <script>
+
+    /* ================= SUPABASE ================= */
+
     window.WISE_LUXE_SUPABASE_URL =
         "https://yazonvhwccylehtkkmiz.supabase.co";
 
     window.WISE_LUXE_SUPABASE_KEY =
-       "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984n";
-
+        "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984n";
 
     window.WISE_LUXE_CLIENT =
         window.supabase.createClient(
@@ -267,89 +275,187 @@
         );
 
 
+    /* ================= MESSAGE ================= */
+
     function showMessage(text) {
+
         document.getElementById("message").textContent = text;
+
     }
 
 
-    function showSignup() {
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("signupSection").style.display = "block";
-        document.getElementById("accountSection").style.display = "none";
+    /* ================= REDIRECT ================= */
 
-        document.getElementById("pageTitle").textContent = "CREATE ACCOUNT";
+    function redirectAfterLogin() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const returnPage =
+            params.get("return");
+
+        /*
+         * If the customer came from checkout,
+         * return them to checkout.
+         */
+
+        if (returnPage === "checkout") {
+
+            window.location.href =
+                "checkout.html";
+
+            return;
+        }
+
+        /*
+         * Otherwise send them to the
+         * WISE LUXE homepage.
+         */
+
+        window.location.href =
+            "index.html";
+    }
+
+
+    /* ================= SHOW SIGNUP ================= */
+
+    function showSignup() {
+
+        document.getElementById("loginSection").style.display =
+            "none";
+
+        document.getElementById("signupSection").style.display =
+            "block";
+
+        document.getElementById("accountSection").style.display =
+            "none";
+
+        document.getElementById("pageTitle").textContent =
+            "CREATE ACCOUNT";
 
         document.getElementById("pageSubtitle").textContent =
             "Join WISE LUXE and manage your orders anywhere";
 
         showMessage("");
+
     }
 
 
-    function showLogin() {
-        document.getElementById("signupSection").style.display = "none";
-        document.getElementById("loginSection").style.display = "block";
-        document.getElementById("accountSection").style.display = "none";
+    /* ================= SHOW LOGIN ================= */
 
-        document.getElementById("pageTitle").textContent = "MY ACCOUNT";
+    function showLogin() {
+
+        document.getElementById("signupSection").style.display =
+            "none";
+
+        document.getElementById("loginSection").style.display =
+            "block";
+
+        document.getElementById("accountSection").style.display =
+            "none";
+
+        document.getElementById("pageTitle").textContent =
+            "MY ACCOUNT";
 
         document.getElementById("pageSubtitle").textContent =
             "Login to your WISE LUXE account";
 
         showMessage("");
+
     }
 
+
+    /* ================= SIGNUP ================= */
 
     async function signup() {
 
         const name =
-            document.getElementById("signupName").value.trim();
+            document.getElementById("signupName")
+                .value
+                .trim();
 
         const email =
-            document.getElementById("signupEmail").value.trim();
+            document.getElementById("signupEmail")
+                .value
+                .trim();
 
         const password =
-            document.getElementById("signupPassword").value;
+            document.getElementById("signupPassword")
+                .value;
 
 
         if (!name || !email || !password) {
-            showMessage("Please fill in all fields.");
+
+            showMessage(
+                "Please fill in all fields."
+            );
+
             return;
         }
 
 
         if (password.length < 6) {
-            showMessage("Password must be at least 6 characters.");
+
+            showMessage(
+                "Password must be at least 6 characters."
+            );
+
             return;
         }
 
 
-        showMessage("Creating your account...");
+        showMessage(
+            "Creating your account..."
+        );
 
 
         try {
 
             const result =
                 await window.WISE_LUXE_CLIENT.auth.signUp({
+
                     email: email,
+
                     password: password,
+
                     options: {
+
                         data: {
                             full_name: name
                         }
+
                     }
+
                 });
 
 
             if (result.error) {
 
-                showMessage(result.error.message);
+                console.error(
+                    "SIGNUP ERROR:",
+                    result.error
+                );
+
+                showMessage(
+                    result.error.message
+                );
 
                 return;
             }
 
 
-            if (result.data.user && !result.data.session) {
+            /*
+             * If email confirmation is enabled,
+             * Supabase creates the account but
+             * does not create a login session yet.
+             */
+
+            if (
+                result.data.user &&
+                !result.data.session
+            ) {
 
                 showMessage(
                     "Account created. Please check your email to confirm your account."
@@ -359,132 +465,260 @@
             }
 
 
-            showMessage("Account created successfully.");
+            /*
+             * If Supabase gives us a session
+             * immediately, the customer is logged in.
+             */
+
+            showMessage(
+                "Account created successfully."
+            );
 
 
-            document.getElementById("signupName").value = "";
-            document.getElementById("signupEmail").value = "";
-            document.getElementById("signupPassword").value = "";
+            document.getElementById("signupName").value =
+                "";
+
+            document.getElementById("signupEmail").value =
+                "";
+
+            document.getElementById("signupPassword").value =
+                "";
 
 
             await loadAccount();
 
+
+            /*
+             * Send the customer to the correct
+             * destination after successful signup.
+             */
+
+            setTimeout(function() {
+
+                redirectAfterLogin();
+
+            }, 800);
+
+
         } catch (error) {
 
-            console.error("SIGNUP ERROR:", error);
+            console.error(
+                "SIGNUP ERROR:",
+                error
+            );
 
             showMessage(
                 error.message ||
                 "Something went wrong. Please try again."
             );
+
         }
+
     }
 
+
+    /* ================= LOGIN ================= */
 
     async function login() {
 
         const email =
-            document.getElementById("loginEmail").value.trim();
+            document.getElementById("loginEmail")
+                .value
+                .trim();
 
         const password =
-            document.getElementById("loginPassword").value;
+            document.getElementById("loginPassword")
+                .value;
 
 
         if (!email || !password) {
-            showMessage("Please enter your email and password.");
+
+            showMessage(
+                "Please enter your email and password."
+            );
+
             return;
         }
 
 
-        showMessage("Logging in...");
+        showMessage(
+            "Logging in..."
+        );
 
 
         try {
 
             const result =
-                await window.WISE_LUXE_CLIENT.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+                await window.WISE_LUXE_CLIENT.auth
+                    .signInWithPassword({
+
+                        email: email,
+
+                        password: password
+
+                    });
 
 
             if (result.error) {
 
-                showMessage(result.error.message);
+                console.error(
+                    "LOGIN ERROR:",
+                    result.error
+                );
+
+                showMessage(
+                    result.error.message
+                );
 
                 return;
             }
 
 
-            showMessage("Login successful.");
+            /*
+             * Login succeeded.
+             */
+
+            console.log(
+                "LOGIN SESSION:",
+                result.data.session
+            );
+
+
+            showMessage(
+                "Login successful."
+            );
+
+
+            /*
+             * Load the customer's account
+             * before redirecting.
+             */
 
             await loadAccount();
 
+
+            /*
+             * Redirect after successful login.
+             *
+             * checkout.html if the customer came
+             * from checkout.
+             *
+             * index.html for normal login.
+             */
+
+            setTimeout(function() {
+
+                redirectAfterLogin();
+
+            }, 800);
+
+
         } catch (error) {
 
-            console.error("LOGIN ERROR:", error);
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
 
             showMessage(
                 error.message ||
                 "Something went wrong. Please try again."
             );
+
         }
+
     }
 
+
+    /* ================= LOGOUT ================= */
 
     async function logout() {
 
         try {
 
             const result =
-                await window.WISE_LUXE_CLIENT.auth.signOut();
+                await window.WISE_LUXE_CLIENT.auth
+                    .signOut();
 
 
             if (result.error) {
 
-                showMessage(result.error.message);
+                showMessage(
+                    result.error.message
+                );
 
                 return;
             }
 
 
-            document.getElementById("accountSection").style.display =
-                "none";
-
-            document.getElementById("loginSection").style.display =
-                "block";
-
-            document.getElementById("signupSection").style.display =
-                "none";
+            document.getElementById(
+                "accountSection"
+            ).style.display = "none";
 
 
-            document.getElementById("pageTitle").textContent =
+            document.getElementById(
+                "loginSection"
+            ).style.display = "block";
+
+
+            document.getElementById(
+                "signupSection"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "pageTitle"
+            ).textContent =
                 "MY ACCOUNT";
 
-            document.getElementById("pageSubtitle").textContent =
+
+            document.getElementById(
+                "pageSubtitle"
+            ).textContent =
                 "Login to your WISE LUXE account";
 
 
-            showMessage("You have been logged out.");
+            document.getElementById(
+                "loginEmail"
+            ).value = "";
+
+
+            document.getElementById(
+                "loginPassword"
+            ).value = "";
+
+
+            showMessage(
+                "You have been logged out."
+            );
+
 
         } catch (error) {
 
-            console.error("LOGOUT ERROR:", error);
+            console.error(
+                "LOGOUT ERROR:",
+                error
+            );
 
             showMessage(
                 error.message ||
                 "Something went wrong while logging out."
             );
+
         }
+
     }
 
+
+    /* ================= LOAD ACCOUNT ================= */
 
     async function loadAccount() {
 
         try {
 
             const result =
-                await window.WISE_LUXE_CLIENT.auth.getUser();
+                await window.WISE_LUXE_CLIENT.auth
+                    .getUser();
 
 
             if (result.error) {
@@ -498,47 +732,80 @@
             }
 
 
-            if (!result.data || !result.data.user) {
+            if (
+                !result.data ||
+                !result.data.user
+            ) {
+
                 return;
             }
 
 
-            const user = result.data.user;
+            const user =
+                result.data.user;
 
 
-            document.getElementById("loginSection").style.display =
+            document.getElementById(
+                "loginSection"
+            ).style.display =
                 "none";
 
-            document.getElementById("signupSection").style.display =
+
+            document.getElementById(
+                "signupSection"
+            ).style.display =
                 "none";
 
-            document.getElementById("accountSection").style.display =
+
+            document.getElementById(
+                "accountSection"
+            ).style.display =
                 "block";
 
 
-            document.getElementById("pageTitle").textContent =
+            document.getElementById(
+                "pageTitle"
+            ).textContent =
                 "MY ACCOUNT";
 
-            document.getElementById("pageSubtitle").textContent =
+
+            document.getElementById(
+                "pageSubtitle"
+            ).textContent =
                 "Your WISE LUXE account";
 
 
-            document.getElementById("accountEmail").textContent =
+            document.getElementById(
+                "accountEmail"
+            ).textContent =
                 user.email || "";
 
 
-            document.getElementById("accountName").textContent =
+            document.getElementById(
+                "accountName"
+            ).textContent =
+
                 user.user_metadata &&
                 user.user_metadata.full_name
+
                     ? user.user_metadata.full_name
+
                     : "Customer";
+
 
         } catch (error) {
 
-            console.error("ACCOUNT ERROR:", error);
+            console.error(
+                "ACCOUNT ERROR:",
+                error
+            );
+
         }
+
     }
 
+
+    /* ================= INITIAL CHECK ================= */
 
     loadAccount();
 
@@ -546,3 +813,4 @@
 
 </body>
 </html>
+
