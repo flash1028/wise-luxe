@@ -427,15 +427,55 @@ function saveLocalOrders(orders) {
 ========================================================= */
 
 async function getServerOrders() {
-document.getElementById("syncMessage").textContent =
-    "Order History JavaScript is running...";
+
+    const supabaseUrl =
+        "https://yazonvhwccylehtkkmiz.supabase.co";
+
+    const supabaseKey =
+        "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984n";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            supabaseUrl,
+            supabaseKey
+        );
+
+    const {
+        data: sessionData,
+        error: sessionError
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if (
+        sessionError ||
+        !sessionData ||
+        !sessionData.session
+    ) {
+
+        throw new Error(
+            "Please log in to view your order history."
+        );
+
+    }
+
+
+    const accessToken =
+        sessionData.session.access_token;
+
+
     const response =
         await fetch(
-            "/api/orders?t=" +
+            "/api/customer-orders?t=" +
             Date.now(),
             {
                 method: "GET",
-                cache: "no-store"
+                cache: "no-store",
+                headers: {
+                    "Authorization":
+                        "Bearer " +
+                        accessToken
+                }
             }
         );
 
@@ -472,7 +512,6 @@ document.getElementById("syncMessage").textContent =
         : [];
 
 }
-
 
 /* =========================================================
    SYNCHRONIZE ORDERS WITH SUPABASE
