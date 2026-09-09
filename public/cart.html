@@ -451,24 +451,166 @@
 
         /* ================= CART ================= */
 
-        function getCart() {
+       function getCart() {
 
-            return JSON.parse(
-                localStorage.getItem("wiseLuxeCart")
-            ) || [];
+    return JSON.parse(
+        localStorage.getItem("wiseLuxeCart")
+    ) || [];
+
+}
+
+
+function saveCart(cart) {
+
+    localStorage.setItem(
+        "wiseLuxeCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+/* =========================================
+   LOAD CUSTOMER CART FROM SERVER
+========================================= */
+
+async function loadOnlineCart() {
+
+    try {
+
+        if (
+            !window.WISE_LUXE_CLIENT
+        ) {
+
+            return;
 
         }
 
 
-        function saveCart(cart) {
+        const {
+            data: sessionData
+        } =
+            await window.WISE_LUXE_CLIENT
+                .auth
+                .getSession();
 
-            localStorage.setItem(
-                "wiseLuxeCart",
-                JSON.stringify(cart)
+
+        const session =
+            sessionData.session;
+
+
+        if (!session) {
+
+            return;
+
+        }
+
+
+        const response =
+            await fetch(
+                "/api/cart",
+                {
+
+                    method:
+                        "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " +
+                            session.access_token
+
+                    }
+
+                }
             );
 
+
+        const result =
+            await response.json();
+
+
+        if (
+            !result.success ||
+            !Array.isArray(result.cart)
+        ) {
+
+            return;
+
         }
 
+
+        /* =====================================
+           CONVERT ONLINE CART TO WEBSITE FORMAT
+        ===================================== */
+
+        const onlineCart =
+            result.cart.map(
+                function(item) {
+
+                    return {
+
+                        id:
+                            String(
+                                item.product_id
+                            ),
+
+                        name:
+                            item.product_name,
+
+                        code:
+                            item.product_code,
+
+                        type:
+                            item.product_type,
+
+                        price:
+                            Number(
+                                item.price
+                            ) || 0,
+
+                        image:
+                            item.product_image,
+
+                        size:
+                            item.size,
+
+                        quantity:
+                            Number(
+                                item.quantity
+                            ) || 1,
+
+                        serverId:
+                            item.id
+
+                    };
+
+                }
+            );
+
+
+        /* =====================================
+           USE ONLINE CART
+        ===================================== */
+
+        saveCart(
+            onlineCart
+        );
+
+
+        displayCart();
+
+
+    } catch (error) {
+
+        console.error(
+            "ONLINE CART LOAD ERROR:",
+            error
+        );
+
+    }
+
+}
 
         /* ================= DISPLAY CART ================= */
 
@@ -629,48 +771,193 @@
 
 
         /* ================= QUANTITY ================= */
+/* ================= QUANTITY ================= */
 
-        function changeQuantity(index, amount) {
+async function changeQuantity(index, amount) {
 
-            const cart = getCart();
+    const cart = getCart();
 
-            cart[index].quantity =
-                Number(cart[index].quantity) + amount;
+    if (!cart[index]) {
+        return;
+    }
 
 
-            if (cart[index].quantity < 1) {
+    cart[index].quantity =
+        Number(cart[index].quantity) + amount;
 
-                cart[index].quantity = 1;
+
+    if (cart[index].quantity < 1) {
+
+        cart[index].quantity = 1;
+
+    }
+
+
+    saveCart(cart);
+
+    displayCart();
+
+
+    /* =========================================
+       UPDATE ONLINE CART
+    ========================================= */
+
+    try {
+
+        if (
+            cart[index].serverId &&
+            window.WISE_LUXE_CLIENT
+        ) {
+
+            const {
+                data: sessionData
+            } =
+                await window.WISE_LUXE_CLIENT
+                    .auth
+                    .getSession();
+
+
+            const session =
+                sessionData.session;
+
+
+            if (session) {
+
+                await fetch(
+                    "/api/cart/" +
+                    cart[index].serverId,
+                    {
+
+                        method:
+                            "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " +
+                                session.access_token
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                quantity:
+                                    cart[index].quantity
+
+                            })
+
+                    }
+                );
 
             }
 
+        }
 
-            saveCart(cart);
+    } catch (error) {
 
-            displayCart();
+        console.error(
+            "ONLINE CART QUANTITY UPDATE ERROR:",
+            error
+        );
+
+    }
+
+}
+
+      /* ================= REMOVE ================= */
+
+async function removeItem(index) {
+
+    const cart = getCart();
+
+    if (!cart[index]) {
+        return;
+    }
+
+
+    const item =
+        cart[index];
+
+
+    /* =========================================
+       REMOVE FROM LOCAL CART
+    ========================================= */
+
+    cart.splice(index, 1);
+
+    saveCart(cart);
+
+    displayCart();
+
+
+    /* =========================================
+       REMOVE FROM ONLINE CART
+    ========================================= */
+
+    try {
+
+        if (
+            item.serverId &&
+            window.WISE_LUXE_CLIENT
+        ) {
+
+            const {
+                data: sessionData
+            } =
+                await window.WISE_LUXE_CLIENT
+                    .auth
+                    .getSession();
+
+
+            const session =
+                sessionData.session;
+
+
+            if (session) {
+
+                await fetch(
+                    "/api/cart/" +
+                    item.serverId,
+                    {
+
+                        method:
+                            "DELETE",
+
+                        headers: {
+
+                            "Authorization":
+                                "Bearer " +
+                                session.access_token
+
+                        }
+
+                    }
+                );
+
+            }
 
         }
 
+    } catch (error) {
 
-        /* ================= REMOVE ================= */
+        console.error(
+            "ONLINE CART REMOVE ERROR:",
+            error
+        );
 
-        function removeItem(index) {
+    }
 
-            const cart = getCart();
+}
 
-            cart.splice(index, 1);
+      /* ================= LOAD ================= */
 
-            saveCart(cart);
+displayCart();
 
-            displayCart();
-
-        }
-
-
-        /* ================= LOAD ================= */
-
-        displayCart();
-
+loadOnlineCart();
     </script>
 
 </body>

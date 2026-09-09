@@ -657,96 +657,191 @@
 
         }
 
+/* ================= ADD TO CART ================= */
 
-        /* ================= ADD TO CART ================= */
+async function addToCart() {
 
-        function addToCart() {
+    if (!currentProduct) {
 
-            if (!currentProduct) {
+        alert(
+            "Product is still loading. Please wait a moment."
+        );
 
-                alert(
-                    "Product is still loading. Please wait a moment."
+        return;
+
+    }
+
+
+    if (selectedSize === "") {
+
+        alert(
+            "Please select a size first."
+        );
+
+        return;
+
+    }
+
+
+    const cartProduct = {
+
+        id:
+            String(currentProduct.id),
+
+        name:
+            currentProduct.name,
+
+        code:
+            currentProduct.code,
+
+        type:
+            currentProduct.type,
+
+        price:
+            currentProduct.price,
+
+        image:
+            currentProduct.image,
+
+        size:
+            selectedSize,
+
+        quantity:
+            quantity
+
+    };
+
+
+    /* =========================================
+       ALWAYS SAVE LOCALLY
+       This keeps the cart working normally.
+    ========================================= */
+
+    let cart =
+        JSON.parse(
+            localStorage.getItem(
+                "wiseLuxeCart"
+            )
+        ) || [];
+
+
+    cart.push(
+        cartProduct
+    );
+
+
+    localStorage.setItem(
+        "wiseLuxeCart",
+        JSON.stringify(cart)
+    );
+
+
+    /* =========================================
+       SAVE TO CUSTOMER'S ONLINE CART
+       ONLY IF LOGGED IN
+    ========================================= */
+
+    try {
+
+        if (
+            window.WISE_LUXE_CLIENT
+        ) {
+
+            const {
+                data: sessionData
+            } =
+                await window.WISE_LUXE_CLIENT
+                    .auth
+                    .getSession();
+
+
+            const session =
+                sessionData.session;
+
+
+            if (session) {
+
+                await fetch(
+                    "/api/cart",
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " +
+                                session.access_token
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                productId:
+                                    Number(
+                                        currentProduct.id
+                                    ),
+
+                                productName:
+                                    currentProduct.name,
+
+                                productImage:
+                                    currentProduct.image,
+
+                                size:
+                                    selectedSize,
+
+                                quantity:
+                                    quantity,
+
+                                productType:
+                                    currentProduct.type,
+
+                                productCode:
+                                    currentProduct.code,
+
+                                price:
+                                    Number(
+                                        currentProduct.price
+                                    ) || 0
+
+                            })
+
+                    }
                 );
 
-                return;
-
             }
-
-
-            if (selectedSize === "") {
-
-                alert(
-                    "Please select a size first."
-                );
-
-                return;
-
-            }
-
-
-            const cartProduct = {
-
-                id:
-                    String(currentProduct.id),
-
-                name:
-                    currentProduct.name,
-
-                code:
-                    currentProduct.code,
-
-                type:
-                    currentProduct.type,
-
-                price:
-                    currentProduct.price,
-
-                image:
-                    currentProduct.image,
-
-                size:
-                    selectedSize,
-
-                quantity:
-                    quantity
-
-            };
-
-
-            let cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "wiseLuxeCart"
-                    )
-                ) || [];
-
-
-            cart.push(
-                cartProduct
-            );
-
-
-            localStorage.setItem(
-                "wiseLuxeCart",
-                JSON.stringify(cart)
-            );
-
-
-            alert(
-                currentProduct.name +
-                " (" +
-                currentProduct.code +
-                ")" +
-                " has been added to your cart!"
-            );
-
-
-            window.location.href =
-                "cart.html";
 
         }
 
+    } catch (error) {
 
+        console.error(
+            "ONLINE CART SYNC ERROR:",
+            error
+        );
+
+    }
+
+
+    alert(
+        currentProduct.name +
+        " (" +
+        currentProduct.code +
+        ")" +
+        " has been added to your cart!"
+    );
+
+
+    window.location.href =
+        "cart.html";
+
+}
         /* ================= START ================= */
 
         loadProduct();
