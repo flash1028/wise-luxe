@@ -4,45 +4,96 @@ const fs = require("fs");
 const basicAuth = require("express-basic-auth");
 
 require("dotenv").config();
-const { createClient } = require("@supabase/supabase-js");
+
+const { createClient } =
+    require("@supabase/supabase-js");
+
+
+/* =========================================================
+   APP
+========================================================= */
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_PUBLISHABLE_KEY
+const PORT =
+    process.env.PORT || 3000;
+
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const supabase =
+    createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+/* =========================================================
+   FILE LOCATIONS
+========================================================= */
+
+const publicFolder =
+    path.join(
+        __dirname,
+        "public"
+    );
+
+const ordersFile =
+    path.join(
+        __dirname,
+        "orders.json"
+    );
+
+
+/* =========================================================
+   MIDDLEWARE
+========================================================= */
+
+app.use(
+    express.json()
 );
-/* ================= FILE LOCATIONS ================= */
-
-const publicFolder = path.join(__dirname, "public");
-const ordersFile = path.join(__dirname, "orders.json");
 
 
-/* ================= MIDDLEWARE ================= */
-
-app.use(express.json());
 app.use(
     "/owner-dashboard.html",
     basicAuth({
         users: {
-            owner: process.env.OWNER_PASSWORD
+            owner:
+                process.env.OWNER_PASSWORD
         },
         challenge: true
     })
 );
-app.use(express.static(publicFolder));
 
 
-/* ================= CREATE ORDERS FILE ================= */
+app.use(
+    express.static(
+        publicFolder
+    )
+);
+
+
+/* =========================================================
+   CREATE ORDERS FILE
+========================================================= */
 
 function makeOrdersFile() {
 
-    if (!fs.existsSync(ordersFile)) {
+    if (
+        !fs.existsSync(
+            ordersFile
+        )
+    ) {
 
         fs.writeFileSync(
             ordersFile,
-            JSON.stringify([], null, 2)
+            JSON.stringify(
+                [],
+                null,
+                2
+            )
         );
 
     }
@@ -52,7 +103,9 @@ function makeOrdersFile() {
 makeOrdersFile();
 
 
-/* ================= READ ORDERS ================= */
+/* =========================================================
+   READ ORDERS
+========================================================= */
 
 function getOrders() {
 
@@ -64,7 +117,9 @@ function getOrders() {
                 "utf8"
             );
 
-        return JSON.parse(data);
+        return JSON.parse(
+            data
+        );
 
     } catch (error) {
 
@@ -80,9 +135,13 @@ function getOrders() {
 }
 
 
-/* ================= SAVE ORDERS ================= */
+/* =========================================================
+   SAVE ORDERS
+========================================================= */
 
-function saveOrders(orders) {
+function saveOrders(
+    orders
+) {
 
     fs.writeFileSync(
         ordersFile,
@@ -94,19 +153,166 @@ function saveOrders(orders) {
     );
 
 }
-/* ================= GET PRODUCTS FROM SUPABASE ================= */
+
+
+/* =========================================================
+   OWNER AUTH
+========================================================= */
+
+const ownerAuth =
+    basicAuth({
+        users: {
+            owner:
+                process.env.OWNER_PASSWORD
+        },
+        challenge: true
+    });
+
+
+/* =========================================================
+   VERIFY CUSTOMER AUTHENTICATION
+========================================================= */
+
+async function getAuthenticatedCustomer(
+    req
+) {
+
+    try {
+
+        const authHeader =
+            req.headers.authorization || "";
+
+
+        /* -----------------------------------------
+           CHECK AUTHORIZATION HEADER
+        ----------------------------------------- */
+
+        if (
+            !authHeader.startsWith(
+                "Bearer "
+            )
+        ) {
+
+            return {
+                success: false,
+                status: 401,
+                message:
+                    "You must be logged in to place an order."
+            };
+
+        }
+
+
+        const accessToken =
+            authHeader
+                .replace(
+                    "Bearer ",
+                    ""
+                )
+                .trim();
+
+
+        if (!accessToken) {
+
+            return {
+                success: false,
+                status: 401,
+                message:
+                    "Invalid login session."
+            };
+
+        }
+
+
+        /* -----------------------------------------
+           ASK SUPABASE WHO OWNS THIS TOKEN
+        ----------------------------------------- */
+
+        const {
+            data,
+            error
+        } =
+            await supabase.auth.getUser(
+                accessToken
+            );
+
+
+        if (
+            error ||
+            !data ||
+            !data.user
+        ) {
+
+            console.error(
+                "CUSTOMER AUTHENTICATION FAILED:",
+                error
+            );
+
+            return {
+                success: false,
+                status: 401,
+                message:
+                    "Your login session is invalid or expired."
+            };
+
+        }
+
+
+        /* -----------------------------------------
+           AUTHENTICATED CUSTOMER
+        ----------------------------------------- */
+
+        return {
+            success: true,
+            user: data.user
+        };
+
+
+    } catch (error) {
+
+        console.error(
+            "AUTHENTICATION CHECK ERROR:",
+            error
+        );
+
+        return {
+            success: false,
+            status: 401,
+            message:
+                "Unable to verify your login session."
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   GET PRODUCTS FROM SUPABASE
+========================================================= */
 
 app.get(
     "/api/products",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const { data, error } =
+            const {
+                data,
+                error
+            } =
                 await supabase
                     .from("products")
                     .select("*")
-                    .order("id", { ascending: true });
+                    .order(
+                        "id",
+                        {
+                            ascending: true
+                        }
+                    );
 
 
             if (error) {
@@ -116,11 +322,15 @@ app.get(
                     error
                 );
 
-                return res.status(500).json({
+                return res.status(
+                    500
+                ).json({
 
                     success: false,
-message:
-    error.message
+
+                    message:
+                        error.message
+
                 });
 
             }
@@ -135,6 +345,7 @@ message:
 
             });
 
+
         } catch (error) {
 
             console.error(
@@ -142,8 +353,9 @@ message:
                 error
             );
 
-
-            res.status(500).json({
+            res.status(
+                500
+            ).json({
 
                 success: false,
 
@@ -157,23 +369,80 @@ message:
     }
 );
 
-/* ================= RECEIVE NEW ORDER ================= */
+
+/* =========================================================
+   RECEIVE NEW ORDER
+   AUTHENTICATION REQUIRED
+========================================================= */
 
 app.post(
     "/api/orders",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
+
+            /* -----------------------------------------
+               VERIFY CUSTOMER FIRST
+            ----------------------------------------- */
+
+            const auth =
+                await getAuthenticatedCustomer(
+                    req
+                );
+
+
+            if (
+                !auth.success
+            ) {
+
+                return res.status(
+                    auth.status
+                ).json({
+
+                    success: false,
+
+                    message:
+                        auth.message
+
+                });
+
+            }
+
+
+            /* -----------------------------------------
+               THIS IS THE REAL SUPABASE USER
+            ----------------------------------------- */
+
+            const authenticatedUser =
+                auth.user;
+
+
+            const authenticatedCustomerId =
+                authenticatedUser.id;
+
+
+            console.log(
+                "AUTHENTICATED CUSTOMER:",
+                authenticatedCustomerId
+            );
+
+
+            /* -----------------------------------------
+               GET ORDER
+            ----------------------------------------- */
 
             const order =
                 req.body;
 
 
-            /* CHECK ORDER */
-
             if (!order) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
                     success: false,
 
@@ -185,9 +454,13 @@ app.post(
             }
 
 
-            if (!order.orderNumber) {
+            if (
+                !order.orderNumber
+            ) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
                     success: false,
 
@@ -199,13 +472,23 @@ app.post(
             }
 
 
-            /* CHECK IF ORDER ALREADY EXISTS */
+            /* -----------------------------------------
+               CHECK IF ORDER ALREADY EXISTS
+            ----------------------------------------- */
 
-            const { data: existingOrder, error: checkError } =
+            const {
+                data: existingOrder,
+                error: checkError
+            } =
                 await supabase
                     .from("orders")
-                    .select("id, order_number")
-                    .eq("order_number", order.orderNumber)
+                    .select(
+                        "id, order_number"
+                    )
+                    .eq(
+                        "order_number",
+                        order.orderNumber
+                    )
                     .maybeSingle();
 
 
@@ -216,7 +499,9 @@ app.post(
                     checkError
                 );
 
-                return res.status(500).json({
+                return res.status(
+                    500
+                ).json({
 
                     success: false,
 
@@ -228,7 +513,9 @@ app.post(
             }
 
 
-            if (existingOrder) {
+            if (
+                existingOrder
+            ) {
 
                 return res.json({
 
@@ -245,9 +532,18 @@ app.post(
             }
 
 
-            /* SAVE ORDER TO SUPABASE */
+            /* -----------------------------------------
+               SAVE ORDER
+               
+               IMPORTANT:
+               customer_id comes from Supabase
+               authentication, NOT the browser.
+            ----------------------------------------- */
 
-            const { data, error } =
+            const {
+                data,
+                error
+            } =
                 await supabase
                     .from("orders")
                     .insert({
@@ -255,38 +551,54 @@ app.post(
                         order_number:
                             order.orderNumber,
 
-                       customer_name:
-    order.customer?.name || "",
+                        customer_id:
+                            authenticatedCustomerId,
 
-phone:
-    order.customer?.phone || "",
+                        customer_name:
+                            order.customer?.name ||
+                            "",
 
-email:
-    order.customer?.email || "",
+                        phone:
+                            order.customer?.phone ||
+                            "",
 
-delivery_address:
-    order.customer?.address || "",
+                        email:
+                            order.customer?.email ||
+                            authenticatedUser.email ||
+                            "",
 
-city:
-    order.customer?.city || "",
+                        delivery_address:
+                            order.customer?.address ||
+                            "",
 
-state:
-    order.customer?.state || "",
+                        city:
+                            order.customer?.city ||
+                            "",
+
+                        state:
+                            order.customer?.state ||
+                            "",
 
                         items:
-                            order.items || [],
+                            order.items ||
+                            [],
 
                         total:
-                            Number(order.total) || 0,
+                            Number(
+                                order.total
+                            ) || 0,
 
                         payment_method:
-                            order.paymentMethod || "",
+                            order.paymentMethod ||
+                            "WhatsApp",
 
                         status:
-                            order.status || "Pending",
+                            order.status ||
+                            "Pending",
 
                         delivered_date:
-                            order.deliveredDate || null
+                            order.deliveredDate ||
+                            null
 
                     })
                     .select()
@@ -300,7 +612,9 @@ state:
                     error
                 );
 
-                return res.status(500).json({
+                return res.status(
+                    500
+                ).json({
 
                     success: false,
 
@@ -313,8 +627,13 @@ state:
 
 
             console.log(
-                "NEW WISE LUXE ORDER SAVED TO SUPABASE:",
+                "NEW WISE LUXE ORDER SAVED:",
                 order.orderNumber
+            );
+
+            console.log(
+                "CUSTOMER ID:",
+                authenticatedCustomerId
             );
 
 
@@ -333,6 +652,7 @@ state:
 
             });
 
+
         } catch (error) {
 
             console.error(
@@ -340,8 +660,9 @@ state:
                 error
             );
 
-
-            res.status(500).json({
+            res.status(
+                500
+            ).json({
 
                 success: false,
 
@@ -354,111 +675,173 @@ state:
 
     }
 );
-/* ================= GET ALL ORDERS ================= */
-const ownerAuth = basicAuth({
-    users: {
-        owner: process.env.OWNER_PASSWORD
-    },
-    challenge: true
-});
+
+
+/* =========================================================
+   GET CUSTOMER ORDERS
+========================================================= */
+
 app.get(
-    "/api/orders",
-    ownerAuth,
-    async (req, res) => {
+    "/api/customer-orders",
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
-            const { data, error } =
-                await supabase
-                    .from("orders")
-                    .select("*")
-                    .order("created_at", {
-                        ascending: false
-                    });
+            /* -----------------------------------------
+               VERIFY CUSTOMER
+            ----------------------------------------- */
 
-            if (error) {
-
-                console.error(
-                    "Supabase orders error:",
-                    error
+            const auth =
+                await getAuthenticatedCustomer(
+                    req
                 );
 
-                return res.status(500).json({
+
+            if (
+                !auth.success
+            ) {
+
+                return res.status(
+                    auth.status
+                ).json({
 
                     success: false,
 
                     message:
-                        error.message
+                        auth.message
 
                 });
 
             }
 
-            const orders =
-                data.map(function(order) {
 
-                    return {
+            const customerId =
+                auth.user.id;
 
-                        orderNumber:
-                            order.order_number,
 
-                        date:
-                            order.created_at
-                                ? new Date(
-                                    order.created_at
-                                ).toLocaleString()
-                                : "N/A",
+            /* -----------------------------------------
+               GET ONLY THIS CUSTOMER'S ORDERS
+            ----------------------------------------- */
 
-                        status:
-                            order.status ||
-                            "ORDER RECEIVED",
+            const {
+                data,
+                error
+            } =
+                await supabase
+                    .from("orders")
+                    .select("*")
+                    .eq(
+                        "customer_id",
+                        customerId
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    );
 
-                        deliveredDate:
-                            order.delivered_date
-                                ? new Date(
-                                    order.delivered_date
-                                ).toLocaleString()
-                                : "",
 
-                        customer: {
+            if (error) {
 
-                            name:
-                                order.customer_name ||
-                                "",
+                console.error(
+                    "CUSTOMER ORDERS ERROR:",
+                    error
+                );
 
-                            phone:
-                                order.phone ||
-                                "",
+                return res.status(
+                    500
+                ).json({
 
-                            email:
-                                order.email ||
-                                "",
+                    success: false,
 
-                            address:
-                                order.delivery_address ||
-                                "",
-
-                            city:
-                                order.city ||
-                                "",
-
-                            state:
-                                order.state ||
-                                ""
-
-                        },
-
-                        items:
-                            Array.isArray(order.items)
-                                ? order.items
-                                : [],
-
-                        total:
-                            Number(order.total) || 0
-
-                    };
+                    message:
+                        "Could not load your orders."
 
                 });
+
+            }
+
+
+            /* -----------------------------------------
+               FORMAT ORDERS
+            ----------------------------------------- */
+
+            const orders =
+                data.map(
+                    function(order) {
+
+                        return {
+
+                            orderNumber:
+                                order.order_number,
+
+                            date:
+                                order.created_at
+                                    ? new Date(
+                                        order.created_at
+                                    ).toLocaleString()
+                                    : "N/A",
+
+                            status:
+                                order.status ||
+                                "ORDER RECEIVED",
+
+                            deliveredDate:
+                                order.delivered_date
+                                    ? new Date(
+                                        order.delivered_date
+                                    ).toLocaleString()
+                                    : "",
+
+                            customer: {
+
+                                name:
+                                    order.customer_name ||
+                                    "",
+
+                                phone:
+                                    order.phone ||
+                                    "",
+
+                                email:
+                                    order.email ||
+                                    "",
+
+                                address:
+                                    order.delivery_address ||
+                                    "",
+
+                                city:
+                                    order.city ||
+                                    "",
+
+                                state:
+                                    order.state ||
+                                    ""
+
+                            },
+
+                            items:
+                                Array.isArray(
+                                    order.items
+                                )
+                                    ? order.items
+                                    : [],
+
+                            total:
+                                Number(
+                                    order.total
+                                ) || 0
+
+                        };
+
+                    }
+                );
+
 
             res.json({
 
@@ -469,6 +852,165 @@ app.get(
 
             });
 
+
+        } catch (error) {
+
+            console.error(
+                "ERROR LOADING CUSTOMER ORDERS:",
+                error
+            );
+
+            res.status(
+                500
+            ).json({
+
+                success: false,
+
+                message:
+                    "Server error while loading your orders."
+
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   GET ALL ORDERS
+   OWNER ONLY
+========================================================= */
+
+app.get(
+    "/api/orders",
+    ownerAuth,
+    async (
+        req,
+        res
+    ) => {
+
+        try {
+
+            const {
+                data,
+                error
+            } =
+                await supabase
+                    .from("orders")
+                    .select("*")
+                    .order(
+                        "created_at",
+                        {
+                            ascending: false
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(
+                    "Supabase orders error:",
+                    error
+                );
+
+                return res.status(
+                    500
+                ).json({
+
+                    success: false,
+
+                    message:
+                        error.message
+
+                });
+
+            }
+
+
+            const orders =
+                data.map(
+                    function(order) {
+
+                        return {
+
+                            orderNumber:
+                                order.order_number,
+
+                            date:
+                                order.created_at
+                                    ? new Date(
+                                        order.created_at
+                                    ).toLocaleString()
+                                    : "N/A",
+
+                            status:
+                                order.status ||
+                                "ORDER RECEIVED",
+
+                            deliveredDate:
+                                order.delivered_date
+                                    ? new Date(
+                                        order.delivered_date
+                                    ).toLocaleString()
+                                    : "",
+
+                            customer: {
+
+                                name:
+                                    order.customer_name ||
+                                    "",
+
+                                phone:
+                                    order.phone ||
+                                    "",
+
+                                email:
+                                    order.email ||
+                                    "",
+
+                                address:
+                                    order.delivery_address ||
+                                    "",
+
+                                city:
+                                    order.city ||
+                                    "",
+
+                                state:
+                                    order.state ||
+                                    ""
+
+                            },
+
+                            items:
+                                Array.isArray(
+                                    order.items
+                                )
+                                    ? order.items
+                                    : [],
+
+                            total:
+                                Number(
+                                    order.total
+                                ) || 0
+
+                        };
+
+                    }
+                );
+
+
+            res.json({
+
+                success: true,
+
+                orders:
+                    orders
+
+            });
+
+
         } catch (error) {
 
             console.error(
@@ -476,7 +1018,9 @@ app.get(
                 error
             );
 
-            res.status(500).json({
+            res.status(
+                500
+            ).json({
 
                 success: false,
 
@@ -489,24 +1033,36 @@ app.get(
 
     }
 );
-/* ================= UPDATE ORDER ================= */
+
+
+/* =========================================================
+   UPDATE ORDER
+   OWNER ONLY
+========================================================= */
 
 app.put(
     "/api/orders/:orderNumber",
     ownerAuth,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
 
         try {
 
             const orderNumber =
                 req.params.orderNumber;
 
+
             const newStatus =
                 req.body.status;
 
+
             if (!newStatus) {
 
-                return res.status(400).json({
+                return res.status(
+                    400
+                ).json({
 
                     success: false,
 
@@ -517,14 +1073,24 @@ app.put(
 
             }
 
-            /* FIND ORDER IN SUPABASE */
 
-            const { data: existingOrder, error: findError } =
+            /* -----------------------------------------
+               FIND ORDER
+            ----------------------------------------- */
+
+            const {
+                data: existingOrder,
+                error: findError
+            } =
                 await supabase
                     .from("orders")
                     .select("*")
-                    .eq("order_number", orderNumber)
+                    .eq(
+                        "order_number",
+                        orderNumber
+                    )
                     .maybeSingle();
+
 
             if (findError) {
 
@@ -533,7 +1099,9 @@ app.put(
                     findError
                 );
 
-                return res.status(500).json({
+                return res.status(
+                    500
+                ).json({
 
                     success: false,
 
@@ -544,9 +1112,12 @@ app.put(
 
             }
 
+
             if (!existingOrder) {
 
-                return res.status(404).json({
+                return res.status(
+                    404
+                ).json({
 
                     success: false,
 
@@ -557,7 +1128,10 @@ app.put(
 
             }
 
-            /* UPDATE ORDER */
+
+            /* -----------------------------------------
+               UPDATE
+            ----------------------------------------- */
 
             const updateData = {
 
@@ -566,20 +1140,35 @@ app.put(
 
             };
 
-            if (newStatus === "DELIVERED") {
+
+            if (
+                newStatus ===
+                "DELIVERED"
+            ) {
 
                 updateData.delivered_date =
-                    new Date().toISOString();
+                    new Date()
+                        .toISOString();
 
             }
 
-            const { data: updatedOrder, error: updateError } =
+
+            const {
+                data: updatedOrder,
+                error: updateError
+            } =
                 await supabase
                     .from("orders")
-                    .update(updateData)
-                    .eq("order_number", orderNumber)
+                    .update(
+                        updateData
+                    )
+                    .eq(
+                        "order_number",
+                        orderNumber
+                    )
                     .select()
                     .single();
+
 
             if (updateError) {
 
@@ -588,7 +1177,9 @@ app.put(
                     updateError
                 );
 
-                return res.status(500).json({
+                return res.status(
+                    500
+                ).json({
 
                     success: false,
 
@@ -599,7 +1190,10 @@ app.put(
 
             }
 
-            /* RETURN ORDER IN DASHBOARD FORMAT */
+
+            /* -----------------------------------------
+               FORMAT ORDER
+            ----------------------------------------- */
 
             const order = {
 
@@ -653,20 +1247,26 @@ app.put(
                 },
 
                 items:
-                    Array.isArray(updatedOrder.items)
+                    Array.isArray(
+                        updatedOrder.items
+                    )
                         ? updatedOrder.items
                         : [],
 
                 total:
-                    Number(updatedOrder.total) || 0
+                    Number(
+                        updatedOrder.total
+                    ) || 0
 
             };
+
 
             console.log(
                 "WISE LUXE ORDER UPDATED:",
                 orderNumber,
                 newStatus
             );
+
 
             res.json({
 
@@ -680,6 +1280,7 @@ app.put(
 
             });
 
+
         } catch (error) {
 
             console.error(
@@ -687,7 +1288,9 @@ app.put(
                 error
             );
 
-            res.status(500).json({
+            res.status(
+                500
+            ).json({
 
                 success: false,
 
@@ -701,7 +1304,10 @@ app.put(
     }
 );
 
-/* ================= START SERVER ================= */
+
+/* =========================================================
+   START SERVER
+========================================================= */
 
 app.listen(
     PORT,

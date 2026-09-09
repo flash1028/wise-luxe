@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,355 +10,423 @@
 
 <style>
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    body {
-        font-family: Georgia, "Times New Roman", serif;
-        background: #080808;
-        color: white;
-    }
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #080808;
+    color: white;
+}
+
+nav {
+    min-height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    border-bottom: 1px solid #292929;
+    background: #080808;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.brand-name {
+    color: #d6b45a;
+    font-size: 24px;
+    letter-spacing: 4px;
+}
+
+.back {
+    color: #d6b45a;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.back:hover {
+    color: white;
+}
+
+.checkout-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 70px 6%;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.title h1 {
+    font-size: 42px;
+    font-weight: normal;
+    letter-spacing: 5px;
+}
+
+.gold-line {
+    width: 80px;
+    height: 2px;
+    background: #d6b45a;
+    margin: 20px auto;
+}
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.checkout-box {
+    background: #111;
+    border: 1px solid #292929;
+    padding: 30px;
+}
+
+.checkout-box h2 {
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    color: #d6b45a;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    background: #080808;
+    border: 1px solid #444;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    outline: none;
+    border-radius: 0;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #d6b45a;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.order-number-box {
+    background: #080808;
+    border: 1px solid #292929;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.order-number-label {
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+}
+
+.order-number {
+    color: #d6b45a;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.order-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #292929;
+}
+
+.order-item-image {
+    width: 75px;
+    height: 90px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #222;
+}
+
+.order-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.order-item-info {
+    flex: 1;
+}
+
+.order-item-name {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.order-item-details {
+    color: #999;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.product-code {
+    color: #d6b45a;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #292929;
+    color: #d6b45a;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.payment-title {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #ccc;
+}
+
+.payment-options {
+    display: grid;
+    gap: 10px;
+}
+
+.payment-option {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    color: white;
+    border: 1px solid #444;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    transition: 0.3s;
+}
+
+.payment-option:hover {
+    border-color: #d6b45a;
+    color: #d6b45a;
+}
+
+.payment-option.selected {
+    background: #d6b45a;
+    color: #080808;
+    border-color: #d6b45a;
+}
+
+.place-order {
+    width: 100%;
+    margin-top: 25px;
+    padding: 17px;
+    background: #d6b45a;
+    color: #080808;
+    border: none;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.place-order:hover {
+    background: white;
+}
+
+.place-order.locked {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.sent-order {
+    width: 100%;
+    margin-top: 12px;
+    padding: 15px;
+    background: transparent;
+    color: #d6b45a;
+    border: 1px solid #d6b45a;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    display: none;
+}
+
+.sent-order:hover {
+    background: #d6b45a;
+    color: #080808;
+}
+
+.sent-order:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.notice {
+    margin-top: 18px;
+    color: #777;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.empty-cart {
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    padding: 20px 0;
+}
+
+
+/* =========================================
+   LOGIN REQUIRED
+========================================= */
+
+.login-required {
+    background: #080808;
+    border: 1px solid #d6b45a;
+    padding: 18px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.login-required strong {
+    color: #d6b45a;
+}
+
+.login-button {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 18px;
+    background: #d6b45a;
+    color: #080808;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.login-button:hover {
+    background: white;
+}
+
+
+/* =========================================
+   LOGGED IN MESSAGE
+========================================= */
+
+.logged-in-message {
+    display: none;
+    background: #080808;
+    border: 1px solid #333;
+    padding: 12px;
+    margin-bottom: 20px;
+    color: #999;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    text-align: center;
+}
+
+.logged-in-message span {
+    color: #d6b45a;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
 
     nav {
-        min-height: 85px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 6%;
-        border-bottom: 1px solid #292929;
-        background: #080808;
-    }
-
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        min-height: 70px;
+        padding: 0 5%;
     }
 
     .brand img {
-        width: 55px;
-        height: 55px;
-        object-fit: contain;
+        width: 45px;
+        height: 45px;
     }
 
     .brand-name {
-        color: #d6b45a;
-        font-size: 24px;
-        letter-spacing: 4px;
-    }
-
-    .back {
-        color: #d6b45a;
-        text-decoration: none;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
+        font-size: 18px;
         letter-spacing: 2px;
-    }
-
-    .back:hover {
-        color: white;
     }
 
     .checkout-page {
-        max-width: 1100px;
-        margin: auto;
-        padding: 70px 6%;
-    }
-
-    .title {
-        text-align: center;
-        margin-bottom: 50px;
+        padding: 50px 5%;
     }
 
     .title h1 {
-        font-size: 42px;
-        font-weight: normal;
-        letter-spacing: 5px;
-    }
-
-    .gold-line {
-        width: 80px;
-        height: 2px;
-        background: #d6b45a;
-        margin: 20px auto;
+        font-size: 30px;
     }
 
     .checkout-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 50px;
+        grid-template-columns: 1fr;
+        gap: 30px;
     }
 
     .checkout-box {
-        background: #111;
-        border: 1px solid #292929;
-        padding: 30px;
+        padding: 20px;
     }
 
-    .checkout-box h2 {
-        font-size: 22px;
-        font-weight: normal;
-        letter-spacing: 2px;
-        margin-bottom: 25px;
-        color: #d6b45a;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        letter-spacing: 2px;
-        margin-bottom: 8px;
-        color: #ccc;
-    }
-
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 14px;
-        background: #080808;
-        border: 1px solid #444;
-        color: white;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        outline: none;
-        border-radius: 0;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-        border-color: #d6b45a;
-    }
-
-    .form-group textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-
-    .order-number-box {
-        background: #080808;
-        border: 1px solid #292929;
-        padding: 15px;
-        margin-bottom: 20px;
-        display: none;
-    }
-
-    .order-number-label {
-        color: #888;
-        font-family: Arial, sans-serif;
-        font-size: 10px;
-        letter-spacing: 2px;
-        margin-bottom: 6px;
-    }
-
-    .order-number {
-        color: #d6b45a;
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    .order-item {
-        display: flex;
-        gap: 15px;
-        padding: 15px 0;
-        border-bottom: 1px solid #292929;
-    }
-
-    .order-item-image {
-        width: 75px;
-        height: 90px;
-        overflow: hidden;
-        flex-shrink: 0;
-        background: #222;
-    }
-
-    .order-item-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .order-item-info {
-        flex: 1;
-    }
-
-    .order-item-name {
-        font-size: 16px;
-        margin-bottom: 8px;
-    }
-
-    .order-item-details {
-        color: #999;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        line-height: 1.7;
-    }
-
-    .product-code {
-        color: #d6b45a;
-    }
-
-    .order-total {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 25px;
-        padding-top: 20px;
-        border-top: 1px solid #292929;
-        color: #d6b45a;
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .payment-title {
-        margin-top: 30px;
-        margin-bottom: 15px;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        letter-spacing: 2px;
-        color: #ccc;
-    }
-
-    .payment-options {
-        display: grid;
-        gap: 10px;
-    }
-
-    .payment-option {
-        width: 100%;
-        padding: 15px;
-        background: transparent;
-        color: white;
-        border: 1px solid #444;
-        cursor: pointer;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        letter-spacing: 1.5px;
-        transition: 0.3s;
-    }
-
-    .payment-option:hover {
-        border-color: #d6b45a;
-        color: #d6b45a;
-    }
-
-    .payment-option.selected {
-        background: #d6b45a;
-        color: #080808;
-        border-color: #d6b45a;
-    }
-
-    .place-order {
-        width: 100%;
-        margin-top: 25px;
-        padding: 17px;
-        background: #d6b45a;
-        color: #080808;
-        border: none;
-        cursor: pointer;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
-
-    .place-order:hover {
-        background: white;
-    }
-
-    .sent-order {
-        width: 100%;
-        margin-top: 12px;
-        padding: 15px;
-        background: transparent;
-        color: #d6b45a;
-        border: 1px solid #d6b45a;
-        cursor: pointer;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-        letter-spacing: 1.5px;
-        display: none;
-    }
-
-    .sent-order:hover {
-        background: #d6b45a;
-        color: #080808;
-    }
-
-    .sent-order:disabled {
-        opacity: 0.5;
-        cursor: default;
-    }
-
-    .notice {
-        margin-top: 18px;
-        color: #777;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        line-height: 1.6;
-        text-align: center;
-    }
-
-    .empty-cart {
-        color: #888;
-        font-family: Arial, sans-serif;
-        font-size: 13px;
-        padding: 20px 0;
-    }
-
-    @media (max-width: 800px) {
-
-        nav {
-            min-height: 70px;
-            padding: 0 5%;
-        }
-
-        .brand img {
-            width: 45px;
-            height: 45px;
-        }
-
-        .brand-name {
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-
-        .checkout-page {
-            padding: 50px 5%;
-        }
-
-        .title h1 {
-            font-size: 30px;
-        }
-
-        .checkout-grid {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        .checkout-box {
-            padding: 20px;
-        }
-
-    }
+}
 
 </style>
 
-
 </head>
+
 
 <body>
 
-<nav>
 
+<nav>
 
 <div class="brand">
 
@@ -375,7 +441,6 @@
 
 </div>
 
-
 <a
     href="cart.html"
     class="back"
@@ -383,8 +448,8 @@
     ← BACK TO CART
 </a>
 
-
 </nav>
+
 
 <main class="checkout-page">
 
@@ -403,241 +468,311 @@
 <div class="checkout-grid">
 
 
-    <!-- =================================================
-         CUSTOMER INFORMATION
-    ================================================== -->
+<!-- =========================================
+     CUSTOMER INFORMATION
+========================================= -->
 
-    <div class="checkout-box">
+<div class="checkout-box">
 
-        <h2>
-            YOUR INFORMATION
-        </h2>
+<h2>
+    YOUR INFORMATION
+</h2>
 
 
-        <form id="checkoutForm">
+<!-- LOGIN REQUIRED -->
 
+<div
+    class="login-required"
+    id="loginRequired"
+>
 
-            <div class="form-group">
+    <strong>
+        ACCOUNT REQUIRED
+    </strong>
 
-                <label for="name">
-                    FULL NAME
-                </label>
+    <br>
 
-                <input
-                    type="text"
-                    id="name"
-                    placeholder="Enter your full name"
-                    autocomplete="name"
-                    required
-                >
+    Please create an account or log in
+    before placing your order.
 
-            </div>
+    <br>
 
+    <a
+        href="account.html?return=checkout"
+        class="login-button"
+    >
+        LOGIN / CREATE ACCOUNT
+    </a>
 
-            <div class="form-group">
+</div>
 
-                <label for="phone">
-                    PHONE NUMBER
-                </label>
 
-                <input
-                    type="tel"
-                    id="phone"
-                    placeholder="Enter your phone number"
-                    autocomplete="tel"
-                    required
-                >
+<!-- LOGGED IN -->
 
-            </div>
+<div
+    class="logged-in-message"
+    id="loggedInMessage"
+>
 
+    ✓ You are logged in.
+    <br>
+    <span id="loggedInEmail"></span>
 
-            <div class="form-group">
+</div>
 
-                <label for="email">
-                    EMAIL ADDRESS
-                </label>
 
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email address"
-                    autocomplete="email"
-                    required
-                >
+<form id="checkoutForm">
 
-            </div>
 
+<div class="form-group">
 
-            <div class="form-group">
+<label for="name">
+    FULL NAME
+</label>
 
-                <label for="address">
-                    DELIVERY ADDRESS
-                </label>
+<input
+    type="text"
+    id="name"
+    placeholder="Enter your full name"
+    autocomplete="name"
+    required
+>
 
-                <textarea
-                    id="address"
-                    placeholder="Enter your delivery address"
-                    autocomplete="street-address"
-                    required
-                ></textarea>
+</div>
 
-            </div>
 
+<div class="form-group">
 
-            <div class="form-group">
+<label for="phone">
+    PHONE NUMBER
+</label>
 
-                <label for="city">
-                    CITY
-                </label>
+<input
+    type="tel"
+    id="phone"
+    placeholder="Enter your phone number"
+    autocomplete="tel"
+    required
+>
 
-                <input
-                    type="text"
-                    id="city"
-                    placeholder="Enter your city"
-                    autocomplete="address-level2"
-                    required
-                >
+</div>
 
-            </div>
 
+<div class="form-group">
 
-            <div class="form-group">
+<label for="email">
+    EMAIL ADDRESS
+</label>
 
-                <label for="state">
-                    STATE
-                </label>
+<input
+    type="email"
+    id="email"
+    placeholder="Enter your email address"
+    autocomplete="email"
+    required
+>
 
-                <input
-                    type="text"
-                    id="state"
-                    placeholder="Enter your state"
-                    autocomplete="address-level1"
-                    required
-                >
+</div>
 
-            </div>
 
+<div class="form-group">
 
-        </form>
+<label for="address">
+    DELIVERY ADDRESS
+</label>
 
-    </div>
+<textarea
+    id="address"
+    placeholder="Enter your delivery address"
+    autocomplete="street-address"
+    required
+></textarea>
 
+</div>
 
-    <!-- =================================================
-         ORDER
-    ================================================== -->
 
-    <div class="checkout-box">
+<div class="form-group">
 
-        <h2>
-            YOUR ORDER
-        </h2>
+<label for="city">
+    CITY
+</label>
 
+<input
+    type="text"
+    id="city"
+    placeholder="Enter your city"
+    autocomplete="address-level2"
+    required
+>
 
-        <div
-            class="order-number-box"
-            id="orderNumberBox"
-        >
+</div>
 
-            <div class="order-number-label">
-                ORDER NUMBER
-            </div>
 
-            <div
-                class="order-number"
-                id="orderNumberDisplay"
-            ></div>
+<div class="form-group">
 
-        </div>
+<label for="state">
+    STATE
+</label>
 
+<input
+    type="text"
+    id="state"
+    placeholder="Enter your state"
+    autocomplete="address-level1"
+    required
+>
 
-        <div id="orderItems"></div>
+</div>
 
 
-        <div class="order-total">
+</form>
 
-            <span>
-                TOTAL
-            </span>
+</div>
 
-            <span id="checkoutTotal">
-                ₦0
-            </span>
 
-        </div>
+<!-- =========================================
+     ORDER
+========================================= -->
 
+<div class="checkout-box">
 
-        <div class="payment-title">
-            HOW WOULD YOU LIKE TO ORDER?
-        </div>
+<h2>
+    YOUR ORDER
+</h2>
 
 
-        <div class="payment-options">
+<div
+    class="order-number-box"
+    id="orderNumberBox"
+>
 
+<div class="order-number-label">
+    ORDER NUMBER
+</div>
 
-            <button
-                type="button"
-                class="payment-option"
-                id="whatsappOption"
-                onclick="selectPayment('whatsapp')"
-            >
-                💬 ORDER VIA WHATSAPP
-            </button>
+<div
+    class="order-number"
+    id="orderNumberDisplay"
+></div>
 
+</div>
 
-            <button
-                type="button"
-                class="payment-option"
-                onclick="onlinePaymentUnavailable()"
-            >
-                💳 PAY ONLINE — COMING SOON
-            </button>
 
+<div id="orderItems"></div>
 
-        </div>
 
+<div class="order-total">
 
-        <button
-            type="button"
-            class="place-order"
-            id="continueButton"
-            onclick="placeOrder()"
-        >
-            CONTINUE
-        </button>
+<span>
+    TOTAL
+</span>
 
+<span id="checkoutTotal">
+    ₦0
+</span>
 
-        <button
-            type="button"
-            class="sent-order"
-            id="sentOrderButton"
-            onclick="confirmOrderSent()"
-        >
-            ✓ I HAVE SENT MY ORDER
-        </button>
+</div>
 
 
-        <div class="notice">
+<div class="payment-title">
+    HOW WOULD YOU LIKE TO ORDER?
+</div>
 
-            Your order details will be reviewed
-            before payment and delivery arrangements
-            are confirmed.
 
-        </div>
+<div class="payment-options">
 
 
-    </div>
+<button
+    type="button"
+    class="payment-option"
+    id="whatsappOption"
+    onclick="selectPayment('whatsapp')"
+>
+    💬 ORDER VIA WHATSAPP
+</button>
+
+
+<button
+    type="button"
+    class="payment-option"
+    onclick="onlinePaymentUnavailable()"
+>
+    💳 PAY ONLINE — COMING SOON
+</button>
 
 
 </div>
 
 
+<button
+    type="button"
+    class="place-order locked"
+    id="continueButton"
+    onclick="placeOrder()"
+    disabled
+>
+    LOGIN REQUIRED
+</button>
+
+
+<button
+    type="button"
+    class="sent-order"
+    id="sentOrderButton"
+    onclick="confirmOrderSent()"
+>
+    ✓ I HAVE SENT MY ORDER
+</button>
+
+
+<div class="notice">
+
+Your order details will be reviewed
+before payment and delivery arrangements
+are confirmed.
+
+</div>
+
+
+</div>
+
+</div>
+
 </main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+window.WISE_LUXE_SUPABASE_URL =
+    "https://yazonvhwccylehtkkmiz.supabase.co";
+
+
+window.WISE_LUXE_SUPABASE_KEY =
+    "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984n";
+
+
+window.WISE_LUXE_CLIENT =
+    window.supabase.createClient(
+        window.WISE_LUXE_SUPABASE_URL,
+        window.WISE_LUXE_SUPABASE_KEY
+    );
+
+
 let selectedPayment = "";
+
 let currentOrder = null;
+
+let customerIsLoggedIn = false;
+
+let currentCustomer = null;
 
 
 /* =========================================================
@@ -649,7 +784,9 @@ function getCart() {
     try {
 
         return JSON.parse(
-            localStorage.getItem("wiseLuxeCart")
+            localStorage.getItem(
+                "wiseLuxeCart"
+            )
         ) || [];
 
     } catch (error) {
@@ -691,31 +828,41 @@ function getProductPrice(item) {
 
 
     const type =
-        String(item.type || "").toLowerCase();
+        String(
+            item.type || ""
+        ).toLowerCase();
 
 
-    if (type.includes("vintage")) {
+    if (
+        type.includes("vintage")
+    ) {
 
         return 30000;
 
     }
 
 
-    if (type.includes("kaftan")) {
+    if (
+        type.includes("kaftan")
+    ) {
 
         return 45000;
 
     }
 
 
-    if (type.includes("polo")) {
+    if (
+        type.includes("polo")
+    ) {
 
         return 22000;
 
     }
 
 
-    if (type.includes("couples")) {
+    if (
+        type.includes("couples")
+    ) {
 
         return 85000;
 
@@ -735,21 +882,30 @@ function getProductCode(item) {
 
     if (item.productCode) {
 
-        return String(item.productCode);
+        return String(
+            item.productCode
+        );
 
     }
 
 
     const productNumber =
-        String(item.id || "")
-            .replace(/\D/g, "");
+        String(
+            item.id || ""
+        ).replace(
+            /\D/g,
+            ""
+        );
 
 
     if (productNumber) {
 
         return (
             "WL-P" +
-            productNumber.padStart(3, "0")
+            productNumber.padStart(
+                3,
+                "0"
+            )
         );
 
     }
@@ -802,10 +958,13 @@ function displayOrder() {
         );
 
 
-    orderItems.innerHTML = "";
+    orderItems.innerHTML =
+        "";
 
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         orderItems.innerHTML = `
 
@@ -828,108 +987,127 @@ function displayOrder() {
     let orderTotal = 0;
 
 
-    cart.forEach(function(item) {
+    cart.forEach(
+        function(item) {
 
-        const itemPrice =
-            getProductPrice(item);
+            const itemPrice =
+                getProductPrice(
+                    item
+                );
 
 
-        const quantity =
-            Math.max(
-                1,
-                Number(item.quantity || 1)
+            const quantity =
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity ||
+                        1
+                    )
+                );
+
+
+            const itemTotal =
+                itemPrice *
+                quantity;
+
+
+            orderTotal +=
+                itemTotal;
+
+
+            const productCode =
+                getProductCode(
+                    item
+                );
+
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "order-item";
+
+
+            element.innerHTML = `
+
+                <div class="order-item-image">
+
+                    <img
+                        src="${escapeHTML(item.image || "")}"
+                        alt="${escapeHTML(item.name || "Product")}"
+                    >
+
+                </div>
+
+                <div class="order-item-info">
+
+                    <div class="order-item-name">
+
+                        ${escapeHTML(
+                            item.name ||
+                            "Product"
+                        )}
+
+                    </div>
+
+                    <div class="order-item-details">
+
+                        <span class="product-code">
+
+                            Product Code:
+                            ${escapeHTML(
+                                productCode
+                            )}
+
+                        </span>
+
+                        <br>
+
+                        Type:
+                        ${escapeHTML(
+                            item.type ||
+                            "N/A"
+                        )}
+
+                        <br>
+
+                        Size:
+                        ${escapeHTML(
+                            item.size ||
+                            "N/A"
+                        )}
+
+                        <br>
+
+                        Quantity:
+                        ${quantity}
+
+                        <br>
+
+                        Price:
+                        ₦${itemPrice.toLocaleString()}
+
+                        <br>
+
+                        Subtotal:
+                        ₦${itemTotal.toLocaleString()}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            orderItems.appendChild(
+                element
             );
 
-
-        const itemTotal =
-            itemPrice * quantity;
-
-
-        orderTotal +=
-            itemTotal;
-
-
-        const productCode =
-            getProductCode(item);
-
-
-        const element =
-            document.createElement("div");
-
-
-        element.className =
-            "order-item";
-
-
-        element.innerHTML = `
-
-            <div class="order-item-image">
-
-                <img
-                    src="${escapeHTML(item.image || "")}"
-                    alt="${escapeHTML(item.name || "Product")}"
-                >
-
-            </div>
-
-
-            <div class="order-item-info">
-
-                <div class="order-item-name">
-
-                    ${escapeHTML(
-                        item.name || "Product"
-                    )}
-
-                </div>
-
-
-                <div class="order-item-details">
-
-                    <span class="product-code">
-
-                        Product Code:
-                        ${escapeHTML(productCode)}
-
-                    </span>
-
-                    <br>
-
-                    Type:
-                    ${escapeHTML(item.type || "N/A")}
-
-                    <br>
-
-                    Size:
-                    ${escapeHTML(item.size || "N/A")}
-
-                    <br>
-
-                    Quantity:
-                    ${quantity}
-
-                    <br>
-
-                    Price:
-                    ₦${itemPrice.toLocaleString()}
-
-                    <br>
-
-                    Subtotal:
-                    ₦${itemTotal.toLocaleString()}
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        orderItems.appendChild(
-            element
-        );
-
-    });
+        }
+    );
 
 
     updateCheckoutTotal(
@@ -955,7 +1133,9 @@ function updateCheckoutTotal(total) {
 
         totalElement.textContent =
             "₦" +
-            Number(total).toLocaleString();
+            Number(
+                total
+            ).toLocaleString();
 
     }
 
@@ -968,20 +1148,52 @@ function updateCheckoutTotal(total) {
 
 function selectPayment(method) {
 
+    /* =========================================
+       ABSOLUTE LOGIN CHECK
+    ========================================= */
+
+    if (
+        customerIsLoggedIn !== true
+    ) {
+
+        alert(
+            "Please create an account or log in before placing your order."
+        );
+
+        window.location.href =
+            "account.html?return=checkout";
+
+        return;
+
+    }
+
+
     selectedPayment =
         method;
 
 
     document
-        .getElementById("whatsappOption")
-        .classList.remove("selected");
+        .getElementById(
+            "whatsappOption"
+        )
+        .classList
+        .remove(
+            "selected"
+        );
 
 
-    if (method === "whatsapp") {
+    if (
+        method === "whatsapp"
+    ) {
 
         document
-            .getElementById("whatsappOption")
-            .classList.add("selected");
+            .getElementById(
+                "whatsappOption"
+            )
+            .classList
+            .add(
+                "selected"
+            );
 
     }
 
@@ -1002,10 +1214,248 @@ function onlinePaymentUnavailable() {
 
 
 /* =========================================================
+   VERIFY CUSTOMER
+========================================================= */
+
+async function verifyCustomer() {
+
+    customerIsLoggedIn =
+        false;
+
+    currentCustomer =
+        null;
+
+
+    try {
+
+        /*
+         * Get the current authenticated user
+         * directly from Supabase.
+         */
+
+        const result =
+            await window
+                .WISE_LUXE_CLIENT
+                .auth
+                .getUser();
+
+
+        if (
+            result.error
+        ) {
+
+            console.log(
+                "NO AUTHENTICATED CUSTOMER"
+            );
+
+            return false;
+
+        }
+
+
+        if (
+            !result.data ||
+            !result.data.user
+        ) {
+
+            console.log(
+                "NO AUTHENTICATED CUSTOMER"
+            );
+
+            return false;
+
+        }
+
+
+        currentCustomer =
+            result.data.user;
+
+
+        customerIsLoggedIn =
+            true;
+
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(
+            "CUSTOMER VERIFICATION ERROR:",
+            error
+        );
+
+        customerIsLoggedIn =
+            false;
+
+        currentCustomer =
+            null;
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE LOGIN UI
+========================================================= */
+
+function updateLoginUI() {
+
+    const loginRequired =
+        document.getElementById(
+            "loginRequired"
+        );
+
+
+    const loggedInMessage =
+        document.getElementById(
+            "loggedInMessage"
+        );
+
+
+    const continueButton =
+        document.getElementById(
+            "continueButton"
+        );
+
+
+    const emailDisplay =
+        document.getElementById(
+            "loggedInEmail"
+        );
+
+
+    if (
+        customerIsLoggedIn === true
+    ) {
+
+        loginRequired.style.display =
+            "none";
+
+
+        loggedInMessage.style.display =
+            "block";
+
+
+        if (
+            currentCustomer &&
+            currentCustomer.email
+        ) {
+
+            emailDisplay.textContent =
+                currentCustomer.email;
+
+        }
+
+
+        continueButton.disabled =
+            false;
+
+
+        continueButton.classList
+            .remove(
+                "locked"
+            );
+
+
+        continueButton.textContent =
+            "CONTINUE";
+
+
+    } else {
+
+        loginRequired.style.display =
+            "block";
+
+
+        loggedInMessage.style.display =
+            "none";
+
+
+        continueButton.disabled =
+            true;
+
+
+        continueButton.classList
+            .add(
+                "locked"
+            );
+
+
+        continueButton.textContent =
+            "LOGIN REQUIRED";
+
+    }
+
+}
+
+
+/* =========================================================
    CONTINUE
 ========================================================= */
 
-function placeOrder() {
+async function placeOrder() {
+
+    /*
+     * HARD LOCK.
+     *
+     * Even if somebody somehow clicks the button
+     * manually, this stops the function.
+     */
+
+    if (
+        customerIsLoggedIn !== true
+    ) {
+
+        alert(
+            "You must create an account or log in before placing an order."
+        );
+
+
+        window.location.href =
+            "account.html?return=checkout";
+
+
+        return;
+
+    }
+
+
+    /* =========================================
+       VERIFY AGAIN WITH SUPABASE
+    ========================================= */
+
+    const verified =
+        await verifyCustomer();
+
+
+    if (
+        verified !== true
+    ) {
+
+        alert(
+            "You must create an account or log in before placing your order."
+        );
+
+
+        updateLoginUI();
+
+
+        window.location.href =
+            "account.html?return=checkout";
+
+
+        return;
+
+    }
+
+
+    /* =========================================
+       FORM
+    ========================================= */
 
     const form =
         document.getElementById(
@@ -1013,7 +1463,9 @@ function placeOrder() {
         );
 
 
-    if (!form.checkValidity()) {
+    if (
+        !form.checkValidity()
+    ) {
 
         form.reportValidity();
 
@@ -1022,11 +1474,17 @@ function placeOrder() {
     }
 
 
+    /* =========================================
+       CART
+    ========================================= */
+
     const cart =
         getCart();
 
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         alert(
             "Your cart is empty."
@@ -1037,7 +1495,13 @@ function placeOrder() {
     }
 
 
-    if (selectedPayment === "") {
+    /* =========================================
+       PAYMENT
+    ========================================= */
+
+    if (
+        selectedPayment === ""
+    ) {
 
         alert(
             "Please select how you would like to order."
@@ -1048,12 +1512,16 @@ function placeOrder() {
     }
 
 
+    /* =========================================
+       WHATSAPP
+    ========================================= */
+
     if (
         selectedPayment ===
         "whatsapp"
     ) {
 
-        sendToWhatsApp();
+        await sendToWhatsApp();
 
     }
 
@@ -1064,7 +1532,33 @@ function placeOrder() {
    SEND TO WHATSAPP
 ========================================================= */
 
-function sendToWhatsApp() {
+async function sendToWhatsApp() {
+
+    /*
+     * FINAL AUTHENTICATION CHECK.
+     */
+
+    const verified =
+        await verifyCustomer();
+
+
+    if (
+        verified !== true
+    ) {
+
+        alert(
+            "You must create an account or log in before placing your order."
+        );
+
+
+        window.location.href =
+            "account.html?return=checkout";
+
+
+        return;
+
+    }
+
 
     const name =
         document.getElementById(
@@ -1106,7 +1600,9 @@ function sendToWhatsApp() {
         getCart();
 
 
-    if (cart.length === 0) {
+    if (
+        cart.length === 0
+    ) {
 
         alert(
             "Your cart is empty."
@@ -1117,31 +1613,39 @@ function sendToWhatsApp() {
     }
 
 
-    /* ================= TOTAL ================= */
+    /* =========================================
+       TOTAL
+    ========================================= */
 
-    let orderTotal = 0;
-
-
-    cart.forEach(function(item) {
-
-        orderTotal +=
-            getProductPrice(item) *
-            Math.max(
-                1,
-                Number(item.quantity || 1)
-            );
-
-    });
+    let orderTotal =
+        0;
 
 
-    /* ================= ORDER NUMBER ================= */
+    cart.forEach(
+        function(item) {
 
-    const now =
-        new Date();
+            orderTotal +=
+                getProductPrice(
+                    item
+                ) *
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity ||
+                        1
+                    )
+                );
 
+        }
+    );
+
+
+    /* =========================================
+       ORDER NUMBER
+    ========================================= */
 
     const year =
-        now.getFullYear();
+        new Date().getFullYear();
 
 
     const orderNumber =
@@ -1150,66 +1654,89 @@ function sendToWhatsApp() {
         "-" +
         Math.floor(
             100000 +
-            Math.random() * 900000
+            Math.random() *
+            900000
         );
 
 
-    /* ================= ORDER ITEMS ================= */
+    /* =========================================
+       ORDER ITEMS
+    ========================================= */
 
     const orderItems =
-        cart.map(function(item) {
+        cart.map(
+            function(item) {
 
-            const price =
-                getProductPrice(item);
-
-
-            const quantity =
-                Math.max(
-                    1,
-                    Number(item.quantity || 1)
-                );
+                const price =
+                    getProductPrice(
+                        item
+                    );
 
 
-            return {
-
-                id:
-                    item.id || "",
-
-                name:
-                    item.name || "",
-
-                type:
-                    item.type || "",
-
-                size:
-                    item.size || "",
-
-                image:
-                    item.image || "",
-
-                quantity:
-                    quantity,
-
-                price:
-                    price,
-
-                productCode:
-                    getProductCode(item)
-
-            };
-
-        });
+                const quantity =
+                    Math.max(
+                        1,
+                        Number(
+                            item.quantity ||
+                            1
+                        )
+                    );
 
 
-    /* ================= COMPLETE ORDER ================= */
+                return {
+
+                    id:
+                        item.id ||
+                        "",
+
+                    name:
+                        item.name ||
+                        "",
+
+                    type:
+                        item.type ||
+                        "",
+
+                    size:
+                        item.size ||
+                        "",
+
+                    image:
+                        item.image ||
+                        "",
+
+                    quantity:
+                        quantity,
+
+                    price:
+                        price,
+
+                    productCode:
+                        getProductCode(
+                            item
+                        )
+
+                };
+
+            }
+        );
+
+
+    /* =========================================
+       ORDER
+    ========================================= */
 
     currentOrder = {
 
         orderNumber:
             orderNumber,
 
+        customerId:
+            currentCustomer.id,
+
         date:
-            new Date().toLocaleString(),
+            new Date()
+                .toLocaleString(),
 
         status:
             "ORDER RECEIVED",
@@ -1245,7 +1772,15 @@ function sendToWhatsApp() {
     };
 
 
-    /* ================= LOCAL BACKUP ================= */
+    console.log(
+        "CUSTOMER ID BEING SENT:",
+        currentOrder.customerId
+    );
+
+
+    /* =========================================
+       SAVE PENDING ORDER
+    ========================================= */
 
     localStorage.setItem(
         "wiseLuxeLastOrderNumber",
@@ -1261,25 +1796,25 @@ function sendToWhatsApp() {
     );
 
 
-    /* ================= DISPLAY ORDER NUMBER ================= */
+    /* =========================================
+       DISPLAY ORDER NUMBER
+    ========================================= */
 
-    document
-        .getElementById(
-            "orderNumberBox"
-        )
-        .style.display =
-            "block";
-
-
-    document
-        .getElementById(
-            "orderNumberDisplay"
-        )
-        .textContent =
-            orderNumber;
+    document.getElementById(
+        "orderNumberBox"
+    ).style.display =
+        "block";
 
 
-    /* ================= WHATSAPP MESSAGE ================= */
+    document.getElementById(
+        "orderNumberDisplay"
+    ).textContent =
+        orderNumber;
+
+
+    /* =========================================
+       WHATSAPP MESSAGE
+    ========================================= */
 
     let message =
         "WISE LUXE NEW ORDER\n\n";
@@ -1335,70 +1870,92 @@ function sendToWhatsApp() {
         "ORDER DETAILS\n\n";
 
 
-    cart.forEach(function(item, index) {
+    cart.forEach(
+        function(
+            item,
+            index
+        ) {
 
-        const price =
-            getProductPrice(item);
-
-
-        const quantity =
-            Math.max(
-                1,
-                Number(item.quantity || 1)
-            );
-
-
-        const subtotal =
-            price * quantity;
+            const price =
+                getProductPrice(
+                    item
+                );
 
 
-        const productCode =
-            getProductCode(item);
+            const quantity =
+                Math.max(
+                    1,
+                    Number(
+                        item.quantity ||
+                        1
+                    )
+                );
 
 
-        message +=
-            (index + 1) +
-            ". " +
-            (item.name || "Product") +
-            "\n";
+            const subtotal =
+                price *
+                quantity;
 
 
-        message +=
-            "Product Code: " +
-            productCode +
-            "\n";
+            const productCode =
+                getProductCode(
+                    item
+                );
 
 
-        message +=
-            "Type: " +
-            (item.type || "N/A") +
-            "\n";
+            message +=
+                (index + 1) +
+                ". " +
+                (
+                    item.name ||
+                    "Product"
+                ) +
+                "\n";
 
 
-        message +=
-            "Size: " +
-            (item.size || "N/A") +
-            "\n";
+            message +=
+                "Product Code: " +
+                productCode +
+                "\n";
 
 
-        message +=
-            "Quantity: " +
-            quantity +
-            "\n";
+            message +=
+                "Type: " +
+                (
+                    item.type ||
+                    "N/A"
+                ) +
+                "\n";
 
 
-        message +=
-            "Price: ₦" +
-            price.toLocaleString() +
-            "\n";
+            message +=
+                "Size: " +
+                (
+                    item.size ||
+                    "N/A"
+                ) +
+                "\n";
 
 
-        message +=
-            "Subtotal: ₦" +
-            subtotal.toLocaleString() +
-            "\n\n";
+            message +=
+                "Quantity: " +
+                quantity +
+                "\n";
 
-    });
+
+            message +=
+                "Price: ₦" +
+                price.toLocaleString() +
+                "\n";
+
+
+            message +=
+                "Subtotal: ₦" +
+                subtotal.toLocaleString() +
+                "\n\n";
+
+        }
+    );
 
 
     message +=
@@ -1411,7 +1968,9 @@ function sendToWhatsApp() {
         "Please confirm my order and let me know the next steps. Thank you.";
 
 
-    /* ================= WHATSAPP ================= */
+    /* =========================================
+       WHATSAPP
+    ========================================= */
 
     const whatsappNumber =
         "2347070341822";
@@ -1432,22 +1991,20 @@ function sendToWhatsApp() {
     );
 
 
-    /* ================= SHOW SENT BUTTON ================= */
+    /* =========================================
+       SHOW SENT BUTTON
+    ========================================= */
 
-    document
-        .getElementById(
-            "sentOrderButton"
-        )
-        .style.display =
-            "block";
+    document.getElementById(
+        "sentOrderButton"
+    ).style.display =
+        "block";
 
 
-    document
-        .getElementById(
-            "continueButton"
-        )
-        .style.display =
-            "none";
+    document.getElementById(
+        "continueButton"
+    ).style.display =
+        "none";
 
 
     alert(
@@ -1463,6 +2020,36 @@ function sendToWhatsApp() {
 
 async function confirmOrderSent() {
 
+    /* =========================================
+       HARD LOGIN CHECK
+    ========================================= */
+
+    const verified =
+        await verifyCustomer();
+
+
+    if (
+        verified !== true
+    ) {
+
+        alert(
+            "You must create an account or log in before placing your order."
+        );
+
+
+        window.location.href =
+            "account.html?return=checkout";
+
+
+        return;
+
+    }
+
+
+    /* =========================================
+       RESTORE ORDER
+    ========================================= */
+
     if (!currentOrder) {
 
         const savedOrder =
@@ -1471,7 +2058,9 @@ async function confirmOrderSent() {
             );
 
 
-        if (savedOrder) {
+        if (
+            savedOrder
+        ) {
 
             try {
 
@@ -1505,13 +2094,22 @@ async function confirmOrderSent() {
     }
 
 
+    /* =========================================
+       FORCE CURRENT CUSTOMER ID
+    ========================================= */
+
+    currentOrder.customerId =
+        currentCustomer.id;
+
+
     const button =
         document.getElementById(
             "sentOrderButton"
         );
 
 
-    button.disabled = true;
+    button.disabled =
+        true;
 
 
     button.textContent =
@@ -1520,52 +2118,68 @@ async function confirmOrderSent() {
 
     try {
 
-        /* =================================================
-           SEND ORDER TO OUR NODE.JS SERVER
-        ================================================= */
+     const sessionResult =
+    await window
+        .WISE_LUXE_CLIENT
+        .auth
+        .getSession();
 
-        const response =
-            await fetch(
-                "/api/orders",
-                {
+if (
+    sessionResult.error ||
+    !sessionResult.data ||
+    !sessionResult.data.session
+) {
 
-                    method:
-                        "POST",
+    alert(
+        "Your login session has expired. Please log in again."
+    );
 
-                    headers: {
+    window.location.href =
+        "account.html?return=checkout";
 
-                        "Content-Type":
-                            "application/json"
+    return;
+}
 
-                    },
-
-                    body:
-                        JSON.stringify(
-                            currentOrder
-                        )
-
-                }
-            );
+const accessToken =
+    sessionResult.data.session.access_token;
 
 
-        let result;
+const response =
+    await fetch(
+        "/api/orders",
+        {
 
+            method:
+                "POST",
 
-        try {
+            headers: {
 
-            result =
-                await response.json();
+                "Content-Type":
+                    "application/json",
 
-        } catch (error) {
+                "Authorization":
+                    "Bearer " +
+                    accessToken
 
-            throw new Error(
-                "The server returned an invalid response."
-            );
+            },
+
+            body:
+                JSON.stringify(
+                    currentOrder
+                )
 
         }
+    );
 
 
-        if (!response.ok) {
+        const result =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
 
             throw new Error(
                 result.message ||
@@ -1575,21 +2189,12 @@ async function confirmOrderSent() {
         }
 
 
-        if (!result.success) {
+        /* =========================================
+           LOCAL HISTORY
+        ========================================= */
 
-            throw new Error(
-                result.message ||
-                "Could not save order."
-            );
-
-        }
-
-
-        /* =================================================
-           SAVE CUSTOMER ORDER HISTORY
-        ================================================= */
-
-        let localOrders = [];
+        let localOrders =
+            [];
 
 
         try {
@@ -1603,7 +2208,8 @@ async function confirmOrderSent() {
 
         } catch (error) {
 
-            localOrders = [];
+            localOrders =
+                [];
 
         }
 
@@ -1621,7 +2227,9 @@ async function confirmOrderSent() {
             );
 
 
-        if (!alreadyExists) {
+        if (
+            !alreadyExists
+        ) {
 
             localOrders.unshift(
                 currentOrder
@@ -1652,9 +2260,9 @@ async function confirmOrderSent() {
         );
 
 
-        /* =================================================
+        /* =========================================
            CLEAR CART
-        ================================================= */
+        ========================================= */
 
         localStorage.removeItem(
             "wiseLuxeCart"
@@ -1666,9 +2274,9 @@ async function confirmOrderSent() {
         );
 
 
-        /* =================================================
-           GO TO CONFIRMATION PAGE
-        ================================================= */
+        /* =========================================
+           CONFIRMATION
+        ========================================= */
 
         window.location.href =
             "confirmation.html";
@@ -1691,7 +2299,8 @@ async function confirmOrderSent() {
 
 
         alert(
-            "We could not save your order to the WISE LUXE order system.\n\nPlease make sure the WISE LUXE server is running, then try again."
+            error.message ||
+            "We could not save your order. Please try again."
         );
 
     }
@@ -1700,10 +2309,178 @@ async function confirmOrderSent() {
 
 
 /* =========================================================
-   LOAD CHECKOUT
+   RESTORE CHECKOUT DATA
 ========================================================= */
 
-displayOrder();
+function restoreCheckoutData() {
+
+    const savedData =
+        localStorage.getItem(
+            "wiseLuxeCheckoutReturn"
+        );
+
+
+    if (
+        !savedData
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const data =
+            JSON.parse(
+                savedData
+            );
+
+
+        document.getElementById(
+            "name"
+        ).value =
+            data.name ||
+            "";
+
+
+        document.getElementById(
+            "phone"
+        ).value =
+            data.phone ||
+            "";
+
+
+        document.getElementById(
+            "email"
+        ).value =
+            data.email ||
+            "";
+
+
+        document.getElementById(
+            "address"
+        ).value =
+            data.address ||
+            "";
+
+
+        document.getElementById(
+            "city"
+        ).value =
+            data.city ||
+            "";
+
+
+        document.getElementById(
+            "state"
+        ).value =
+            data.state ||
+            "";
+
+
+        if (
+            data.selectedPayment
+        ) {
+
+            selectedPayment =
+                data.selectedPayment;
+
+        }
+
+
+        localStorage.removeItem(
+            "wiseLuxeCheckoutReturn"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not restore checkout data:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   START CHECKOUT
+========================================================= */
+
+async function initializeCheckout() {
+
+    /*
+     * Start locked.
+     */
+
+    customerIsLoggedIn =
+        false;
+
+
+    updateLoginUI();
+
+
+    displayOrder();
+
+
+    restoreCheckoutData();
+
+
+    /*
+     * Now verify the actual Supabase account.
+     */
+
+    const verified =
+        await verifyCustomer();
+
+
+    customerIsLoggedIn =
+        verified;
+
+
+    updateLoginUI();
+
+
+    /*
+     * If logged in, load their email.
+     */
+
+    if (
+        verified === true &&
+        currentCustomer
+    ) {
+
+        const emailInput =
+            document.getElementById(
+                "email"
+            );
+
+
+        if (
+            emailInput &&
+            currentCustomer.email &&
+            !emailInput.value
+        ) {
+
+            emailInput.value =
+                currentCustomer.email;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   RUN
+========================================================= */
+
+initializeCheckout();
+
 
 </script>
 
