@@ -564,86 +564,72 @@ async function synchronizeOrders() {
            with the latest information from Supabase.
         */
 
-        const updatedOrders =
-            localOrders.map(
+      const combinedOrders = [...localOrders];
+
+serverOrders.forEach(
+    function(serverOrder) {
+
+        if (
+            !serverOrder ||
+            !serverOrder.orderNumber
+        ) {
+            return;
+        }
+
+        const existingIndex =
+            combinedOrders.findIndex(
                 function(localOrder) {
 
-                    if (
-                        !localOrder ||
-                        !localOrder.orderNumber
-                    ) {
-
-                        return localOrder;
-
-                    }
-
-
-                    const serverOrder =
-                        serverOrderMap.get(
-                            localOrder.orderNumber
-                        );
-
-
-                    /*
-                       If this order exists in Supabase,
-                       replace the local information with
-                       the latest database information.
-                    */
-
-                    if (serverOrder) {
-
-                        return {
-
-                            ...localOrder,
-
-                            orderNumber:
-                                serverOrder.orderNumber ||
-                                localOrder.orderNumber,
-
-                            date:
-                                serverOrder.date ||
-                                localOrder.date,
-
-                            status:
-                                serverOrder.status ||
-                                localOrder.status ||
-                                "ORDER RECEIVED",
-
-                            deliveredDate:
-                                serverOrder.deliveredDate ||
-                                localOrder.deliveredDate ||
-                                "",
-
-                            customer:
-                                serverOrder.customer ||
-                                localOrder.customer,
-
-                            items:
-                                Array.isArray(
-                                    serverOrder.items
-                                )
-                                    ? serverOrder.items
-                                    : localOrder.items,
-
-                            total:
-                                Number(
-                                    serverOrder.total
-                                ) ||
-                                Number(
-                                    localOrder.total
-                                ) ||
-                                0
-
-                        };
-
-                    }
-
-
-                    return localOrder;
+                    return (
+                        localOrder &&
+                        localOrder.orderNumber ===
+                        serverOrder.orderNumber
+                    );
 
                 }
             );
 
+
+        if (existingIndex !== -1) {
+
+            combinedOrders[existingIndex] = {
+
+                ...combinedOrders[existingIndex],
+
+                ...serverOrder
+
+            };
+
+        } else {
+
+            combinedOrders.push(
+                serverOrder
+            );
+
+        }
+
+    }
+);
+
+
+/*
+   Put newest orders first.
+*/
+
+combinedOrders.sort(
+    function(a, b) {
+
+        return (
+            new Date(b.date || 0) -
+            new Date(a.date || 0)
+        );
+
+    }
+);
+
+
+const updatedOrders =
+    combinedOrders;
 
         /*
            Save the updated order information locally
