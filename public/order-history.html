@@ -427,7 +427,8 @@ function saveLocalOrders(orders) {
 ========================================================= */
 
 async function getServerOrders() {
-
+document.getElementById("syncMessage").textContent =
+    "Order History JavaScript is running...";
     const response =
         await fetch(
             "/api/orders?t=" +
