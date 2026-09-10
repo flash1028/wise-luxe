@@ -405,11 +405,30 @@
         }
 /* MOBILE ACTIONS */
 .nav-actions {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
     align-items: center;
-    gap: 10px;
+    column-gap: 8px;
+    row-gap: 3px;
     flex-shrink: 0;
     margin-left: 8px;
+}
+
+.account-link {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.history-link {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.cart {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
 }
 
 .history-link,
