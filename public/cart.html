@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -394,7 +395,19 @@
 
 
     <script>
+/* ================= SUPABASE ================= */
 
+window.WISE_LUXE_SUPABASE_URL =
+    "https://yazonvhwccylehtkkmiz.supabase.co";
+
+window.WISE_LUXE_SUPABASE_KEY =
+    "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984n";
+
+window.WISE_LUXE_CLIENT =
+    window.supabase.createClient(
+        window.WISE_LUXE_SUPABASE_URL,
+        window.WISE_LUXE_SUPABASE_KEY
+    );
         /* ================= PRODUCT CODE ================= */
 
         function getProductCode(item) {

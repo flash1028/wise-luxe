@@ -1149,6 +1149,398 @@ app.delete(
 
     }
 );
+// ================= CART API =================
+
+app.get("/api/cart", async (req, res) => {
+
+    try {
+
+        const auth = await getAuthenticatedCustomer(req);
+
+        if (!auth.success) {
+            return res.status(401).json(auth);
+        }
+
+        const customerSupabase =
+            createClient(
+                process.env.SUPABASE_URL,
+                process.env.SUPABASE_PUBLISHABLE_KEY,
+                {
+                    global: {
+                        headers: {
+                            Authorization:
+                                `Bearer ${auth.accessToken}`
+                        }
+                    }
+                }
+            );
+
+        const { data, error } =
+            await customerSupabase
+                .from("cart")
+                .select("*")
+                .eq(
+                    "customer_id",
+                    auth.user.id
+                );
+
+        if (error) {
+
+            console.error(
+                "WISE LUXE CART GET ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
+
+        }
+
+        return res.json({
+            success: true,
+            cart: data || []
+        });
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE CART GET SERVER ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
+
+
+app.post("/api/cart", async (req, res) => {
+
+    try {
+
+        const auth = await getAuthenticatedCustomer(req);
+
+        if (!auth.success) {
+            return res.status(401).json(auth);
+        }
+
+        const {
+            productId,
+            productName,
+            productImage,
+            size,
+            quantity,
+            productType,
+            productCode,
+            price
+        } = req.body;
+
+        const customerSupabase =
+            createClient(
+                process.env.SUPABASE_URL,
+                process.env.SUPABASE_PUBLISHABLE_KEY,
+                {
+                    global: {
+                        headers: {
+                            Authorization:
+                                `Bearer ${auth.accessToken}`
+                        }
+                    }
+                }
+            );
+
+        const { data: existingItem, error: findError } =
+            await customerSupabase
+                .from("cart")
+                .select("*")
+                .eq(
+                    "customer_id",
+                    auth.user.id
+                )
+                .eq(
+                    "product_id",
+                    Number(productId)
+                )
+                .eq(
+                    "size",
+                    size
+                )
+                .maybeSingle();
+
+        if (findError) {
+
+            console.error(
+                "WISE LUXE CART FIND ERROR:",
+                findError
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: findError.message
+            });
+
+        }
+
+        if (existingItem) {
+
+            const newQuantity =
+                Number(existingItem.quantity || 0) +
+                Number(quantity || 1);
+
+            const { data, error } =
+                await customerSupabase
+                    .from("cart")
+                    .update({
+                        quantity: newQuantity
+                    })
+                    .eq(
+                        "id",
+                        existingItem.id
+                    )
+                    .eq(
+                        "customer_id",
+                        auth.user.id
+                    )
+                    .select()
+                    .single();
+
+            if (error) {
+
+                console.error(
+                    "WISE LUXE CART UPDATE ERROR:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: error.message
+                });
+
+            }
+
+            console.log(
+                "WISE LUXE CART ITEM UPDATED:",
+                data
+            );
+
+            return res.json({
+                success: true,
+                cartItem: data
+            });
+
+        }
+
+        const { data, error } =
+            await customerSupabase
+                .from("cart")
+                .insert({
+                    customer_id:
+                        auth.user.id,
+
+                    product_id:
+                        Number(productId),
+
+                    product_name:
+                        productName,
+
+                    product_image:
+                        productImage,
+
+                    size:
+                        size,
+
+                    quantity:
+                        Number(quantity) || 1,
+
+                    product_type:
+                        productType,
+
+                    product_code:
+                        productCode,
+
+                    price:
+                        Number(price) || 0
+                })
+                .select()
+                .single();
+
+        if (error) {
+
+            console.error(
+                "WISE LUXE CART INSERT ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
+
+        }
+
+        console.log(
+            "WISE LUXE CART ITEM SAVED:",
+            data
+        );
+
+        return res.json({
+            success: true,
+            cartItem: data
+        });
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE CART POST SERVER ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
+
+
+app.put("/api/cart/:id", async (req, res) => {
+
+    try {
+
+        const auth = await getAuthenticatedCustomer(req);
+
+        if (!auth.success) {
+            return res.status(401).json(auth);
+        }
+
+        const quantity =
+            Number(req.body.quantity);
+
+        const customerSupabase =
+            createClient(
+                process.env.SUPABASE_URL,
+                process.env.SUPABASE_PUBLISHABLE_KEY,
+                {
+                    global: {
+                        headers: {
+                            Authorization:
+                                `Bearer ${auth.accessToken}`
+                        }
+                    }
+                }
+            );
+
+        const { data, error } =
+            await customerSupabase
+                .from("cart")
+                .update({
+                    quantity: quantity
+                })
+                .eq(
+                    "id",
+                    req.params.id
+                )
+                .eq(
+                    "customer_id",
+                    auth.user.id
+                )
+                .select()
+                .single();
+
+        if (error) {
+
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
+
+        }
+
+        return res.json({
+            success: true,
+            cartItem: data
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
+
+
+app.delete("/api/cart/:id", async (req, res) => {
+
+    try {
+
+        const auth = await getAuthenticatedCustomer(req);
+
+        if (!auth.success) {
+            return res.status(401).json(auth);
+        }
+
+        const customerSupabase =
+            createClient(
+                process.env.SUPABASE_URL,
+                process.env.SUPABASE_PUBLISHABLE_KEY,
+                {
+                    global: {
+                        headers: {
+                            Authorization:
+                                `Bearer ${auth.accessToken}`
+                        }
+                    }
+                }
+            );
+
+        const { error } =
+            await customerSupabase
+                .from("cart")
+                .delete()
+                .eq(
+                    "id",
+                    req.params.id
+                )
+                .eq(
+                    "customer_id",
+                    auth.user.id
+                );
+
+        if (error) {
+
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
+
+        }
+
+        return res.json({
+            success: true
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
 /* =========================================================
    GET ALL ORDERS
    OWNER ONLY
