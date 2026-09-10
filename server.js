@@ -918,16 +918,19 @@ app.get("/api/cart", async (req, res) => {
             return res.status(401).json(auth);
         }
 
-        const customerSupabase =
+      const customerSupabase =
     createClient(
         process.env.SUPABASE_URL,
-        process.env.SUPABASE_PUBLISHABLE_KEY
+        process.env.SUPABASE_PUBLISHABLE_KEY,
+        {
+            global: {
+                headers: {
+                    Authorization:
+                        `Bearer ${auth.accessToken}`
+                }
+            }
+        }
     );
-
-await customerSupabase.auth.setSession({
-    access_token: auth.accessToken,
-    refresh_token: ""
-});
 console.log(
     "CART TOKEN PARTS:",
     auth.accessToken.split(".").length
