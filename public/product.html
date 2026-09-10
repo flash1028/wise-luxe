@@ -398,14 +398,13 @@ window.WISE_LUXE_SUPABASE_URL =
     "https://yazonvhwccylehtkkmiz.supabase.co";
 
 window.WISE_LUXE_SUPABASE_KEY =
-    "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984n";
+    "sb_publishable_8iZT6trE9mWx_vuivWCuug_yg5w984nY";
 
 window.WISE_LUXE_CLIENT =
     window.supabase.createClient(
         window.WISE_LUXE_SUPABASE_URL,
         window.WISE_LUXE_SUPABASE_KEY
     );
-
         /* ================= BASIC STATE ================= */
 
         let quantity = 1;
@@ -669,7 +668,8 @@ window.WISE_LUXE_CLIENT =
 
         }
 
-/* ================= ADD TO CART ================= */
+
+      /* ================= ADD TO CART ================= */
 
 async function addToCart() {
 
@@ -724,11 +724,6 @@ async function addToCart() {
     };
 
 
-    /* =========================================
-       ALWAYS SAVE LOCALLY
-       This keeps the cart working normally.
-    ========================================= */
-
     let cart =
         JSON.parse(
             localStorage.getItem(
@@ -748,20 +743,11 @@ async function addToCart() {
     );
 
 
-    /* =========================================
-       SAVE TO CUSTOMER'S ONLINE CART
-       ONLY IF LOGGED IN
-    ========================================= */
-
     try {
 
-        if (
-            window.WISE_LUXE_CLIENT
-        ) {
+        if (window.WISE_LUXE_CLIENT) {
 
-            const {
-                data: sessionData
-            } =
+            const { data: sessionData } =
                 await window.WISE_LUXE_CLIENT
                     .auth
                     .getSession();
@@ -773,58 +759,85 @@ async function addToCart() {
 
             if (session) {
 
-                await fetch(
-                    "/api/cart",
-                    {
+                const response =
+                    await fetch(
+                        "/api/cart",
+                        {
+                            method:
+                                "POST",
 
-                        method:
-                            "POST",
+                            headers: {
 
-                        headers: {
+                                "Content-Type":
+                                    "application/json",
 
-                            "Content-Type":
-                                "application/json",
+                                "Authorization":
+                                    "Bearer " +
+                                    session.access_token
 
-                            "Authorization":
-                                "Bearer " +
-                                session.access_token
+                            },
 
-                        },
+                            body:
+                                JSON.stringify({
 
-                        body:
-                            JSON.stringify({
+                                    productId:
+                                        Number(
+                                            currentProduct.id
+                                        ),
 
-                                productId:
-                                    Number(
-                                        currentProduct.id
-                                    ),
+                                    productName:
+                                        currentProduct.name,
 
-                                productName:
-                                    currentProduct.name,
+                                    productImage:
+                                        currentProduct.image,
 
-                                productImage:
-                                    currentProduct.image,
+                                    size:
+                                        selectedSize,
 
-                                size:
-                                    selectedSize,
+                                    quantity:
+                                        quantity,
 
-                                quantity:
-                                    quantity,
+                                    productType:
+                                        currentProduct.type,
 
-                                productType:
-                                    currentProduct.type,
+                                    productCode:
+                                        currentProduct.code,
 
-                                productCode:
-                                    currentProduct.code,
+                                    price:
+                                        Number(
+                                            currentProduct.price
+                                        ) || 0
 
-                                price:
-                                    Number(
-                                        currentProduct.price
-                                    ) || 0
+                                })
 
-                            })
+                        }
+                    );
 
-                    }
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "ONLINE CART ERROR:",
+                        result
+                    );
+
+                } else {
+
+                    console.log(
+                        "ONLINE CART SAVED:",
+                        result
+                    );
+
+                }
+
+            } else {
+
+                console.log(
+                    "NO ACTIVE SUPABASE SESSION"
                 );
 
             }
@@ -840,19 +853,26 @@ async function addToCart() {
 
     }
 
-
-    alert(
-        currentProduct.name +
-        " (" +
-        currentProduct.code +
-        ")" +
-        " has been added to your cart!"
+const addButton =
+    document.querySelector(
+        ".cart-button"
     );
 
+if (addButton) {
+
+    addButton.textContent =
+        "ADDED TO CART";
+
+    addButton.disabled = true;
+
+}
+
+setTimeout(() => {
 
     window.location.href =
         "cart.html";
 
+}, 300);
 }
         /* ================= START ================= */
 
