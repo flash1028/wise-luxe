@@ -403,22 +403,44 @@
         .nav-links {
             display: none;
         }
+/* MOBILE ACTIONS */
 
-        /* MOBILE ACTIONS */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
 
-        .nav-actions {
-            gap: 9px;
-        }
+.history-link,
+.account-link,
+.cart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #d6b45a;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.7px;
+    white-space: nowrap;
+}
 
-        .history-link {
-            font-size: 8px;
-            letter-spacing: 0.8px;
-        }
+.history-link,
+.account-link {
+    border: 1px solid #d6b45a;
+    padding: 7px 8px;
+}
 
-        .cart {
-            font-size: 10px;
-            letter-spacing: 0.5px;
-        }
+.cart {
+    font-size: 10px;
+}
+
+.history-link:hover,
+.account-link:hover {
+    background: #d6b45a;
+    color: #080808;
+}
 
         /* HERO */
 
