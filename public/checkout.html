@@ -2259,21 +2259,46 @@ const response =
             "true"
         );
 
+/* =========================================
+   CLEAR CART
+========================================= */
 
-        /* =========================================
-           CLEAR CART
-        ========================================= */
+/* Clear local cart */
 
-        localStorage.removeItem(
-            "wiseLuxeCart"
-        );
-
-
-        localStorage.removeItem(
-            "wiseLuxePendingOrder"
-        );
+localStorage.removeItem(
+    "wiseLuxeCart"
+);
 
 
+/* Clear online cart */
+
+try {
+
+    await fetch(
+        "/api/cart",
+        {
+            method: "DELETE",
+            headers: {
+                "Authorization":
+                    "Bearer " +
+                    accessToken
+            }
+        }
+    );
+
+} catch (cartError) {
+
+    console.error(
+        "ONLINE CART CLEAR ERROR:",
+        cartError
+    );
+
+}
+
+
+localStorage.removeItem(
+    "wiseLuxePendingOrder"
+);
         /* =========================================
            CONFIRMATION
         ========================================= */

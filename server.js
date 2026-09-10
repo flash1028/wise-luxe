@@ -918,19 +918,19 @@ app.get("/api/cart", async (req, res) => {
             return res.status(401).json(auth);
         }
 
-      const customerSupabase =
-    createClient(
-        process.env.SUPABASE_URL,
-        process.env.SUPABASE_PUBLISHABLE_KEY,
-        {
-            global: {
-                headers: {
-                    Authorization:
-                        `Bearer ${auth.accessToken}`
+        const customerSupabase =
+            createClient(
+                process.env.SUPABASE_URL,
+                process.env.SUPABASE_PUBLISHABLE_KEY,
+                {
+                    global: {
+                        headers: {
+                            Authorization:
+                                `Bearer ${auth.accessToken}`
+                        }
+                    }
                 }
-            }
-        }
-    );
+            );
 console.log(
     "CART TOKEN PARTS:",
     auth.accessToken.split(".").length
@@ -982,7 +982,82 @@ console.log(
     }
 
 });
+app.delete("/api/cart", async (req, res) => {
 
+    try {
+
+        const auth =
+            await getAuthenticatedCustomer(req);
+
+        if (!auth.success) {
+
+            return res.status(401).json(auth);
+
+        }
+
+
+        const customerSupabase =
+            createClient(
+                process.env.SUPABASE_URL,
+                process.env.SUPABASE_PUBLISHABLE_KEY,
+                {
+                    global: {
+                        headers: {
+                            Authorization:
+                                `Bearer ${auth.accessToken}`
+                        }
+                    }
+                }
+            );
+
+
+        const { error } =
+            await customerSupabase
+                .from("cart")
+                .delete()
+                .eq(
+                    "customer_id",
+                    auth.user.id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "WISE LUXE CART DELETE ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
+
+        }
+
+
+        return res.json({
+            success: true,
+            message:
+                "Cart cleared successfully."
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE CART DELETE SERVER ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
 
 app.post("/api/cart", async (req, res) => {
 
