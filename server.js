@@ -261,11 +261,11 @@ async function getAuthenticatedCustomer(
         /* -----------------------------------------
            AUTHENTICATED CUSTOMER
         ----------------------------------------- */
-
-        return {
-            success: true,
-            user: data.user
-        };
+return {
+    success: true,
+    user: data.user,
+    accessToken: accessToken
+};
 
 
     } catch (error) {
@@ -422,8 +422,23 @@ app.post(
 
             const authenticatedCustomerId =
                 authenticatedUser.id;
+            
+const accessToken =
+    auth.accessToken;
 
-
+const customerSupabase =
+    createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_PUBLISHABLE_KEY,
+        {
+            global: {
+                headers: {
+                    Authorization:
+                        `Bearer ${accessToken}`
+                }
+            }
+        }
+    );
             console.log(
                 "AUTHENTICATED CUSTOMER:",
                 authenticatedCustomerId
@@ -544,7 +559,7 @@ app.post(
                 data,
                 error
             } =
-                await supabase
+               await customerSupabase
                     .from("orders")
                     .insert({
 
@@ -721,6 +736,21 @@ app.get(
             const customerId =
                 auth.user.id;
 
+const accessToken = auth.accessToken;
+
+const customerSupabase =
+    createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_PUBLISHABLE_KEY,
+        {
+            global: {
+                headers: {
+                    Authorization:
+                        `Bearer ${accessToken}`
+                }
+            }
+        }
+    );
 
             /* -----------------------------------------
                GET ONLY THIS CUSTOMER'S ORDERS
@@ -730,7 +760,7 @@ app.get(
                 data,
                 error
             } =
-                await supabase
+                await customerSupabase
                     .from("orders")
                     .select("*")
                     .eq(
@@ -876,279 +906,6 @@ app.get(
     }
 );
 
-/* =========================================================
-   CUSTOMER CART
-   GET CUSTOMER CART
-========================================================= */
-
-app.get(
-    "/api/cart",
-    async (
-        req,
-        res
-    ) => {
-
-        try {
-
-            /* -----------------------------------------
-               VERIFY CUSTOMER
-            ----------------------------------------- */
-
-            const auth =
-                await getAuthenticatedCustomer(
-                    req
-                );
-
-
-            if (
-                !auth.success
-            ) {
-
-                return res.status(
-                    auth.status
-                ).json({
-
-                    success: false,
-
-                    message:
-                        auth.message
-
-                });
-
-            }
-
-
-            const customerId =
-                auth.user.id;
-
-
-            /* -----------------------------------------
-               USE CUSTOMER'S AUTH TOKEN
-            ----------------------------------------- */
-
-            const accessToken =
-                auth.accessToken;
-
-
-            const customerSupabase =
-                createClient(
-                    process.env.SUPABASE_URL,
-                    process.env.SUPABASE_PUBLISHABLE_KEY,
-                    {
-                        global: {
-                            headers: {
-                                Authorization:
-                                    `Bearer ${accessToken}`
-                            }
-                        }
-                    }
-                );
-
-
-            /* -----------------------------------------
-               GET ONLY THIS CUSTOMER'S CART
-            ----------------------------------------- */
-
-            const {
-                data,
-                error
-            } =
-                await customerSupabase
-                    .from("cart")
-                    .select("*")
-                    .eq(
-                        "customer_id",
-                        customerId
-                    )
-                    .order(
-                        "created_at",
-                        {
-                            ascending: true
-                        }
-                    );
-
-
-            if (error) {
-
-                console.error(
-                    "CUSTOMER CART ERROR:",
-                    error
-                );
-
-                return res.status(
-                    500
-                ).json({
-
-                    success: false,
-
-                    message:
-                        "Could not load your cart."
-
-                });
-
-            }
-
-
-            res.json({
-
-                success: true,
-
-                cart:
-                    data || []
-
-            });
-
-
-        } catch (error) {
-
-            console.error(
-                "ERROR LOADING CUSTOMER CART:",
-                error
-            );
-
-            res.status(
-                500
-            ).json({
-
-                success: false,
-
-                message:
-                    "Server error while loading your cart."
-
-            });
-
-        }
-
-    }
-);
-/* =========================================================
-   REMOVE CUSTOMER CART ITEM
-========================================================= */
-
-app.delete(
-    "/api/cart/:id",
-    async (
-        req,
-        res
-    ) => {
-
-        try {
-
-            const auth =
-                await getAuthenticatedCustomer(
-                    req
-                );
-
-            if (!auth.success) {
-
-                return res.status(
-                    auth.status
-                ).json({
-
-                    success: false,
-
-                    message:
-                        auth.message
-
-                });
-
-            }
-
-            const customerId =
-                auth.user.id;
-
-            const cartId =
-                req.params.id;
-
-            const accessToken =
-                auth.accessToken;
-
-            const customerSupabase =
-                createClient(
-                    process.env.SUPABASE_URL,
-                    process.env.SUPABASE_PUBLISHABLE_KEY,
-                    {
-                        global: {
-                            headers: {
-                                Authorization:
-                                    `Bearer ${accessToken}`
-                            }
-                        }
-                    }
-                );
-
-            const {
-                error
-            } =
-                await customerSupabase
-                    .from("cart")
-                    .delete()
-                    .eq(
-                        "id",
-                        cartId
-                    )
-                    .eq(
-                        "customer_id",
-                        customerId
-                    );
-
-            if (error) {
-
-                console.error(
-                    "CART DELETE ERROR:",
-                    error
-                );
-
-                return res.status(
-                    500
-                ).json({
-
-                    success: false,
-
-                    message:
-                        "Could not remove item from cart."
-
-                });
-
-            }
-
-            console.log(
-                "WISE LUXE CART ITEM REMOVED:",
-                cartId,
-                customerId
-            );
-
-            res.json({
-
-                success: true,
-
-                message:
-                    "Item removed from cart."
-
-            });
-
-        } catch (error) {
-
-            console.error(
-                "ERROR REMOVING CART ITEM:",
-                error
-            );
-
-            res.status(
-                500
-            ).json({
-
-                success: false,
-
-                message:
-                    "Server error while removing cart item."
-
-            });
-
-        }
-
-    }
-);
 // ================= CART API =================
 
 app.get("/api/cart", async (req, res) => {
@@ -1174,8 +931,15 @@ app.get("/api/cart", async (req, res) => {
                     }
                 }
             );
-
-        const { data, error } =
+console.log(
+    "CART TOKEN PARTS:",
+    auth.accessToken.split(".").length
+);
+  console.log(
+    "CART TOKEN PARTS:",
+    auth.accessToken.split(".").length
+);   
+   const { data, error } =
             await customerSupabase
                 .from("cart")
                 .select("*")
