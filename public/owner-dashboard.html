@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -350,6 +349,123 @@ nav {
     cursor: default;
 }
 
+/* ================= PRODUCT MANAGEMENT ================= */
+
+.product-management {
+    margin-top: 60px;
+}
+
+.product-management .orders-title {
+    margin-bottom: 20px;
+}
+
+.product-management .dashboard-message {
+    text-align: left;
+}
+
+.product-management-box {
+    background: #111;
+    border: 1px solid #292929;
+    padding: 25px;
+}
+
+.product-management-intro {
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+#productsContainer {
+    margin-top: 25px;
+}
+
+.admin-product-card {
+    background: #080808;
+    border: 1px solid #292929;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.admin-product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.admin-product-number {
+    color: #d6b45a;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.admin-product-code {
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.admin-product-content {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.admin-product-image {
+    width: 90px;
+    height: 110px;
+    background: #222;
+    overflow: hidden;
+}
+
+.admin-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-product-name {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.admin-product-details {
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.admin-product-price {
+    color: #d6b45a;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.edit-product-button {
+    margin-top: 15px;
+    margin-bottom: 12px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid #d6b45a;
+    color: #d6b45a;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.edit-product-button:hover {
+    background: #d6b45a;
+    color: #080808;
+}
+
 /* ================= EMPTY ================= */
 
 .empty-orders {
@@ -445,6 +561,26 @@ nav {
 
     .delivered-button {
         width: 100%;
+    }
+
+    .product-management-box {
+        padding: 18px;
+    }
+
+    .admin-product-content {
+        grid-template-columns: 65px 1fr;
+        gap: 13px;
+    }
+
+    .admin-product-image {
+        width: 65px;
+        height: 85px;
+    }
+
+    .admin-product-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
     }
 
 }
@@ -564,6 +700,331 @@ nav {
 
 
     <div id="ordersContainer"></div>
+
+
+    <!-- ================= PRODUCT MANAGEMENT ================= -->
+
+    <div class="product-management">
+
+        <div class="orders-title">
+
+            <h2>
+                PRODUCT MANAGEMENT
+            </h2>
+
+        </div>
+
+        <div class="product-management-box">
+
+            <div class="product-management-intro">
+
+                Manage your WISE LUXE products from here.
+
+                <br>
+
+                Product codes are permanent and are generated
+                automatically from the product number.
+
+            </div>
+
+
+            <button
+                class="refresh-button"
+                type="button"
+                onclick="loadProducts()"
+            >
+                ↻ LOAD PRODUCTS
+            </button>
+
+<button 
+    class="refresh-button" 
+    type="button" 
+    onclick="showAddProductForm()"
+>
+    + ADD NEW PRODUCT
+</button>
+
+<div id="addProductForm" style="display: none; margin-bottom: 30px;">
+
+    <div class="product-editor">
+
+        <div class="editor-title">
+            ADD NEW PRODUCT
+        </div>
+
+        <label>
+            Product Name
+        </label>
+
+        <input
+            type="text"
+            id="newProductName"
+            placeholder="Enter product name"
+        >
+
+        <label>
+            Price
+        </label>
+
+        <input
+            type="number"
+            id="newProductPrice"
+            placeholder="Enter price"
+        >
+
+        <label>
+            Category
+        </label>
+
+        <input
+            type="text"
+            id="newProductCategory"
+            placeholder="e.g. Kaftan, Vintage, Polo"
+        >
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            id="newProductDescription"
+            placeholder="Enter product description"
+        ></textarea>
+
+        <label>
+            Stock
+        </label>
+
+        <input
+            type="number"
+            id="newProductStock"
+            placeholder="Enter stock quantity"
+            value="1"
+        >
+
+        <label>
+            Image Path
+        </label>
+
+        <input
+            type="text"
+            id="newProductImage"
+            placeholder="e.g. images/product31.jpg"
+        >
+
+        <button
+            class="edit-product-button"
+            type="button"
+            onclick="addNewProduct()"
+        >
+            ADD PRODUCT
+        </button>
+
+        <button
+            class="edit-product-button"
+            type="button"
+            onclick="hideAddProductForm()"
+        >
+            CANCEL
+        </button>
+
+    </div>
+
+</div>
+
+
+            <div id="productsContainer">
+
+                <div class="dashboard-message">
+
+                    <strong>
+                        PRODUCT MANAGEMENT
+                    </strong>
+
+                    Click LOAD PRODUCTS to view your products.
+
+                </div>
+
+            </div>
+
+<div
+    id="productEditor"
+    style="display: none;"
+>
+
+    <div class="orders-title">
+
+        <h2>
+            EDIT PRODUCT
+        </h2>
+
+    </div>
+
+    <div class="product-management-box">
+
+        <div
+            id="editingProductId"
+            class="admin-product-number"
+        >
+            PRODUCT
+        </div>
+
+        <p style="
+            color: #888;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin-top: 15px;
+        ">
+            <div style="margin-top: 20px;">
+
+    <label style="
+        display: block;
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    ">
+        PRODUCT NAME
+    </label>
+
+    <input
+        type="text"
+        id="editProductName"
+        placeholder="Product name"
+        style="
+            width: 100%;
+            padding: 12px;
+            background: #080808;
+            border: 1px solid #292929;
+            color: white;
+            font-family: Georgia, serif;
+            margin-bottom: 18px;
+        "
+    >
+
+    <label style="
+        display: block;
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    ">
+        PRICE
+    </label>
+
+    <input
+        type="number"
+        id="editProductPrice"
+        placeholder="Product price"
+        style="
+            width: 100%;
+            padding: 12px;
+            background: #080808;
+            border: 1px solid #292929;
+            color: white;
+            font-family: Georgia, serif;
+            margin-bottom: 18px;
+        "
+    >
+
+    <label style="
+        display: block;
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    ">
+        CLOTHING TYPE / CATEGORY
+    </label>
+
+    <input
+        type="text"
+        id="editProductCategory"
+        placeholder="e.g. Kaftan, Vintage, Polo"
+        style="
+            width: 100%;
+            padding: 12px;
+            background: #080808;
+            border: 1px solid #292929;
+            color: white;
+            font-family: Georgia, serif;
+            margin-bottom: 18px;
+        "
+    >
+
+    <label style="
+        display: block;
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    ">
+        DESCRIPTION
+    </label>
+
+    <textarea
+        id="editProductDescription"
+        placeholder="Product description"
+        rows="5"
+        style="
+            width: 100%;
+            padding: 12px;
+            background: #080808;
+            border: 1px solid #292929;
+            color: white;
+            font-family: Georgia, serif;
+            margin-bottom: 18px;
+            resize: vertical;
+        "
+    ></textarea>
+
+    <label style="
+        display: block;
+        color: #888;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    ">
+        PRODUCT IMAGE
+    </label>
+
+    <input
+        type="text"
+        id="editProductImage"
+        placeholder="Image path, e.g. images/product1.jpg"
+        style="
+            width: 100%;
+            padding: 12px;
+            background: #080808;
+            border: 1px solid #292929;
+            color: white;
+            font-family: Georgia, serif;
+            margin-bottom: 20px;
+        "
+    >
+
+<button
+    type="button"
+    class="edit-product-button"
+    onclick="saveProductChanges()"
+>
+    SAVE CHANGES
+</button>
+</div>
+        </p>
+
+    </div>
+
+</div>
+        </div>
+
+    </div>
+
 
 </main>
 
@@ -1208,6 +1669,504 @@ function displayOrders(orders) {
 
 
 /* =========================================================
+   EDIT PRODUCT
+========================================================= */
+function editProduct(productId) {
+
+    const editor =
+        document.getElementById("productEditor");
+
+    if (!editor) {
+        return;
+    }
+
+    const product =
+        window.adminProducts.find(
+            p => Number(p.id) === Number(productId)
+        );
+
+    if (!product) {
+
+        alert(
+            "Product information could not be found."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "editingProductId"
+    ).textContent =
+        "PRODUCT " + product.id +
+        " • WL-P" +
+        String(product.id).padStart(3, "0");
+
+    document.getElementById(
+        "editProductName"
+    ).value =
+        product.name || "";
+
+    document.getElementById(
+        "editProductPrice"
+    ).value =
+        product.price || "";
+
+    document.getElementById(
+        "editProductCategory"
+    ).value =
+        product.category || "";
+
+    document.getElementById(
+        "editProductDescription"
+    ).value =
+        product.description || "";
+
+    document.getElementById(
+        "editProductImage"
+    ).value =
+        product.image || "";
+
+    editor.style.display =
+        "block";
+
+    editor.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+/* =========================================================
+   SAVE PRODUCT CHANGES
+========================================================= */
+async function saveProductChanges() {
+
+    const productIdText =
+        document.getElementById(
+            "editingProductId"
+        ).textContent;
+
+    const productIdMatch =
+        productIdText.match(/\d+/);
+
+    if (!productIdMatch) {
+
+        alert(
+            "Product ID could not be found."
+        );
+
+        return;
+    }
+
+    const productId =
+        Number(productIdMatch[0]);
+
+    const name =
+        document.getElementById(
+            "editProductName"
+        ).value.trim();
+
+    const price =
+        document.getElementById(
+            "editProductPrice"
+        ).value;
+
+    const category =
+        document.getElementById(
+            "editProductCategory"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "editProductDescription"
+        ).value.trim();
+
+    const image =
+        document.getElementById(
+            "editProductImage"
+        ).value.trim();
+
+    if (!name) {
+
+        alert(
+            "Please enter a product name."
+        );
+
+        return;
+    }
+
+    const saveButton =
+        document.querySelector(
+            "#productEditor .edit-product-button"
+        );
+
+    if (saveButton) {
+
+        saveButton.textContent =
+            "SAVING...";
+
+        saveButton.disabled =
+            true;
+    }
+
+    try {
+
+
+        const response =
+            await fetch(
+                "/api/products/" +
+                productId,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                    },
+
+                    body: JSON.stringify({
+                        name: name,
+                        price: price,
+                        category: category,
+                        description: description,
+                        image: image
+                    })
+                }
+            );
+
+        const result =
+            await response.json();
+
+        if (!response.ok ||
+            !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Unable to save product."
+            );
+        }
+
+        alert(
+            "Product " +
+            productId +
+            " updated successfully."
+        );
+
+        await loadProducts();
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE PRODUCT SAVE ERROR:",
+            error
+        );
+
+        alert(
+            "Unable to save product: " +
+            error.message
+        );
+
+    } finally {
+
+        if (saveButton) {
+
+            saveButton.textContent =
+                "SAVE CHANGES";
+
+            saveButton.disabled =
+                false;
+        }
+    }
+}
+
+
+/* =========================================================
+   LOAD PRODUCTS
+========================================================= */
+
+async function loadProducts() {
+
+    const container =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    container.innerHTML = `
+
+        <div class="dashboard-message">
+
+            <strong>
+                LOADING PRODUCTS
+            </strong>
+
+            Connecting to WISE LUXE product database...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/products?t=" +
+                Date.now(),
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message ||
+                "Could not load products."
+            );
+
+        }
+
+
+        const products =
+            Array.isArray(data.products)
+                ? data.products
+                : [];
+
+
+        displayProducts(products);
+
+
+    } catch (error) {
+
+        console.error(
+            "PRODUCT LOAD ERROR:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="dashboard-message error">
+
+                <strong>
+                    UNABLE TO LOAD PRODUCTS
+                </strong>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   DISPLAY PRODUCTS
+========================================================= */
+
+function displayProducts(products) {
+
+window.adminProducts = products;
+
+    const container =
+        document.getElementById(
+            "productsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (products.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="dashboard-message">
+
+                <strong>
+                    NO PRODUCTS FOUND
+                </strong>
+
+                No products are currently available.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    products.forEach(function(product) {
+
+        const productId =
+            Number(product.id);
+
+
+        const productCode =
+            "WL-P" +
+            String(productId).padStart(
+                3,
+                "0"
+            );
+
+
+        const productName =
+            escapeHTML(
+                product.name ||
+                "Unnamed Product"
+            );
+
+
+        const productCategory =
+            escapeHTML(
+                product.category ||
+                "N/A"
+            );
+
+
+        const productDescription =
+            escapeHTML(
+                product.description ||
+                "No description available."
+            );
+
+
+        const productImage =
+            "images/product" +
+            productId +
+            ".jpg";
+
+
+        const productPrice =
+            Number(
+                product.price || 0
+            );
+
+
+        const productCard =
+            document.createElement(
+                "div"
+            );
+
+
+        productCard.className =
+            "admin-product-card";
+
+
+        productCard.innerHTML = `
+
+            <div class="admin-product-header">
+
+                <div class="admin-product-number">
+
+                    PRODUCT ${productId}
+
+                </div>
+
+
+                <div class="admin-product-code">
+
+                    ${productCode}
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-product-content">
+
+                <div class="admin-product-image">
+
+                    ${
+                        productImage
+                        ? `
+
+                            <img
+                                src="${escapeHTML(productImage)}"
+                                alt="${productName}"
+                                onerror="console.error('PRODUCT IMAGE FAILED:', this.src)"
+                            >
+
+                          `
+                        : ""
+                    }
+
+                </div>
+
+
+                <div>
+
+                    <div class="admin-product-name">
+
+                        ${productName}
+
+                    </div>
+
+
+                    <button
+                        class="edit-product-button"
+                        type="button"
+                        onclick="editProduct(${productId})"
+                    >
+                        EDIT PRODUCT
+                    </button>
+
+
+                    <div class="admin-product-details">
+
+                        Clothing Type:
+                        ${productCategory}
+
+                        <br>
+
+
+                        Description:
+                        ${productDescription}
+
+                        <br>
+
+
+                        Price:
+                        <span class="admin-product-price">
+
+                            ₦${productPrice.toLocaleString()}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(
+            productCard
+        );
+
+    });
+
+}
+
+
+/* =========================================================
    LOAD ORDERS
 ========================================================= */
 
@@ -1332,18 +2291,6 @@ async function loadOrders() {
 }
 
 
-/* =========================================================
-   AUTO REFRESH
-========================================================= */
-
-setInterval(
-    function() {
-
-        loadOrders();
-
-    },
-    10000
-);
 
 
 /* =========================================================
@@ -1352,9 +2299,216 @@ setInterval(
 
 loadOrders();
 
+function showAddProductForm() {
+
+    const form =
+        document.getElementById(
+            "addProductForm"
+        );
+
+    if (form) {
+        form.style.display = "block";
+    }
+
+}
+
+
+function hideAddProductForm() {
+
+    const form =
+        document.getElementById(
+            "addProductForm"
+        );
+
+    if (form) {
+        form.style.display = "none";
+    }
+
+}
+
+async function addNewProduct() {
+
+    const name =
+        document.getElementById(
+            "newProductName"
+        ).value.trim();
+
+    const price =
+        document.getElementById(
+            "newProductPrice"
+        ).value;
+
+    const category =
+        document.getElementById(
+            "newProductCategory"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "newProductDescription"
+        ).value.trim();
+
+    const stock =
+        document.getElementById(
+            "newProductStock"
+        ).value;
+
+    const image =
+        document.getElementById(
+            "newProductImage"
+        ).value.trim();
+
+
+    if (!name) {
+
+        alert(
+            "Please enter a product name."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.querySelector(
+            "#addProductForm .edit-product-button"
+        );
+
+
+    if (button) {
+
+        button.textContent =
+            "ADDING...";
+
+        button.disabled =
+            true;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/products",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name: name,
+
+                        price:
+                            price === ""
+                                ? 0
+                                : Number(price),
+
+                        category:
+                            category || null,
+
+                        description:
+                            description || null,
+
+                        stock:
+                            stock === ""
+                                ? 0
+                                : Number(stock),
+
+                        image:
+                            image || null
+
+                    })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok ||
+            !result.success) {
+
+            throw new Error(
+                result.message ||
+                "Unable to add product."
+            );
+
+        }
+
+
+        alert(
+            "Product added successfully."
+        );
+
+
+        document.getElementById(
+            "newProductName"
+        ).value = "";
+
+        document.getElementById(
+            "newProductPrice"
+        ).value = "";
+
+        document.getElementById(
+            "newProductCategory"
+        ).value = "";
+
+        document.getElementById(
+            "newProductDescription"
+        ).value = "";
+
+        document.getElementById(
+            "newProductStock"
+        ).value = "1";
+
+        document.getElementById(
+            "newProductImage"
+        ).value = "";
+
+
+        hideAddProductForm();
+
+        await loadProducts();
+
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE ADD PRODUCT ERROR:",
+            error
+        );
+
+        alert(
+            "Unable to add product: " +
+            error.message
+        );
+
+
+    } finally {
+
+        if (button) {
+
+            button.textContent =
+                "ADD PRODUCT";
+
+            button.disabled =
+                false;
+
+        }
+
+    }
+
+}
 </script>
 
 </body>
 
 </html>
-

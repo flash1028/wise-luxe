@@ -906,6 +906,333 @@ const customerSupabase =
     }
 );
 
+/* =========================================================
+   GET PRODUCTS
+========================================================= */
+
+app.get("/api/products", async (req, res) => {
+
+    try {
+
+        const { data, error } =
+            await supabase
+                .from("products")
+                .select(
+                    "id, created_at, name, price, image, description, category"
+                )
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "WISE LUXE PRODUCTS ERROR:",
+                error
+            );
+
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    error.message
+
+            });
+
+        }
+
+
+        return res.json({
+
+            success: true,
+
+            products:
+                Array.isArray(data)
+                    ? data
+                    : []
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE PRODUCTS SERVER ERROR:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                error.message
+
+        });
+
+    }
+
+});
+
+/* =========================================================
+   ADD NEW PRODUCT
+========================================================= */
+
+app.post(
+    "/api/products",
+    ownerAuth,
+    async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            price,
+            category,
+            description,
+            stock,
+            image
+        } = req.body;
+
+
+        if (!name || !name.trim()) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Product name is required."
+            });
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabase
+                .from("products")
+                .insert({
+
+                    name:
+                        name.trim(),
+
+                    price:
+                        price === ""
+                            ? 0
+                            : Number(price),
+
+                    category:
+                        category
+                            ? category.trim()
+                            : null,
+
+                    description:
+                        description
+                            ? description.trim()
+                            : null,
+
+                    stock:
+                        stock === ""
+                            ? 0
+                            : Number(stock),
+
+                    image:
+                        image
+                            ? image.trim()
+                            : null
+
+                })
+                .select(
+                    "id, created_at, name, price, image, description, category, stock"
+                )
+                .single();
+
+
+        if (error) {
+
+            console.error(
+                "WISE LUXE ADD PRODUCT ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    error.message
+
+            });
+
+        }
+
+
+        return res.json({
+
+            success: true,
+
+            product: data,
+
+            message:
+                "Product added successfully."
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE ADD PRODUCT SERVER ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                error.message
+
+        });
+
+    }
+
+});
+
+/* =========================================================
+   UPDATE PRODUCT
+========================================================= */
+
+app.put(
+    "/api/products/:id",
+    ownerAuth,
+    async (req, res) => {
+
+    try {
+
+    
+
+        const productId =
+            Number(req.params.id);
+
+        const {
+            name,
+            price,
+            category,
+            description,
+            image
+        } = req.body;
+
+        if (!productId) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Invalid product ID."
+            });
+
+        }
+
+        if (!name || !name.trim()) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Product name is required."
+            });
+
+        }
+
+        const {
+            data,
+            error
+        } =
+            await supabase
+                .from("products")
+                .update({
+                    name:
+                        name.trim(),
+
+                    price:
+                        price === ""
+                            ? 0
+                            : Number(price),
+
+                    category:
+                        category
+                            ? category.trim()
+                            : null,
+
+                    description:
+                        description
+                            ? description.trim()
+                            : null,
+
+                    image:
+                        image
+                            ? image.trim()
+                            : null
+                })
+                .eq(
+                    "id",
+                    productId
+                )
+                .select(
+                    "id, created_at, name, price, image, description, category"
+                )
+                .maybeSingle();
+
+        if (error) {
+
+            console.error(
+                "WISE LUXE PRODUCT UPDATE ERROR:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    error.message
+            });
+
+        }
+
+        return res.json({
+
+            success: true,
+
+            product: data,
+
+            message:
+                "Product updated successfully."
+        });
+
+    } catch (error) {
+
+        console.error(
+            "WISE LUXE PRODUCT UPDATE SERVER ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+
+            success: false,
+
+            message:
+                error.message
+        });
+
+    }
+
+});
 // ================= CART API =================
 
 app.get("/api/cart", async (req, res) => {
